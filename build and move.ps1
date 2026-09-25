@@ -8,6 +8,38 @@ if (-not ($PSVersionTable.PSEdition -eq "Core")) {
     $buildScript += ".cmd"
 }
 
+$envFile = "$PSScriptRoot/.env"
+
+if (-not (Test-Path $envFile)) {
+    Write-Output "[BUILD] .env not found!"
+    Exit 1
+}
+
+$envContent = Get-Content $envFile
+
+foreach ($line in $envContent) {
+    $line = $line.Trim()
+
+    if ($line -eq "" -or $line.StartsWith("#")) {
+        continue
+    }
+
+    $parts = $line -split "=", 2
+
+    if ($parts.Count -ne 2) {
+        continue
+    }
+
+    $name = $parts[0].Trim()
+    $value = $parts[1].Trim()
+
+    if ($value.StartsWith('"') -and $value.EndsWith('"')) {
+        $value = $value.Substring(1, $value.Length - 2)
+    }
+
+    Set-Item "Env:$name" $value
+}
+
 Write-Output "[BUILD] Starting NDK..."
 
 & $buildScript NDK_PROJECT_PATH=$PSScriptRoot APP_BUILD_SCRIPT=$PSScriptRoot/Android.mk NDK_APPLICATION_MK=$PSScriptRoot/Application.mk NDK_DEBUG=0 -j4

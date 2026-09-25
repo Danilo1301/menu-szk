@@ -7,9 +7,13 @@
 #include <fstream>
 #include <thread>
 
+#ifndef OBFUSCATION_KEY
+#define OBFUSCATION_KEY "test"
+#endif
+
 inline std::string ObfuscateSecret(const std::string &value)
 {
-    const char key[] = "MenuSZK2026_whatever";
+    const char key[] = OBFUSCATION_KEY;
 
     std::string result = value;
 

@@ -1,38 +1,374 @@
 [
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/main.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/main.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/config.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/mod/config.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/config.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/mod/config.o"
     },
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/logger.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/logger.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/logger.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/mod/logger.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/logger.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/mod/logger.o"
     },
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/config.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/config.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/hooks.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/hooks.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/hooks.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/hooks.o"
     },
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/main.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/main.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/input.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/input.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/input.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/input.o"
     },
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/logger.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/logger.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/main.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/main.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/main.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/main.o"
     },
     {
-        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/config.o'",
-        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
-        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp",
-        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/config.o"
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuInterface.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/menuInterface.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuInterface.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/menuInterface.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuSZK.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/menuSZK.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuSZK.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/menuSZK.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/peds.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/peds.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/peds.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/peds.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/scriptsPanel.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/scriptsPanel.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/scriptsPanel.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/scriptsPanel.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/curl.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/curl.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/curl.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/curl.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/drawUtils.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/drawUtils.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/drawUtils.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/drawUtils.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/leakUtils.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/leakUtils.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/leakUtils.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/leakUtils.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/quickConfig.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/quickConfig.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/quickConfig.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/quickConfig.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/textureLoader.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/textureLoader.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/textureLoader.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/utils/textureLoader.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/container/container.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/container/container.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/container/container.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/container/container.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/keyboard/keyboard.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/keyboard/keyboard.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/keyboard/keyboard.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/keyboard/keyboard.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/m_menu.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/m_menu.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/m_menu.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/m_menu.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItem.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItem.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItem.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItem.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/slider.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/slider.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/slider.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/slider.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/window.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/window.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/window.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/window.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/windowManager.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/windowManager.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/windowManager.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/windowManager.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemCheckbox.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemCheckbox.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemCheckbox.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemCheckbox.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemOptions.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemOptions.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemOptions.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemOptions.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemSlider.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemSlider.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemSlider.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/window/menuItems/menuItemSlider.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/webServer/webServer.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/webServer/webServer.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/webServer/webServer.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/webServer/webServer.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/cellphone/cellphone.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/cellphone/cellphone.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/cellphone/cellphone.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/cellphone/cellphone.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/bottomPanel/bottomPanel.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/bottomPanel/bottomPanel.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/bottomPanel/bottomPanel.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/bottomPanel/bottomPanel.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/screenDebug/screenDebug.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/screenDebug/screenDebug.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/screenDebug/screenDebug.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/src/screenDebug/screenDebug.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_reader.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_reader.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_reader.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_reader.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_value.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_value.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_value.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_value.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_writer.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_writer.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_writer.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/armeabi-v7a/objs/MenuSZK_v2/json/json_writer.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/config.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/mod/config.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/config.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/mod/config.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/logger.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/mod/logger.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/mod/logger.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/mod/logger.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/hooks.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/hooks.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/hooks.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/hooks.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/input.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/input.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/input.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/input.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/main.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/main.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/main.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/main.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuInterface.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/menuInterface.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuInterface.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/menuInterface.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuSZK.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/menuSZK.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/menuSZK.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/menuSZK.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/peds.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/peds.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/peds.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/peds.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/scriptsPanel.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/scriptsPanel.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/scriptsPanel.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/scriptsPanel.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/curl.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/curl.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/curl.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/curl.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/drawUtils.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/drawUtils.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/drawUtils.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/drawUtils.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/leakUtils.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/leakUtils.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/leakUtils.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/leakUtils.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/quickConfig.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/quickConfig.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/quickConfig.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/quickConfig.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/textureLoader.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/textureLoader.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/utils/textureLoader.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/utils/textureLoader.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/container/container.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/container/container.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/container/container.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/container/container.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/keyboard/keyboard.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/keyboard/keyboard.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/keyboard/keyboard.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/keyboard/keyboard.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/m_menu.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/m_menu.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/m_menu.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/m_menu.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItem.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItem.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItem.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItem.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/slider.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/slider.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/slider.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/slider.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/window.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/window.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/window.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/window.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/windowManager.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/windowManager.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/windowManager.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/windowManager.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemCheckbox.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemCheckbox.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemCheckbox.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemCheckbox.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemOptions.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemOptions.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemOptions.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemOptions.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemSlider.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemSlider.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/window/menuItems/menuItemSlider.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/window/menuItems/menuItemSlider.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/webServer/webServer.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/webServer/webServer.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/webServer/webServer.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/webServer/webServer.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/cellphone/cellphone.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/cellphone/cellphone.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/cellphone/cellphone.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/cellphone/cellphone.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/bottomPanel/bottomPanel.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/bottomPanel/bottomPanel.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/bottomPanel/bottomPanel.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/bottomPanel/bottomPanel.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/screenDebug/screenDebug.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/screenDebug/screenDebug.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/src/screenDebug/screenDebug.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/src/screenDebug/screenDebug.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_reader.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_reader.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_reader.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_reader.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_value.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_value.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_value.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_value.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk -std=c++17 -fexceptions -DANDROID -Wformat -Werror=format-security -DAML64 -O2 -DNDEBUG -std=c++17 -c C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_writer.cpp -o 'C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_writer.o'",
+        "directory": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk",
+        "file": "C:/PC/Projetos/GTA_Mobile/menu-szk/menu-szk/json/json_writer.cpp",
+        "output": "C:\\PC\\Projetos\\GTA_Mobile\\menu-szk\\menu-szk/obj/local/arm64-v8a/objs/MenuSZK_64/json/json_writer.o"
     }
 ]

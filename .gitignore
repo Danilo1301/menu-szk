@@ -403,5 +403,3 @@ libs/**
 *.bak
 
 .env
-
-menu-szk-layout-tool/

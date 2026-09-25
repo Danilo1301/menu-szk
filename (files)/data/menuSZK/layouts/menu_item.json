@@ -1,0 +1,85 @@
+{
+    "tag": "item",
+    "style": {
+        "position": "absolute",
+        "left": "0px",
+        "right": "auto",
+        "top": "0px",
+        "bottom": "auto",
+        "width": "100%",
+        "height": "90px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "",
+        "transformOrigin": [
+            -1,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Left"
+    },
+    "children": [
+        {
+            "tag": "text",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "auto",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "100%",
+                "height": "100%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 15,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "Text of the item",
+            "font": {
+                "size": 1.3,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        }
+    ]
+}

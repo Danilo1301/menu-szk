@@ -1,0 +1,42 @@
+{
+    "tag": "checkbox",
+    "style": {
+        "position": "absolute",
+        "left": "0px",
+        "right": "0px",
+        "top": "0px",
+        "bottom": "auto",
+        "width": "90px",
+        "height": "90px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "menu/checkbox_on.png",
+        "transformOrigin": [
+            -1,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Left"
+    },
+    "children": []
+}

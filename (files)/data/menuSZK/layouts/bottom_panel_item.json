@@ -1,0 +1,85 @@
+{
+    "tag": "icon",
+    "style": {
+        "position": "absolute",
+        "left": "0px",
+        "right": "auto",
+        "top": "0px",
+        "bottom": "auto",
+        "width": "180px",
+        "height": "180px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "",
+        "transformOrigin": [
+            -1,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Center"
+    },
+    "children": [
+        {
+            "tag": "text",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "auto",
+                "top": "0px",
+                "bottom": "0px",
+                "width": "100%",
+                "height": "20%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#00ff0000",
+                "backgroundImage": "",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Middle",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "Nome do app",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Center"
+            },
+            "children": []
+        }
+    ]
+}

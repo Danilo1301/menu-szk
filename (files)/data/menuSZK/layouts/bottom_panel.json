@@ -1,0 +1,169 @@
+{
+    "tag": "panel",
+    "style": {
+        "position": "absolute",
+        "left": "50%",
+        "right": "auto",
+        "top": "0px",
+        "bottom": "0px",
+        "width": "540px",
+        "height": "180px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "",
+        "transformOrigin": [
+            0,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Left"
+    },
+    "children": [
+        {
+            "tag": "center",
+            "style": {
+                "position": "absolute",
+                "left": "100px",
+                "right": "100px",
+                "top": "0px",
+                "bottom": "0px",
+                "width": "auto",
+                "height": "100%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "bottomPanel/background_C.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        },
+        {
+            "tag": "left",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "auto",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "100px",
+                "height": "100%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "bottomPanel/background_L.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        },
+        {
+            "tag": "right",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "0px",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "100px",
+                "height": "100%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "bottomPanel/background_R.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        }
+    ]
+}

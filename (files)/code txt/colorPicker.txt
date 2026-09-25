@@ -1,0 +1,355 @@
+import {
+    Container,
+    CVector2D,
+    HorizontalAlign,
+    VerticalAlign,
+    MenuColor,
+    MenuFontAlignment
+} from "../container";
+import { mousePosition } from "../main";
+import { HSVToMenuColor } from "../utils";
+
+export function createColorPicker(parent: Container) {
+
+    const localPosition = new CVector2D(500, 500);
+
+    const localSize = new CVector2D(800, 450);
+
+    const picker = parent.AddChild("colorPicker");
+
+    const preview = picker.AddChild("preview");
+
+    picker.style.localSize = localSize;
+    picker.style.localPosition = localPosition;
+    picker.style.drawBackground = true;
+    picker.style.backgroundColor = new MenuColor(0, 0, 0, 255);
+
+    const gap = localSize.x * 0.02;
+    const leftWidth = localSize.x * 0.62;
+    const rightWidth = localSize.x - leftWidth - gap;
+
+    const bottomBarHeight = localSize.y * 0.10;
+    const circleHeight =
+        localSize.y -
+        bottomBarHeight * 2 -
+        gap * 3;
+    const circleWidth = circleHeight;
+
+    //
+    // COLOR CIRCLE
+    //
+
+    const colorCircle = picker.AddChild("colorCircle");
+
+    colorCircle.style.pivot = new CVector2D(-1, -1);
+    colorCircle.style.localPosition = new CVector2D(leftWidth / 2 - circleWidth / 2, 0);
+    colorCircle.style.localSize = new CVector2D(
+        circleWidth,
+        circleHeight
+    );
+
+    colorCircle.style.drawBackground = false;
+
+    colorCircle.SetBackgroundImage(
+        "colorpicker/color_circle.png"
+    );
+
+    //
+
+    {
+        const selector = colorCircle.AddChild("selector");
+        selector.style.drawBackground = false;
+        selector.style.localSize = new CVector2D(50, 50);
+        selector.style.pivot = new CVector2D(0, 0);
+        selector.SetBackgroundImage(
+            "colorpicker/selector.png"
+        );
+
+        colorCircle.onAfterDraw = () => {
+            const size = colorCircle.GetCurrentSize();
+
+            const center = new CVector2D(
+                size.x / 2,
+                size.y / 2
+            );
+
+            const localMouse =
+                colorCircle.ScreenToLocal(mousePosition);
+
+            let x = localMouse.x - center.x;
+            let y = localMouse.y - center.y;
+
+
+            const radiusX =
+                size.x / 2;
+
+            const radiusY =
+                size.y / 2;
+
+            const ellipseValue =
+                (x * x) / (radiusX * radiusX) +
+                (y * y) / (radiusY * radiusY);
+
+            if (ellipseValue > 1) {
+                const scale =
+                    1 / Math.sqrt(ellipseValue);
+
+                x *= scale;
+                y *= scale;
+            }
+
+            selector.style.localPosition =
+                new CVector2D(
+                    center.x + x,
+                    center.y + y
+                );
+
+            // ---------------------
+
+            const normalizedX = x / radiusX;
+            const normalizedY = y / radiusY;
+
+            const saturation = Math.min(
+                1,
+                Math.sqrt(
+                    normalizedX * normalizedX +
+                    normalizedY * normalizedY
+                )
+            );
+
+            let hue = Math.atan2(
+                normalizedX,
+                -normalizedY
+            ) / (Math.PI * 2);
+
+            hue = (hue + 1) % 1;
+
+            let value = 1;
+
+            let alpha = 1;
+
+            console.log("Hue:", hue);
+            console.log("Saturation:", saturation);
+
+            const color = HSVToMenuColor(hue, saturation, value, alpha);
+
+
+            preview.style.backgroundColor = color;
+            // ---------------------
+        };
+    }
+
+    //
+    // ESCURO
+    //
+
+    const dark = picker.AddChild("dark");
+
+    dark.style.localPosition = new CVector2D(
+        0,
+        circleHeight + gap
+    );
+
+    dark.style.localSize = new CVector2D(
+        leftWidth,
+        bottomBarHeight
+    );
+
+    dark.style.drawBackground = false;
+
+    dark.SetBackgroundImage(
+        "colorpicker/dark.png"
+    );
+
+    //
+    // ALPHA
+    //
+
+    const alpha = picker.AddChild("alpha");
+
+    alpha.style.localPosition = new CVector2D(
+        0,
+        circleHeight +
+        gap +
+        bottomBarHeight +
+        gap
+    );
+
+    alpha.style.localSize = new CVector2D(
+        leftWidth,
+        bottomBarHeight
+    );
+
+    alpha.style.drawBackground = false;
+
+    alpha.SetBackgroundImage(
+        "colorpicker/alpha.png"
+    );
+
+    //
+    // COR ATUAL
+    //
+
+    preview.style.horizontalAlign = HorizontalAlign.Right;
+
+    preview.style.localPosition = new CVector2D(
+        -20,
+        20
+    );
+
+    preview.style.localSize = new CVector2D(
+        150,
+        150
+    );
+
+    preview.style.drawBackground = true;
+    preview.style.backgroundColor = new MenuColor(255, 255, 0, 255);
+
+    // ----------------
+
+    function setupColorPickerButton(
+        button: Container,
+        text: string,
+        height: number
+    ) {
+        button.style.localSize.y = height;
+
+        button.style.drawBackground = false;
+
+        button.text = text;
+
+        button.textFont.size = 1.3;
+
+        button.style.textHorizontalAlign =
+            HorizontalAlign.Middle;
+
+        button.style.textVerticalAlign =
+            VerticalAlign.Middle;
+
+        button.textFont.align =
+            MenuFontAlignment.ALIGN_CENTER;
+
+        button.SetBackgroundImage(
+            "colorpicker/button.png"
+        );
+    }
+
+    //
+    // ESCOLHER RGB
+    //
+
+    const rgbButton = picker.AddChild("rgbButton");
+
+    rgbButton.style.verticalAlign =
+        VerticalAlign.Bottom;
+
+    rgbButton.style.horizontalAlign =
+        HorizontalAlign.Right;
+
+    rgbButton.style.localPosition =
+        new CVector2D(0, -100);
+
+    rgbButton.style.localSize =
+        new CVector2D(
+            rightWidth,
+            bottomBarHeight
+        );
+
+    setupColorPickerButton(
+        rgbButton,
+        "ESCOLHER RGB",
+        bottomBarHeight
+    );
+
+
+    //
+    // HISTÓRICO
+    //
+
+    const historyButton = picker.AddChild("historyButton");
+
+    historyButton.style.verticalAlign =
+        VerticalAlign.Bottom;
+
+    historyButton.style.horizontalAlign =
+        HorizontalAlign.Right;
+
+    historyButton.style.localPosition =
+        new CVector2D(0, -50);
+
+    historyButton.style.localSize =
+        new CVector2D(
+            rightWidth,
+            bottomBarHeight
+        );
+
+    setupColorPickerButton(
+        historyButton,
+        "HISTÓRICO",
+        bottomBarHeight
+    );
+
+
+    //
+    // CONFIRMAR
+    //
+
+    const confirmButton = picker.AddChild("confirmButton");
+
+    confirmButton.style.verticalAlign =
+        VerticalAlign.Bottom;
+
+    confirmButton.style.horizontalAlign =
+        HorizontalAlign.Right;
+
+    confirmButton.style.localPosition =
+        new CVector2D(
+            -(rightWidth / 2 + gap / 2),
+            -0
+        );
+
+    confirmButton.style.localSize =
+        new CVector2D(
+            (rightWidth - gap) / 2,
+            bottomBarHeight
+        );
+
+    setupColorPickerButton(
+        confirmButton,
+        "CONFIRMAR",
+        bottomBarHeight
+    );
+
+
+    //
+    // CANCELAR
+    //
+
+    const cancelButton = picker.AddChild("cancelButton");
+
+    cancelButton.style.verticalAlign =
+        VerticalAlign.Bottom;
+
+    cancelButton.style.horizontalAlign =
+        HorizontalAlign.Right;
+
+    cancelButton.style.localPosition =
+        new CVector2D(
+            0,
+            0
+        );
+
+    cancelButton.style.localSize =
+        new CVector2D(
+            (rightWidth - gap) / 2,
+            bottomBarHeight
+        );
+
+    setupColorPickerButton(
+        cancelButton,
+        "CANCELAR",
+        bottomBarHeight
+    );
+
+    return picker;
+}

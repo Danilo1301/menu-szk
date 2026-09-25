@@ -1,0 +1,38 @@
+[
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/main.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/main.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/logger.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/logger.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target armv7-none-linux-androideabi24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -mthumb -Oz -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/config.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/armeabi-v7a/objs/AML_PSDK_Template/mod/config.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/main.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/main.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/main.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/logger.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/logger.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/logger.o"
+    },
+    {
+        "command": "C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe -target aarch64-none-linux-android24 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/android-ndk-r27d/build/../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE=2 -fno-exceptions -fno-rtti -fpic -O2 -DNDEBUG -IC:/Users/Danilo/Desktop/menu-szk-v2 -std=c++17 -DANDROID -Wformat -Werror=format-security -O2 -DNDEBUG -std=c++17 -c C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp -o 'C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/config.o'",
+        "directory": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2",
+        "file": "C:/Users/Danilo/Desktop/menu-szk-v2/mod/config.cpp",
+        "output": "C:\\Users\\Danilo\\Desktop\\menu-szk-v2/obj/local/arm64-v8a/objs/AML_PSDK_Template64/mod/config.o"
+    }
+]

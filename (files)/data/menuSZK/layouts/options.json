@@ -1,0 +1,169 @@
+{
+    "tag": "options",
+    "style": {
+        "position": "absolute",
+        "left": "0px",
+        "right": "0px",
+        "top": "0px",
+        "bottom": "auto",
+        "width": "600px",
+        "height": "90px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "",
+        "transformOrigin": [
+            -1,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Left"
+    },
+    "children": [
+        {
+            "tag": "buttonLeft",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "auto",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "90px",
+                "height": "90px",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "menu/button_left.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        },
+        {
+            "tag": "value",
+            "style": {
+                "position": "absolute",
+                "left": "90px",
+                "right": "90px",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "auto",
+                "height": "90px",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "menu/options_field.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Middle",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "Hey",
+            "font": {
+                "size": 1.2,
+                "color": "#ffffffff",
+                "align": "Center"
+            },
+            "children": []
+        },
+        {
+            "tag": "buttonRight",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "0px",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "90px",
+                "height": "90px",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "menu/button_right.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        }
+    ]
+}

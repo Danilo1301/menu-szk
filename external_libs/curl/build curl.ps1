@@ -1,0 +1,29 @@
+$rootPath = Split-Path $PSScriptRoot -Parent
+
+$NDKPath = Get-Content "$rootPath/NDKPath.txt"
+
+Write-Output "NDK located at: $NDKPath"
+
+$buildScript = "$NDKPath/build/ndk-build"
+
+if (-not ($PSVersionTable.PSEdition -eq "Core"))
+{
+    $buildScript += ".cmd"
+}
+
+Write-Output "[BUILD] Starting curl NDK..."
+
+& $buildScript `
+    NDK_PROJECT_PATH=$PSScriptRoot `
+    APP_BUILD_SCRIPT="$PSScriptRoot/Android.mk" `
+    NDK_APPLICATION_MK="$PSScriptRoot/Application.mk" `
+    NDK_DEBUG=0 `
+    -j4
+
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Output "[BUILD] Failed!"
+    Exit $LASTEXITCODE
+}
+
+Write-Output "[BUILD] Done!"

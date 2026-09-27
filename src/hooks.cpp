@@ -2,31 +2,34 @@
 
 #include "aml-psdk/game_sa/Events.h"
 #include "aml-psdk/game_sa/base/Timer.h"
+#include "audio/soundSystem/CSoundSystem.h"
+#include "logHelper.h"
 #include "menuInterface.h"
 #include "mod/logger.h"
 
 #include "input.h"
 #include "menuSZK.h"
 #include "pch.h"
+#include "src/screenDebug/screenDebug.h"
 #include "webServer/webServer.h"
 #include "window/slider.h"
+
+#include "menus/introductionImage.h"
 
 #include <chrono>
 #include <sys/stat.h>
 
-bool _createdMenu = false;
-
 DECL_HOOKv(CTimer__Update)
 {
+    LogHelper::SetFrameOperation("CTimer update");
+
     LOG_PER_FRAME("OnTimerUpdate");
 
     CTimer__Update();
 
     auto prevTime = g_timeInMilliseconds;
     auto timerNow = CTimer::m_snTimeInMilliseconds;
-
     auto now = timerNow == 0 ? prevTime + 10 : timerNow;
-
     auto dt = now - prevTime;
 
     g_timeInMilliseconds = now;
@@ -36,32 +39,22 @@ DECL_HOOKv(CTimer__Update)
 
     if (!g_gameHasFirstProcessed)
     {
-        LOG_PER_FRAME("Invoking onGameProcess");
         menuInterface->onGameProcess->Emit(dt);
-        LOG_PER_FRAME("onGameProcess end");
-    }
-
-    if (g_framesDrawn >= 30 && !_createdMenu)
-    {
-        _createdMenu = true;
-
-        auto container = Container::MainContainer->AddChild("slider");
-
-        static float testFloat = 3.25f;
-
-        auto slider = new Slider(container, &testFloat, 0, 100, 1);
     }
 
     WebServer::OnUpdate(g_timeInMilliseconds);
-
-    LOG_PER_FRAME("OnTimerUpdate [end]");
+    LogHelper::SetFrameOperation("CTimer update [end]");
 }
 
 DECL_HOOK(void *, CGame__Process)
 {
-    LOG_PER_FRAME("CGame__Process");
+    LogHelper::SetFrameOperation("CGame Process");
 
-    g_gameHasFirstProcessed = true;
+    if (!g_gameHasFirstProcessed)
+    {
+        g_gameHasFirstProcessed = true;
+        ScreenDebug::Main->Clear();
+    }
 
     //
 
@@ -74,19 +67,37 @@ DECL_HOOK(void *, CGame__Process)
 
     void *result = CGame__Process();
 
+    //
+
+    if (BASS)
+    {
+        // logger->Info("Updating soundsys");
+        soundsys->Update();
+    }
+
+    //
+
     MenuSZK::OnGameProcess();
 
     LOG_PER_FRAME("Invoking onGameProcess");
     menuInterface->onGameProcess->Emit(deltaTime);
     LOG_PER_FRAME("onGameProcess end");
 
+    LOG_PER_FRAME("Invoking onScriptProcess");
+    menuInterface->onScriptProcess->Emit(deltaTime);
+    LOG_PER_FRAME("onScriptProcess end");
+
     LOG_PER_FRAME("CGame__Process [end]");
+
+    LogHelper::SetFrameOperation("CGame Process [end]");
 
     return result;
 }
 
 DECL_HOOK(void, PreRenderEnd, void *self)
 {
+    LogHelper::SetFrameOperation("PreRenderEnd");
+
     g_framesDrawn++;
 
     static auto g_lastRenderTime = std::chrono::steady_clock::now();
@@ -106,11 +117,13 @@ DECL_HOOK(void, PreRenderEnd, void *self)
 
     //
 
-    LOG_PER_FRAME("PreRenderEnd [end]");
+    LogHelper::SetFrameOperation("PreRenderEnd [end]");
 }
 
 DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
 {
+    LogHelper::SetFrameOperation("TouchEvent");
+
     LOG_PER_FRAME("TouchEvent");
 
     Input::OnTouchEvent(actionType, trackNum, x, y, g_timeInMilliseconds);
@@ -124,7 +137,7 @@ DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
 
     TouchEvent(actionType, trackNum, x, y);
 
-    LOG_PER_FRAME("TouchEvent [end]");
+    LogHelper::SetFrameOperation("TouchEvent end");
 }
 
 void DoHooks()
@@ -135,6 +148,9 @@ void DoHooks()
     uintptr_t pGTASA = aml->GetLib("libGTASA.so");
 
     SET_TO(pPedPool, aml->GetSym(hGTASA, "_ZN6CPools11ms_pPedPoolE"));
+    SET_TO(userPaused, aml->GetSym(hGTASA, "_ZN6CTimer11m_UserPauseE"));
+    SET_TO(codePaused, aml->GetSym(hGTASA, "_ZN6CTimer11m_CodePauseE"));
+    SET_TO(camera, aml->GetSym(hGTASA, "TheCamera"));
 
     SET_TO(GetPedRef, aml->GetSym(hGTASA, "_ZN6CPools9GetPedRefEP4CPed"));
     SET_TO(OS_ScreenGetWidth, aml->GetSym(hGTASA, "_Z17OS_ScreenGetWidthv"));

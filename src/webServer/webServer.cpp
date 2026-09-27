@@ -1,25 +1,26 @@
 #include "webServer.h"
 
+#include "../utils/utils.h"
 #include "aml-psdk/game_sa/Events.h"
 #include "aml-psdk/game_sa/utils/OpcodeCallerIDs.h"
 #include "aml-psdk/gta_base/Vector.h"
 #include "mod/logger.h"
-#include "../utils/utils.h"
 
-#include "aml-psdk/game_sa/utils/OpcodeCaller_test.h"
-//#include "aml-psdk/game_sa/utils/OpcodeCaller.h" //doesnt work
+#include "aml-psdk/game_sa/utils/OpcodeCaller_fixed.h"
+// #include "aml-psdk/game_sa/utils/OpcodeCaller.h" //doesnt work
 
 #include "json/json.h"
 
+#include <fstream>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <thread>
-#include <fstream>
 
 #include "syncPlayers.h"
 
 std::string WebServer::BaseURL = "";
 CVector WebServer::PlayerPosition = CVector(0, 0, 0);
+bool WebServer::Joined = false;
 
 unsigned int WebServer::_lastHandshakeTime;
 
@@ -34,6 +35,33 @@ void WebServer::Initialze()
 {
     //
 
+    logger->Info("Downloading static files...");
+
+    {
+        std::string result = DownloadAndGetContent(
+            "https://raw.githubusercontent.com/Danilo1301/static-archives/refs/heads/main/MENU_SZK_V2");
+
+        std::string baseUrl = "";
+
+        size_t pos = result.find("url=");
+        if (pos != std::string::npos)
+        {
+            baseUrl = result.substr(pos + 4);
+
+            while (!baseUrl.empty() && (baseUrl.back() == '\n' || baseUrl.back() == '\r' || baseUrl.back() == ' '))
+                baseUrl.pop_back();
+        }
+
+        if (baseUrl.find("http") != 0)
+        {
+            baseUrl = "https://" + baseUrl;
+        }
+
+        BaseURL = baseUrl;
+    }
+
+    //
+
     std::string nickname;
 
     {
@@ -46,35 +74,31 @@ void WebServer::Initialze()
         }
     }
 
-    Events::drawHudEvent += []() {
-        DrawPlayersTag();
-    };
+    Events::drawHudEvent += []() { DrawPlayersTag(); };
 
-    Events::gameProcessEvent += []() {
+    Events::gameProcessEvent += []()
+    {
+        // if (!Command<Commands::IS_PLAYER_PLAYING>(0))
+        // {
+        //     return;
+        // }
 
-        g_logOpcodes = false;
+        // int playerActor;
 
-        if(!Command<Commands::IS_PLAYER_PLAYING>(0))
-        {
-            return;
-        }
+        // bool playerResult = Command<Commands::GET_PLAYER_CHAR>(0, &playerActor);
 
-        int playerActor;
+        // if (playerActor == -1)
+        // {
+        //     logger->Error("Test: invalid player actor");
+        //     return;
+        // }
 
-        bool playerResult = Command<Commands::GET_PLAYER_CHAR>(0, &playerActor);
+        // float x, y, z;
+        // Command<Commands::GET_CHAR_COORDINATES>(playerActor, &x, &y, &z);
 
-        if(playerActor == -1)
-        {
-            logger->Error("Test: invalid player actor");
-            return;
-        }
+        // PlayerPosition = CVector(x, y, z);
 
-        float x, y, z;
-        Command<Commands::GET_CHAR_COORDINATES>(playerActor, &x, &y, &z);
-
-        PlayerPosition = CVector(x, y, z);
-
-        SyncPlayers(&_players);
+        // SyncPlayers(&_players);
     };
 
     //
@@ -145,6 +169,8 @@ void WebServer::Initialze()
     {
         logger->Info("Failed to open secret file for writing");
     }
+
+    Joined = true;
 }
 
 void WebServer::OnUpdate(unsigned int time)
@@ -162,82 +188,75 @@ void WebServer::OnUpdate(unsigned int time)
     _handshakeRunning = true;
 
     std::ostringstream position;
-    position << std::fixed << std::setprecision(2)
-             << PlayerPosition.x << ";"
-             << PlayerPosition.y << ";"
+    position << std::fixed << std::setprecision(2) << PlayerPosition.x << ";" << PlayerPosition.y << ";"
              << PlayerPosition.z;
 
-    std::string query =
-        "/handshake?secretId=" + _secretId +
-        "&position=" + position.str();
+    std::string query = "/handshake?secretId=" + _secretId + "&position=" + position.str();
 
     std::string finalUrl = BaseURL + query;
 
-    std::thread([finalUrl]() {
-        std::string handshakeResult = DownloadAndGetContent(finalUrl);
-
-        Json::Value root;
-        Json::Reader reader;
-
-        if (!reader.parse(handshakeResult, root))
+    std::thread(
+        [finalUrl]()
         {
-            logger->Info(
-                "Failed to parse handshake: %s",
-                reader.getFormattedErrorMessages().c_str()
-            );
+            std::string handshakeResult = DownloadAndGetContent(finalUrl);
 
-            _handshakeRunning = false;
-            return;
-        }
+            Json::Value root;
+            Json::Reader reader;
 
-        if (root.get("error", true).asBool())
-        {
-            _handshakeRunning = false;
-            return;
-        }
-
-        std::map<std::string, WebPlayer> players;
-
-        const Json::Value& playersJson = root["players"];
-
-        for (const Json::Value& playerJson : playersJson)
-        {
-            WebPlayer player;
-
-            player.id = playerJson.get("id", "").asString();
-            player.name = playerJson.get("name", "").asString();
-
-            const Json::Value& pos = playerJson["pos"];
-
-            if (pos.isArray() && pos.size() >= 3)
+            if (!reader.parse(handshakeResult, root))
             {
-                player.x = pos[0].asFloat();
-                player.y = pos[1].asFloat();
-                player.z = pos[2].asFloat();
-            }
-            else
-            {
-                player.x = 0.0f;
-                player.y = 0.0f;
-                player.z = 0.0f;
+                logger->Info("Failed to parse handshake: %s", reader.getFormattedErrorMessages().c_str());
+
+                _handshakeRunning = false;
+                return;
             }
 
-            player.admin = playerJson.get("admin", 0).asInt() != 0;
+            if (root.get("error", true).asBool())
+            {
+                _handshakeRunning = false;
+                return;
+            }
 
-            if (!player.id.empty())
-                players[player.id] = player;
-        }
+            std::map<std::string, WebPlayer> players;
 
-        {
-            std::lock_guard<std::mutex> lock(_playersMutex);
-            _players = std::move(players);
-        }
+            const Json::Value &playersJson = root["players"];
 
-        _handshakeRunning = false;
-    }).detach();
+            for (const Json::Value &playerJson : playersJson)
+            {
+                WebPlayer player;
+
+                player.id = playerJson.get("id", "").asString();
+                player.name = playerJson.get("name", "").asString();
+
+                const Json::Value &pos = playerJson["pos"];
+
+                if (pos.isArray() && pos.size() >= 3)
+                {
+                    player.x = pos[0].asFloat();
+                    player.y = pos[1].asFloat();
+                    player.z = pos[2].asFloat();
+                }
+                else
+                {
+                    player.x = 0.0f;
+                    player.y = 0.0f;
+                    player.z = 0.0f;
+                }
+
+                player.admin = playerJson.get("admin", 0).asInt() != 0;
+
+                if (!player.id.empty())
+                    players[player.id] = player;
+            }
+
+            {
+                std::lock_guard<std::mutex> lock(_playersMutex);
+                _players = std::move(players);
+            }
+
+            _handshakeRunning = false;
+        })
+        .detach();
 }
 
-void WebServer::UpdatePlayerData()
-{
-    
-}
+void WebServer::UpdatePlayerData() {}

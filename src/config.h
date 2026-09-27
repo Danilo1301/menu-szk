@@ -21,6 +21,13 @@ inline std::string GetMenuAssetPath(std::string relativePath)
     return menuFolder + "/assets/" + relativePath;
 }
 
+inline std::string GetMenuAudioPath(std::string relativePath)
+{
+    std::string menuFolder = GetMenuFolder();
+
+    return menuFolder + "/audio/" + relativePath;
+}
+
 inline std::string GetMenuLayoutPath(std::string relativePath)
 {
     std::string menuFolder = GetMenuFolder();

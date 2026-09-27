@@ -1,10 +1,7 @@
 #include "input.h"
 
-#include "aml-psdk/game_sa/Events.h"
-#include "aml-psdk/game_sa/utils/ThreadSyncer.h"
 #include "container/container.h"
-#include "global_config.h"
-#include "menuSZK.h"
+#include "globals.h"
 #include "menus/menuDebugOptions.h"
 #include "mod/logger.h"
 
@@ -212,30 +209,31 @@ bool Input::IsSwipeUp(const InputTouch &touch, float startMinY, float endMaxY, f
 
 bool Input::IsSwipe(const InputTouch &touch, const SwipeDefinition &swipe)
 {
-    logger->Info("SWIPE [%s] start=(%.1f, %.1f) current=(%.1f, %.1f)", swipe.customId.c_str(), touch.startPosition.x,
-        touch.startPosition.y, touch.position.x, touch.position.y);
+    // logger->Info("SWIPE [%s] start=(%.1f, %.1f) current=(%.1f, %.1f)", swipe.customId.c_str(), touch.startPosition.x,
+    //     touch.startPosition.y, touch.position.x, touch.position.y);
 
-    logger->Info("SWIPE [%s] startArea pos=(%.1f, %.1f) size=(%.1f, %.1f)", swipe.customId.c_str(),
-        swipe.start.position.x, swipe.start.position.y, swipe.start.size.x, swipe.start.size.y);
+    // logger->Info("SWIPE [%s] startArea pos=(%.1f, %.1f) size=(%.1f, %.1f)", swipe.customId.c_str(),
+    //     swipe.start.position.x, swipe.start.position.y, swipe.start.size.x, swipe.start.size.y);
 
-    logger->Info("SWIPE [%s] endArea pos=(%.1f, %.1f) size=(%.1f, %.1f)", swipe.customId.c_str(), swipe.end.position.x,
-        swipe.end.position.y, swipe.end.size.x, swipe.end.size.y);
+    // logger->Info("SWIPE [%s] endArea pos=(%.1f, %.1f) size=(%.1f, %.1f)", swipe.customId.c_str(),
+    // swipe.end.position.x,
+    //     swipe.end.position.y, swipe.end.size.x, swipe.end.size.y);
 
     const bool startInside = IsInsideSwipeArea(touch.startPosition, swipe.start);
 
     const bool endInside = IsInsideSwipeArea(touch.position, swipe.end);
 
-    logger->Info("SWIPE [%s] startInside=%d endInside=%d", swipe.customId.c_str(), startInside, endInside);
+    // logger->Info("SWIPE [%s] startInside=%d endInside=%d", swipe.customId.c_str(), startInside, endInside);
 
     if (!startInside)
     {
-        logger->Info("SWIPE [%s] FAILED: start outside", swipe.customId.c_str());
+        // logger->Info("SWIPE [%s] FAILED: start outside", swipe.customId.c_str());
         return false;
     }
 
     if (!endInside)
     {
-        logger->Info("SWIPE [%s] FAILED: end outside", swipe.customId.c_str());
+        // logger->Info("SWIPE [%s] FAILED: end outside", swipe.customId.c_str());
         return false;
     }
 
@@ -243,8 +241,8 @@ bool Input::IsSwipe(const InputTouch &touch, const SwipeDefinition &swipe)
     {
         if (touch.position.y >= touch.startPosition.y)
         {
-            logger->Info("SWIPE [%s] FAILED: expected UP, startY=%.1f endY=%.1f", swipe.customId.c_str(),
-                touch.startPosition.y, touch.position.y);
+            // logger->Info("SWIPE [%s] FAILED: expected UP, startY=%.1f endY=%.1f", swipe.customId.c_str(),
+            // touch.startPosition.y, touch.position.y);
 
             return false;
         }
@@ -254,8 +252,8 @@ bool Input::IsSwipe(const InputTouch &touch, const SwipeDefinition &swipe)
     {
         if (touch.position.y <= touch.startPosition.y)
         {
-            logger->Info("SWIPE [%s] FAILED: expected DOWN, startY=%.1f endY=%.1f", swipe.customId.c_str(),
-                touch.startPosition.y, touch.position.y);
+            // logger->Info("SWIPE [%s] FAILED: expected DOWN, startY=%.1f endY=%.1f", swipe.customId.c_str(),
+            //     touch.startPosition.y, touch.position.y);
 
             return false;
         }

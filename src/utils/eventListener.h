@@ -20,9 +20,9 @@ template <typename... Args> class EventListener : public IEventListener<Args...>
 
     void AddUntil(const ConditionCallback &cb) override { conditions.push_back(cb); }
 
-    void AddRef(void *ptr, const Callback &cb) { callbacks.push_back({ptr, cb}); }
+    void AddRef(void *ptr, const Callback &cb) override { callbacks.push_back({ptr, cb}); }
 
-    void Remove(void *ref)
+    void Remove(void *ref) override
     {
         callbacks.erase(std::remove_if(callbacks.begin(), callbacks.end(),
                             [ref](const Listener &listener) { return listener.ref == ref; }),

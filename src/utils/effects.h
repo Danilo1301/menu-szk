@@ -108,3 +108,66 @@ static void Ease_Simple(Container *container, CVector2D startPosition, CVector2D
             return true;
         });
 }
+
+static void Ease_Scale(
+    Container *container, float maxScale = 1.2f, int duration = 300, std::function<void()> onComplete = nullptr)
+{
+    menuInterface->onPreRenderEnd->AddUntil(
+        [=, elapsed = 0.0f](int deltaTime) mutable -> bool
+        {
+            elapsed += deltaTime;
+
+            float t = elapsed / (float)duration;
+
+            if (t > 1.0f)
+                t = 1.0f;
+
+            const float scale = std::sin(t * 3.14159265359f);
+
+            const float value = 1.0f + (maxScale - 1.0f) * scale;
+
+            container->style.scale = CVector2D(value, value);
+
+            if (t >= 1.0f)
+            {
+                if (onComplete)
+                    onComplete();
+
+                return false;
+            }
+
+            return true;
+        });
+}
+
+static void Ease_ScaleOpacity(Container *container, CVector2D startScale, CVector2D endScale, float startOpacity,
+    float endOpacity, int duration, std::function<void()> onComplete = nullptr)
+{
+    menuInterface->onPreRenderEnd->AddUntil(
+        [=, elapsed = 0.0f](int deltaTime) mutable -> bool
+        {
+            elapsed += deltaTime;
+
+            float t = elapsed / (float)duration;
+
+            if (t > 1.0f)
+                t = 1.0f;
+
+            const float eased = std::sin(t * 3.14159265359f * 0.5f);
+
+            container->style.scale = CVector2D(
+                startScale.x + (endScale.x - startScale.x) * eased, startScale.y + (endScale.y - startScale.y) * eased);
+
+            container->style.opacity = startOpacity + (endOpacity - startOpacity) * eased;
+
+            if (t >= 1.0f)
+            {
+                if (onComplete)
+                    onComplete();
+
+                return false;
+            }
+
+            return true;
+        });
+}

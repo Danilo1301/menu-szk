@@ -25,6 +25,10 @@ MenuItem::MenuItem(Window *window)
     IFont itemFont;
     itemFont.size = 1.2f;
 
+    //
+
+    //
+
     // container->canBlockTouchEvents = true;
     // container->style.localSize.x = 90;
     // container->style.localSize.y = 90;
@@ -64,4 +68,15 @@ void MenuItem::AddColorPreview(CRGBA *color)
     colorPreview->style.backgroundImage = GetMenuAssetPath("colorpicker/preview.png");
     colorPreview->style.imageColor = *color;
     colorPreview->onPostUpdateTransform->Add([colorPreview, color]() { colorPreview->style.imageColor = *color; });
+}
+
+void MenuItem::AddIcon(std::string pngFilePath)
+{
+    auto image = container->AddChild("image");
+    image->style.backgroundImage = pngFilePath;
+    image->style.width = "90px";
+    image->style.height = "90px";
+
+    auto text_container = container->FindChild("text");
+    text_container->style.margin.left = 100;
 }

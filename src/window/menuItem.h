@@ -34,4 +34,6 @@ class MenuItem : public IMenuItem
     virtual IContainer *GetContainer() override { return container; }
 
     virtual void AddColorPreview(CRGBA *color) override;
+
+    virtual void AddIcon(std::string pngFilePath) override;
 };

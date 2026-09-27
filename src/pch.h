@@ -1,6 +1,6 @@
 #pragma once
 
-#include "global_config.h"
+#include "globals.h"
 
 #include <mod/amlmod.h>
 #include <mod/config.h>
@@ -48,8 +48,7 @@ inline void LOGI(const char *format, ...)
 
     logger->Info("%s", buffer);
 
-    if (ScreenDebug::Main->onlyLogErrors == false)
-        ScreenDebug::Main->AddLine(std::string(buffer));
+    ScreenDebug::Main->Info(std::string(buffer));
 }
 
 inline void LOGE(const char *format, ...)
@@ -65,7 +64,23 @@ inline void LOGE(const char *format, ...)
 
     logger->Error("%s", buffer);
 
-    ScreenDebug::Main->AddLine("~r~" + std::string(buffer));
+    ScreenDebug::Main->Error(std::string(buffer));
+}
+
+inline void LOGW(const char *format, ...)
+{
+    char buffer[1024];
+
+    va_list args;
+    va_start(args, format);
+
+    vsnprintf(buffer, sizeof(buffer), format, args);
+
+    va_end(args);
+
+    logger->Info("Warning: %s", buffer);
+
+    ScreenDebug::Main->Warn(std::string(buffer));
 }
 
 inline unsigned int g_timeInMilliseconds = 0;

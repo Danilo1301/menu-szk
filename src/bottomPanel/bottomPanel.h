@@ -22,7 +22,11 @@ class BottomPanel
 
   private:
     std::vector<Item> _items;
+    bool _isFading = false;
     Container *_container;
+    unsigned int _timeOpened = 0;
+
+    std::vector<Container *> _itemContainers;
 
   public:
     BottomPanel();
@@ -32,6 +36,9 @@ class BottomPanel
     void FadeOut();
 
     void AddItem(std::string title, std::string imagePath, std::function<void()> callback);
+    void UpdateItemsLayout();
 
     bool IsVisible();
+    bool IsPointerInside(int trackId);
+    int GetTimeVisible();
 };

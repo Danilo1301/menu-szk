@@ -1,8 +1,6 @@
 #ifndef __AML_PSDK_SAOPCODECALLER_H
 #define __AML_PSDK_SAOPCODECALLER_H
 
-inline bool g_logOpcodes = true;
-
 #include <cstring>
 #include <cstdint>
 
@@ -236,14 +234,13 @@ inline bool CommandByID(uint16_t opcode, ArgTypes... args)
 
     int processResult = OpcodeCaller::ExecuteScriptBuf();
 
-    if(g_logOpcodes)
-        logger->Info(
-            "opcode=0x%04X process=%d cond=%d varCount=%d local0=%u",
-            opcode,
-            processResult,
-            (int)OpcodeCaller::g_Script.m_bCondResult,
-            (int)OpcodeCaller::g_nVarsCount,
-            OpcodeCaller::g_Script.m_aLocalVars[0].uParam
+    logger->Info(
+        "opcode=0x%04X process=%d cond=%d varCount=%d local0=%u",
+        opcode,
+        processResult,
+        (int)OpcodeCaller::g_Script.m_bCondResult,
+        (int)OpcodeCaller::g_nVarsCount,
+        OpcodeCaller::g_Script.m_aLocalVars[0].uParam
     );
 
     for(int i = 0; i < OpcodeCaller::g_nVarsCount; ++i)

@@ -11,49 +11,41 @@
 #include <map>
 #include <vector>
 
-std::map<void*, GameEntity> storedPeds;
+std::map<void *, GameEntity> storedPeds;
 std::vector<GameEntity> storedPedsVec;
 
-EventListener<GameEntity>* Peds::onPedFound = new EventListener<GameEntity>();
-EventListener<GameEntity>* Peds::onPedDestroy = new EventListener<GameEntity>();
+EventListener<GameEntity> *Peds::onPedAdded = new EventListener<GameEntity>();
+EventListener<GameEntity> *Peds::onPedRemoved = new EventListener<GameEntity>();
 
 void Peds::Initialize()
 {
-    Events::pedDtorEvent.before += [](CPed* ped)
+    Events::pedDtorEvent.before += [](CPed *ped)
     {
         auto it = storedPeds.find(ped);
 
-        if(it == storedPeds.end())
+        if (it == storedPeds.end())
             return;
 
-        onPedDestroy->Emit(it->second);
+        onPedRemoved->Emit(it->second);
 
         storedPeds.erase(it);
-        
-        storedPedsVec.erase(
-            std::remove_if(
-                storedPedsVec.begin(),
-                storedPedsVec.end(),
-                [ped](const GameEntity& entity)
-                {
-                    return entity.ptr == ped;
-                }
-            ),
-            storedPedsVec.end()
-        );
+
+        storedPedsVec.erase(std::remove_if(storedPedsVec.begin(), storedPedsVec.end(),
+                                [ped](const GameEntity &entity) { return entity.ptr == ped; }),
+            storedPedsVec.end());
     };
 }
 
 void Peds::Process()
 {
-    for(int i = 0; i < CPools::ms_pPedPool->m_nSize; i++)
+    for (int i = 0; i < CPools::ms_pPedPool->m_nSize; i++)
     {
-        CPed* ped = CPools::ms_pPedPool->GetAt(i);
+        CPed *ped = CPools::ms_pPedPool->GetAt(i);
 
-        if(!ped)
+        if (!ped)
             continue;
 
-        if(storedPeds.find(ped) != storedPeds.end())
+        if (storedPeds.find(ped) != storedPeds.end())
             continue;
 
         int ref = CPools::ms_pPedPool->GetRef(ped);
@@ -64,13 +56,10 @@ void Peds::Process()
         storedPeds[ped] = entity;
         storedPedsVec.push_back(entity);
 
-        onPedFound->Emit(entity);
+        onPedAdded->Emit(entity);
 
         logger->Info("Ped apareceu: index=%d ped=%p ref=%d", i, ped, ref);
     }
 }
 
-std::vector<GameEntity>& Peds::GetPeds()
-{
-    return storedPedsVec;
-}
+std::vector<GameEntity> &Peds::GetPeds() { return storedPedsVec; }

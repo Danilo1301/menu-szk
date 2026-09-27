@@ -1,16 +1,19 @@
 #pragma once
 
 #include "aml-psdk/gta_base/Vector.h"
-#include <string>
 #include <map>
+#include <string>
 #include <sys/stat.h>
+
 
 #include "webPlayer.h"
 
-class WebServer {
-public:
+class WebServer
+{
+  public:
     static std::string BaseURL;
     static CVector PlayerPosition;
+    static bool Joined;
 
     static unsigned int _lastHandshakeTime;
 
@@ -20,6 +23,6 @@ public:
 
     static void OnUpdate(unsigned int time);
 
-private:
+  private:
     static void UpdatePlayerData();
 };

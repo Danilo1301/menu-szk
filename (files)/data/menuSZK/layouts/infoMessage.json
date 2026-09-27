@@ -1,0 +1,42 @@
+{
+    "tag": "infoMessage",
+    "style": {
+        "position": "absolute",
+        "left": "50%",
+        "right": "auto",
+        "top": "0px",
+        "bottom": "50px",
+        "width": "100%",
+        "height": "80px",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#00000000",
+        "backgroundImage": "",
+        "transformOrigin": [
+            0,
+            0
+        ],
+        "textHorizontalAlign": "Middle",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "This is a message and can be long",
+    "font": {
+        "size": 2,
+        "color": "#ffffffff",
+        "align": "Center"
+    },
+    "children": []
+}

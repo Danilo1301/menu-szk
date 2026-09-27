@@ -43,6 +43,7 @@ class Container : public IContainer
     std::string _prevBackgroundImage = "";
 
     bool _clickedState = false;
+    bool _destroyed = false;
 
   public:
     Container(std::string tag);
@@ -50,17 +51,23 @@ class Container : public IContainer
 
     Container *AddChild(Container *child);
     Container *AddChild(std::string tag);
+    IContainer *AddChild_I(std::string tag) override { return (IContainer *)AddChild(tag); }
+
     void SetParent(Container *parent);
     void RemoveChild(Container *child, bool destroy);
     void RemoveChildren();
 
     Container *FindChild(std::string tag);
+    IContainer *FindChild_I(std::string tag) override { return (IContainer *)FindChild(tag); }
+
     std::vector<Container *> GetChildrenRecursive();
 
     void UpdateTransform();
     void Draw();
 
     void UpdateTransformFromRoot();
+
+    bool IsVisible();
 
   private:
     void DrawBoundings();
@@ -90,9 +97,13 @@ class Container : public IContainer
     void Dump();
 
     void SetState(IContainerState state);
-    void SetDisabled(bool disabled);
+    void SetDisabled(bool disabled) override;
 
     void SetBlocked(bool blocked);
+
+    void Destroy() override;
+
+    void MarkAsDestroyed();
 
     uint64_t GetInstanceId() const { return _instanceId; }
 
@@ -102,4 +113,5 @@ class Container : public IContainer
     static bool ShowTag;
     static Container *MainContainer;
     static Container *CreateContainer(std::string tag);
+    static void DestroyContainersThatNeedsToBeDestroyed();
 };

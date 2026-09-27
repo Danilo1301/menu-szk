@@ -10,6 +10,8 @@
 #include "menuItems/menuItemOptions.h"
 
 #include "mod/logger.h"
+#include "src/container/container.h"
+#include "src/menus/colorPickerMenu.h"
 #include "windowManager.h"
 #include <functional>
 #include <stdio.h>
@@ -21,6 +23,8 @@
 #include "../utils/effects.h"
 
 #include "../container/containerLoader.h"
+
+#include "../audio/audioUtils.h"
 
 Window::Window()
 {
@@ -70,6 +74,7 @@ void Window::Init(float x, float y)
         _title = container->FindChild("title");
         _subTitle = container->FindChild("subtitle");
 
+        container->hideWhenPaused = true;
         container->canBlockTouchEvents = true;
         container->canDrag = true;
 
@@ -89,7 +94,16 @@ void Window::Init(float x, float y)
 
         btn->canBlockTouchEvents = true;
 
-        btn->onClick->Add([this]() { NavigatePage(-1); });
+        btn->onClick->Add(
+            [this]()
+            {
+                bool ok = NavigatePage(-1);
+
+                if (ok)
+                {
+                    PlayChangePage();
+                }
+            });
 
         btn->onStateChanged->Add(
             [btn](IContainerState state)
@@ -120,7 +134,16 @@ void Window::Init(float x, float y)
 
         btn->canBlockTouchEvents = true;
 
-        btn->onClick->Add([this]() { NavigatePage(1); });
+        btn->onClick->Add(
+            [this]()
+            {
+                bool ok = NavigatePage(1);
+
+                if (ok)
+                {
+                    PlayChangePage();
+                }
+            });
 
         btn->onStateChanged->Add(
             [btn](IContainerState state)
@@ -148,7 +171,12 @@ void Window::Init(float x, float y)
         auto container = _container->FindChild("closeBtn");
 
         container->canBlockTouchEvents = true;
-        container->onClick->Add([this]() { Close(); });
+        container->onClick->Add(
+            [this]()
+            {
+                Close();
+                PlaySelect();
+            });
     }
 
     const CVector2D startPosition = windowStartPosition;
@@ -348,3 +376,15 @@ void Window::Close_Internal()
 
 Container *Window::GetContainer() { return _container; }
 Container *Window::GetContentContainer() { return _content; }
+
+IWindow *Window::OpenColorMenu(CRGBA *color)
+{
+    auto window = this;
+
+    window->blocked = true;
+
+    auto colorPickerWindow = CreateColorPickerMenu("Choose color", color);
+    colorPickerWindow->onClose->Add([window]() { window->blocked = false; });
+
+    return colorPickerWindow;
+}

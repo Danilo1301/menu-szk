@@ -25,7 +25,6 @@ class Window : public IWindow
     std::vector<MenuItem *> items;
 
     int currentPage = 0;
-    const int maxItemsPerPage = 5;
 
   public:
     Window();
@@ -95,5 +94,20 @@ class Window : public IWindow
         return item;
     }
 
+    IMenuItem *AddSlider(std::string text, float *pValue, float minValue, float maxValue, int decimals) override
+    {
+        auto item = AddSlider_Internal(text, pValue, minValue, maxValue, decimals);
+        return item;
+    }
+
+    IMenuItem *AddCustomItem(std::string text, float height) override
+    {
+        auto item = AddItem_Internal(text);
+        item->GetContainer()->style.height = std::to_string(height) + "px";
+        return item;
+    }
+
     virtual void Close() override { Close_Internal(); }
+
+    virtual IWindow *OpenColorMenu(CRGBA *color) override;
 };

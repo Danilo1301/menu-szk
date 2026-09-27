@@ -2,10 +2,9 @@
 
 #include "mod/logger.h"
 
-#include "../global_config.h"
+#include "../globals.h"
 #include <string>
 #include <unordered_map>
-
 
 class LeakUtils
 {

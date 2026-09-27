@@ -12,18 +12,15 @@ else
 endif
 
 
-LOCAL_SRC_FILES := $(wildcard mod/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/utils/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/container/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/keyboard/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/window/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/window/menuItems/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/webServer/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/cellphone/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/bottomPanel/*.cpp)
-LOCAL_SRC_FILES += $(wildcard src/screenDebug/*.cpp)
-LOCAL_SRC_FILES += $(wildcard json/*.cpp)
+rwildcard = $(foreach d,$(wildcard $(1)/*),$(call rwildcard,$(d),$(2)) $(filter $(subst *,%,$(2)),$(d)))
+
+LOCAL_SRC_FILES := $(call rwildcard,mod,*.cpp)
+LOCAL_SRC_FILES += $(call rwildcard,src,*.cpp)
+LOCAL_SRC_FILES += $(call rwildcard,json,*.cpp)
+
+$(info ==================== SOURCE FILES ====================)
+$(foreach file,$(LOCAL_SRC_FILES),$(info $(file)))
+$(info ======================================================)
 
 LOCAL_CXXFLAGS += -O2 -DNDEBUG -std=c++17
 

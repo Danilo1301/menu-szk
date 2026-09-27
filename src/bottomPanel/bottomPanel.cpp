@@ -7,12 +7,17 @@
 #include "../utils/effects.h"
 #include "aml-psdk/gta_base/Vector.h"
 
+#include "../audio/audioUtils.h"
+#include "src/pch.h"
+
 BottomPanel *BottomPanel::Main = nullptr;
 
 BottomPanel *BottomPanel::CreateMain()
 {
     auto panel = new BottomPanel();
     Main = panel;
+
+    panel->SetVisible(false);
 
     //
 
@@ -64,6 +69,18 @@ BottomPanel *BottomPanel::CreateMain()
             }
         });
 
+    Input::OnTouchUp->Add(
+        [](int trackId)
+        {
+            if (BottomPanel::Main->IsVisible() && BottomPanel::Main->GetTimeVisible() > 500)
+            {
+                if (!BottomPanel::Main->IsPointerInside(trackId))
+                {
+                    BottomPanel::Main->FadeOut();
+                }
+            }
+        });
+
     //
 
     return Main;
@@ -88,6 +105,13 @@ void BottomPanel::SetVisible(bool visible) { _container->visible = visible; }
 
 void BottomPanel::FadeIn()
 {
+    if (_isFading)
+        return;
+
+    _isFading = true;
+
+    _timeOpened = g_timeInMilliseconds;
+
     _container->style.opacity = 0.0f;
     SetVisible(true);
 
@@ -105,7 +129,11 @@ void BottomPanel::FadeIn()
 
     const int duration = 500;
 
-    const auto onComplete = [this]() { SetVisible(true); };
+    const auto onComplete = [this]()
+    {
+        SetVisible(true);
+        _isFading = false;
+    };
 
     Ease_Curve(
         _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
@@ -113,6 +141,10 @@ void BottomPanel::FadeIn()
 
 void BottomPanel::FadeOut()
 {
+    if (_isFading)
+        return;
+    _isFading = true;
+
     _container->style.opacity = 1.0f;
     SetVisible(true);
 
@@ -130,7 +162,11 @@ void BottomPanel::FadeOut()
 
     const int duration = 500;
 
-    const auto onComplete = [this]() { SetVisible(false); };
+    const auto onComplete = [this]()
+    {
+        SetVisible(false);
+        _isFading = false;
+    };
 
     Ease_Simple(
         _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
@@ -151,27 +187,57 @@ void BottomPanel::AddItem(std::string title, std::string imagePath, std::functio
     auto text = item->FindChild("text");
     text->text = title;
 
-    // Force update
-    item->UpdateTransformFromRoot();
-
-    const CVector2D itemSize = item->GetCurrentSize();
-    const float itemWidth = itemSize.x;
-
-    const int index = static_cast<int>(_items.size()) - 1;
-
-    item->style.left = std::to_string(index * itemWidth) + "px";
-
     item->canBlockTouchEvents = true;
     item->style.backgroundImage = imagePath;
-
-    _container->style.width = std::to_string(_items.size() * itemWidth) + "px";
 
     item->onClick->Add(
         [this, callback]()
         {
             FadeOut();
             callback();
+
+            PlaySelect();
         });
+
+    _itemContainers.push_back(item);
+
+    // workaround, should have its own function i think
+    _container->visible = true;
+    _container->UpdateTransform();
+    _container->visible = false;
+
+    const float itemWidth = _itemContainers[0]->GetCurrentSize().x;
+
+    for (size_t i = 0; i < _itemContainers.size(); i++)
+    {
+        auto item = _itemContainers[i];
+
+        item->style.left = std::to_string(i * itemWidth) + "px";
+        item->style.right = "auto";
+
+        item->UpdateTransform();
+    }
+
+    _container->style.width = std::to_string(_itemContainers.size() * itemWidth) + "px";
 }
 
+void BottomPanel::UpdateItemsLayout() {}
+
 bool BottomPanel::IsVisible() { return _container->visible; }
+
+bool BottomPanel::IsPointerInside(int trackId)
+{
+    auto touch = Input::GetTouch(trackId);
+
+    if (!touch)
+        return false;
+
+    return _container->IsPositionInside(touch->position);
+}
+
+int BottomPanel::GetTimeVisible()
+{
+    auto now = g_timeInMilliseconds;
+
+    return now - _timeOpened;
+}

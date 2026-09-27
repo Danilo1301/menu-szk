@@ -1,7 +1,10 @@
 #pragma once
 
+#include "aml-psdk/game_sa/entity/Placeable.h"
+#include "aml-psdk/game_sa/plugin.h"
 #include "aml-psdk/gta_base/RGBA.h"
 #include "aml-psdk/gta_base/Vector.h"
+#include "aml-psdk/renderware/RwTexture.h"
 
 #include <functional>
 #include <string>
@@ -22,9 +25,11 @@ template <typename... Args> class IEventListener
     virtual ~IEventListener() = default;
 
     virtual void Add(const Callback &cb) = 0;
+    virtual void AddRef(void *ref, const Callback &cb) = 0;
     virtual void AddOnce(const Callback &cb) = 0;
     virtual void AddUntil(const ConditionCallback &cb) = 0;
     virtual void Emit(Args... args) = 0;
+    virtual void Remove(void *ref) = 0;
 
     virtual int GetListenersCount() = 0;
 };
@@ -139,6 +144,7 @@ class IContainer
     bool canClickThrough = false;
     bool canDrag = false;
     bool drawBoundings = false;
+    bool hideWhenPaused = false;
 
     IEventListener<> *onClick;
     IEventListener<IContainerState> *onStateChanged;
@@ -147,6 +153,11 @@ class IContainer
     IEventListener<> *onPostUpdateTransform;
 
     IContainerState state = IContainerState::Normal;
+
+    virtual IContainer *AddChild_I(std::string tag) = 0;
+    virtual IContainer *FindChild_I(std::string tag) = 0;
+    virtual void SetDisabled(bool disabled) = 0;
+    virtual void Destroy() = 0;
 
     void SetRelativePosition(float x, float y)
     {
@@ -170,6 +181,8 @@ class IMenuItem
     virtual IContainer *GetContainer() = 0;
 
     virtual void AddColorPreview(CRGBA *color) = 0;
+
+    virtual void AddIcon(std::string pngFilePath) = 0;
 };
 
 class IWindow
@@ -180,6 +193,7 @@ class IWindow
     float width = 800;
     CRGBA windowColor = CRGBA(255, 0, 0);
     bool blocked = false;
+    int maxItemsPerPage = 5;
 
     virtual IMenuItem *AddCheckbox(std::string text, bool *pValue) = 0;
     virtual IMenuItem *AddFloatOptions(std::string text, float *pValue, float min, float max, float step) = 0;
@@ -187,10 +201,39 @@ class IWindow
     virtual IMenuItem *AddOptions(std::string text, float optionsWidth = 450.0f) = 0;
     virtual IMenuItem *AddItem(std::string text) = 0;
     virtual IMenuItem *AddButton(std::string text, std::function<void()> onClick) = 0;
+    virtual IMenuItem *AddSlider(std::string text, float *pValue, float minValue, float maxValue, int decimals) = 0;
+    virtual IMenuItem *AddCustomItem(std::string text, float height) = 0;
 
     virtual void Close() = 0;
 
+    virtual IWindow *OpenColorMenu(CRGBA *color) = 0;
+
     IEventListener<> *onClose;
+};
+
+class IWidget
+{
+  public:
+    IEventListener<> *onClick = 0;
+    bool visible = true;
+
+    virtual void SetPosition(float x, float y) = 0;
+    virtual void SetSize(float size) = 0;
+};
+
+struct IAudio
+{
+  public:
+    virtual ~IAudio() = default;
+
+    virtual void Play() = 0;
+    virtual void Stop() = 0;
+    virtual void SetLoop(bool loop) = 0;
+    virtual bool Finished() = 0;
+    virtual bool Loaded() = 0;
+    virtual bool Is3D() = 0;
+    virtual void AttachToCPlaceable(CPlaceable *ptr) = 0;
+    virtual void SetVolume(float volume) = 0;
 };
 
 class IMenuSZK
@@ -203,10 +246,29 @@ class IMenuSZK
     IEventListener<GameEntity> *onPedAdded = 0;
     IEventListener<GameEntity> *onPedRemoved = 0;
 
-    // i think its safe to can call opcodes here
-    IEventListener<unsigned int> *onGameProcess = 0;
+    IEventListener<GameEntity> *onVehicleAdded = 0;
+    IEventListener<GameEntity> *onVehicleRemoved = 0;
 
+    IEventListener<> *onPlayerReady = 0;
+
+    IEventListener<unsigned int> *onGameProcess = 0;
     IEventListener<unsigned int> *onPreRenderEnd = 0;
 
+    // i think its safe to can call opcodes here
+    IEventListener<unsigned int> *onScriptProcess = 0;
+
+    // NOT IMPLEMENTED
+    IEventListener<> *onPostDrawRadar = 0;
+
     virtual std::vector<GameEntity> GetPeds() = 0;
+    virtual std::vector<GameEntity> GetVehicles() = 0;
+
+    virtual IWidget *CreateWidget(float x, float y, float size, std::string bgImage, std::string image) = 0;
+
+    virtual RwTexture *LoadTexture(std::string pngFilePath, bool cache = true) = 0;
+
+    virtual IContainer *GetMainContainer() = 0;
 };
+
+// parei aqui no virtual IContainer *GetMainContainer() = 0;
+// falta o create widget

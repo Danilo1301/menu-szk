@@ -1,0 +1,85 @@
+{
+    "tag": "widget",
+    "style": {
+        "position": "absolute",
+        "left": "0px",
+        "right": "auto",
+        "top": "0px",
+        "bottom": "auto",
+        "width": "46.90074983556935%",
+        "height": "88.45037491778467%",
+        "scale": [
+            1,
+            1
+        ],
+        "opacity": 1,
+        "margin": {
+            "top": 0,
+            "left": 0,
+            "bottom": 0,
+            "right": 0
+        },
+        "backgroundColor": "#ffffff00",
+        "backgroundImage": "widget/widget_background1.png",
+        "transformOrigin": [
+            -1,
+            -1
+        ],
+        "textHorizontalAlign": "Left",
+        "textVerticalAlign": "Middle",
+        "textOffset": [
+            0,
+            0
+        ]
+    },
+    "text": "",
+    "font": {
+        "size": 1,
+        "color": "#ffffffff",
+        "align": "Left"
+    },
+    "children": [
+        {
+            "tag": "icon",
+            "style": {
+                "position": "absolute",
+                "left": "0px",
+                "right": "auto",
+                "top": "0px",
+                "bottom": "auto",
+                "width": "100%",
+                "height": "100%",
+                "scale": [
+                    1,
+                    1
+                ],
+                "opacity": 1,
+                "margin": {
+                    "top": 0,
+                    "left": 0,
+                    "bottom": 0,
+                    "right": 0
+                },
+                "backgroundColor": "#ffffff00",
+                "backgroundImage": "widget/hand.png",
+                "transformOrigin": [
+                    -1,
+                    -1
+                ],
+                "textHorizontalAlign": "Left",
+                "textVerticalAlign": "Middle",
+                "textOffset": [
+                    0,
+                    0
+                ]
+            },
+            "text": "",
+            "font": {
+                "size": 1,
+                "color": "#ffffffff",
+                "align": "Left"
+            },
+            "children": []
+        }
+    ]
+}

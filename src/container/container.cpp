@@ -13,6 +13,7 @@
 #include <cstddef>
 #include <string>
 #include <sys/stat.h>
+#include <vector>
 
 #include "../input.h"
 
@@ -20,8 +21,13 @@
 
 #include "../menus/menuDebugOptions.h"
 
+#include "../hooks.h"
+#include "src/pch.h"
+
 bool Container::ShowTag = true;
 Container *Container::MainContainer = nullptr;
+
+std::vector<Container *> _containersToDestroy;
 
 Container::Container(std::string tag)
 {
@@ -176,7 +182,7 @@ std::vector<Container *> Container::GetChildrenRecursive()
 
 void Container::Draw()
 {
-    if (!visible)
+    if (!IsVisible())
         return;
 
     unsigned int now = g_timeInMilliseconds;
@@ -276,6 +282,31 @@ void Container::UpdateTransformFromRoot()
     root->UpdateTransform();
 }
 
+bool Container::IsVisible()
+{
+    if (!visible)
+        return false;
+
+    if (hideWhenPaused)
+    {
+        if (IsGamePaused())
+        {
+            // logger->Info("Game is paused");
+
+            if (g_gameHasFirstProcessed)
+            {
+                return false;
+            }
+            else
+            {
+                // logger->Info("g_gameHasFirstProcessed is false");
+            }
+        }
+    }
+
+    return true;
+}
+
 void Container::DrawBoundings()
 {
     bool clickedVisuals = state == IContainerState::Clicked || _touchTrackId != -1;
@@ -313,6 +344,9 @@ void Container::DrawBoundings()
 
 void Container::ResolveBackgroundImages()
 {
+    if (g_framesDrawn <= 0)
+        return;
+
     if (_prevBackgroundImage != style.backgroundImage)
     {
         _prevBackgroundImage = style.backgroundImage;
@@ -337,7 +371,7 @@ void Container::UpdateTransform()
         }
     }
 
-    if (!visible)
+    if (!IsVisible())
         return;
 
     ResolveBackgroundImages();
@@ -550,11 +584,11 @@ CVector2D Container::LocalToOther(const CVector2D &position, Container *other)
 
 bool Container::ContainsBlockedInput(const CVector2D &position)
 {
+    if (!IsVisible())
+        return false;
+
     bool inside = position.x >= currentPosition.x && position.x <= currentPosition.x + currentSize.x &&
         position.y >= currentPosition.y && position.y <= currentPosition.y + currentSize.y;
-
-    if (!visible)
-        return false;
 
     if (canBlockTouchEvents && inside)
     {
@@ -583,7 +617,7 @@ bool Container::IsPositionInside(const CVector2D &position)
 
 Container *Container::GetContainerAtPosition(const CVector2D &position, bool mustBeClickable)
 {
-    if (!visible)
+    if (!IsVisible())
         return nullptr;
 
     for (auto it = children.rbegin(); it != children.rend(); ++it)
@@ -646,7 +680,7 @@ void Container::HandleOnUp(int trackId)
 
     bool isTouchInside = IsPositionInside(inputTouch->position);
 
-    if (!_isDragging && isTouchInside)
+    if (!_isDragging && isTouchInside && !_destroyed)
     {
         HandleOnClick();
     }
@@ -743,8 +777,16 @@ void Container::SetBackgroundImageIgnoreStyle(std::string bgFilePath)
         {
             if (container->GetInstanceId() != instanceId)
             {
-                LOGE(
-                    "Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(), cTag.c_str());
+                if (hide_screen_info_messages())
+                {
+                    LOGE("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(),
+                        cTag.c_str());
+                }
+                else
+                {
+                    logger->Error("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(),
+                        cTag.c_str());
+                }
 
                 return;
             }
@@ -838,8 +880,32 @@ void Container::SetBlocked(bool blocked)
     }
 }
 
+void Container::Destroy()
+{
+    MarkAsDestroyed();
+
+    if (parent != nullptr)
+    {
+        parent->RemoveChild(this, false);
+    }
+
+    _containersToDestroy.push_back(this);
+}
+
+void Container::MarkAsDestroyed() { _destroyed = true; }
+
 Container *Container::CreateContainer(std::string tag)
 {
     Container *container = new Container(tag);
     return container;
+}
+
+void Container::DestroyContainersThatNeedsToBeDestroyed()
+{
+    for (Container *container : _containersToDestroy)
+    {
+        delete container;
+    }
+
+    _containersToDestroy.clear();
 }

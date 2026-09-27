@@ -52,16 +52,16 @@ void Window::Init(float x, float y)
         windowStartPosition = CVector2D(0, 0);
     }
 
-    IFont titleFont;
+    IFontStyle titleFont;
     titleFont.size = 4.0f;
-    titleFont.align = MenuFontAlignment::ALIGN_CENTER;
+    titleFont.align = GameFontAlignment::ALIGN_CENTER;
 
-    IFont subtitleFont;
+    IFontStyle subtitleFont;
     subtitleFont.size = 2.0f;
 
-    IFont btnFont;
+    IFontStyle btnFont;
     btnFont.size = 4.0f;
-    btnFont.align = MenuFontAlignment::ALIGN_CENTER;
+    btnFont.align = GameFontAlignment::ALIGN_CENTER;
 
     {
         auto container = Container::MainContainer->AddChild("");
@@ -178,6 +178,8 @@ void Window::Init(float x, float y)
                 PlaySelect();
             });
     }
+
+    PlayFadeIn();
 
     const CVector2D startPosition = windowStartPosition;
     const CVector2D endPosition = CVector2D(x, y);
@@ -360,6 +362,8 @@ void Window::Close_Internal()
     logger->Info("startPos = %f, %f", startPos.x, startPos.y);
 
     onClose->Emit();
+
+    PlayFadeOut();
 
     const CVector2D startPosition = _container->GetCenterPosition();
     const CVector2D endPosition = CVector2D(0, 0);

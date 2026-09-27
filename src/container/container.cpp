@@ -49,23 +49,17 @@ Container::Container(std::string tag)
 
 Container::~Container()
 {
-    LOGI("Destroying container %s", tag.c_str());
-    LOG_PER_FRAME("Destroying container " + std::to_string(reinterpret_cast<uintptr_t>(this)));
+    LOGI("Container: Destroying container %s", tag.c_str());
 
     LeakUtils::FreeItem("Container");
 
     if (parent != nullptr)
     {
-        LOGI("Removing from parent %s", parent->tag.c_str());
         parent->RemoveChild(this, false);
     }
 
-    LOGI("Destroyig textures");
-
     if (backgroundTexture != nullptr)
         delete backgroundTexture;
-
-    LOGI("Removing childrean");
 
     RemoveChildren();
 }
@@ -248,9 +242,11 @@ void Container::Draw()
         textPosition.x += style.textOffset.x;
         textPosition.y += style.textOffset.y;
 
-        auto textScale = CVector2D(currentScale.x, currentScale.y);
+        auto newFontStyle = fontStyle;
+        newFontStyle.scale = CVector2D(currentScale.x, currentScale.y);
+        newFontStyle.opacity = currentOpacity;
 
-        DrawUtils::DrawText(text, textPosition, textFont, textScale, clickedVisuals, currentOpacity);
+        DrawUtils::DrawText(text, textPosition, newFontStyle);
     }
 
     if (drawBoundings || *debugOptions->GetBool("draw_container_boundings"))
@@ -315,15 +311,15 @@ void Container::DrawBoundings()
 
     CRGBA color = clickedVisuals ? CRGBA(130, 0, 255) : normalColor;
 
-    IFont font;
+    IFontStyle font;
     font.size = 2.0f;
-    font.align = MenuFontAlignment::ALIGN_LEFT;
+    font.align = GameFontAlignment::ALIGN_LEFT;
     font.color = color;
+    font.opacity = currentOpacity;
 
-    // auto textPosition = currentPosition + (currentSize / 2);
     auto textPosition = currentPosition;
 
-    DrawUtils::DrawText(tag, textPosition, font, CVector2D(1, 1), false, currentOpacity);
+    DrawUtils::DrawText(tag, textPosition, font);
 
     const float thickness = 2.0f;
 
@@ -648,7 +644,7 @@ Container *Container::GetContainerAtPosition(const CVector2D &position, bool mus
 
 void Container::HandleOnDown(int trackId)
 {
-    logger->Info("HandleOnDown on container %s", tag.c_str());
+    logger->Info("Container: HandleOnDown on container %s", tag.c_str());
 
     if (_touchTrackId == -1)
     {
@@ -671,9 +667,9 @@ void Container::HandleOnDown(int trackId)
 
 void Container::HandleOnUp(int trackId)
 {
-    auto inputTouch = Input::GetTouch(trackId);
+    logger->Info("Container: HandleOnUp on container %s", tag.c_str());
 
-    LOGI("Input: %d up on %s", trackId, tag.c_str());
+    auto inputTouch = Input::GetTouch(trackId);
 
     Input::OnTouchMove->Remove(this);
     Input::OnTouchUp->Remove(this);
@@ -687,7 +683,7 @@ void Container::HandleOnUp(int trackId)
 
     if (_isDragging)
     {
-        logger->Info("stopped dragging");
+        logger->Info("Container: Stopped dragging");
     }
 
     _touchTrackId = -1;
@@ -709,7 +705,7 @@ void Container::HandleOnMove(int trackId)
         {
             float distance = _touchStartPosition.Distance(inputTouch->position);
 
-            logger->Info("checking if we can drag");
+            // logger->Info("checking if we can drag");
 
             if (distance > 10.0f)
             {
@@ -731,23 +727,23 @@ void Container::HandleOnMove(int trackId)
     }
     else
     {
-        logger->Info("cant drag this one");
+        // logger->Info("cant drag this one");
     }
 }
 
 void Container::HandleOnClick()
 {
-    logger->Info("Handling on click on this container, so we add ONCE to gameprocess");
+    // logger->Info("Handling on click on this container, so we add ONCE to gameprocess");
 
     menuInterface->onGameProcess->AddOnce(
         [this](unsigned int deltaTime)
         {
-            logger->Info("the once function got called");
+            // logger->Info("the once function got called");
 
             timeClicked = g_timeInMilliseconds;
             SetState(IContainerState::Clicked);
 
-            logger->Info("we must call on click now");
+            logger->Info("Container: calling on click");
 
             onClick->Emit();
         });
@@ -791,14 +787,14 @@ void Container::SetBackgroundImageIgnoreStyle(std::string bgFilePath)
                 return;
             }
 
-            MenuTexture *texture = CreateMenuTexture(bgFilePath, "button", false, COLOR_WHITE);
+            Texture *texture = new Texture(bgFilePath, "button", false, COLOR_WHITE);
 
             container->_prevBackgroundImage = bgFilePath;
             container->SetBackgroundTexture(texture);
         });
 }
 
-void Container::SetBackgroundTexture(MenuTexture *texture)
+void Container::SetBackgroundTexture(Texture *texture)
 {
     if (backgroundTexture != nullptr)
     {
@@ -836,7 +832,7 @@ void Container::SetState(IContainerState newState)
 
     state = newState;
 
-    logger->Info("calling onStateChanged");
+    logger->Info("Container: calling onStateChanged");
 
     onStateChanged->Emit(state);
 }

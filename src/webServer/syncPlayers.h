@@ -145,7 +145,7 @@ inline void SyncPlayers(std::map<std::string, WebPlayer> *players)
 
 inline void DrawPlayersTag()
 {
-    IFont font;
+    IFontStyle font;
     font.size = 3.0f;
 
     for (auto p : _syncedPlayers)
@@ -168,6 +168,6 @@ inline void DrawPlayersTag()
 
         CVector2D screenPos(screenPosition.x, screenPosition.y);
 
-        DrawUtils::DrawText(webPlayer.name, screenPos, font, CVector2D(1, 1), false, 1);
+        DrawUtils::DrawText(webPlayer.name, screenPos, font);
     }
 }

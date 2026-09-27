@@ -113,6 +113,7 @@ void BottomPanel::FadeIn()
     _timeOpened = g_timeInMilliseconds;
 
     _container->style.opacity = 0.0f;
+    _container->style.scale = CVector2D(0, 0);
     SetVisible(true);
 
     const IResolution baseResolution = DrawUtils::GetBaseResolution();

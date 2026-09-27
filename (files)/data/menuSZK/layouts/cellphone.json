@@ -33,7 +33,7 @@
         ]
     },
     "text": "",
-    "font": {
+    "fontStyle": {
         "size": 1,
         "color": "#ffffffff",
         "align": "Left"
@@ -74,7 +74,7 @@
                 ]
             },
             "text": "50 apps found",
-            "font": {
+            "fontStyle": {
                 "size": 1.5,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -116,7 +116,7 @@
                 ]
             },
             "text": "Page 1 / 2",
-            "font": {
+            "fontStyle": {
                 "size": 2,
                 "color": "#ffffffff",
                 "align": "Center"
@@ -158,7 +158,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -200,7 +200,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -242,7 +242,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -284,7 +284,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"

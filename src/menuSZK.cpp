@@ -60,6 +60,7 @@ void MenuSZK::OnPreload()
     auto bottomPanel = BottomPanel::CreateMain();
     auto cellphone = Cellphone::CreateScriptsCellphone();
 
+    cellphone->SetVisible(false);
     //
 
     logger->Info("Creating cellphone items...");
@@ -180,6 +181,8 @@ void MenuSZK::SetupOnPlayerReady()
 
             if (playerActor == -1)
                 return true;
+
+            logger->Info("MenuSZK: Emitting onPlayerReady");
 
             menuInterface->onPlayerReady->Emit();
 

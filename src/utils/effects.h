@@ -69,7 +69,7 @@ static void Ease_Simple(Container *container, CVector2D startPosition, CVector2D
     menuInterface->onPreRenderEnd->AddUntil(
         [=, elapsed = 0](unsigned int deltaTime) mutable -> bool
         {
-            logger->Info("deltaTime = %d", deltaTime);
+            // logger->Info("deltaTime = %d", deltaTime);
 
             elapsed += deltaTime;
 

@@ -151,9 +151,9 @@ Container *Keyboard::AddButton(std::string text, CVector2D position, CVector2D s
     container->text = text;
     container->style.textHorizontalAlign = HorizontalAlign::Middle;
     container->style.textVerticalAlign = VerticalAlign::Middle;
-    container->textFont.size = 1.5f;
-    container->textFont.align = MenuFontAlignment::ALIGN_CENTER;
-    container->textFont.style = MenuFontStyle::FONT_SUBTITLES;
+    container->fontStyle.size = 1.5f;
+    container->fontStyle.align = GameFontAlignment::ALIGN_CENTER;
+    container->fontStyle.style = GameFontStyle::FONT_SUBTITLES;
 
     auto pngFile = GetMenuAssetPath("menu/keyboard_button.png");
     auto pngFileDown = GetMenuAssetPath("menu/keyboard_button_down.png");

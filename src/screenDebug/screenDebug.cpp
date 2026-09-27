@@ -25,7 +25,7 @@ void ScreenDebug::Error(const std::string &line) { AddLine(line, ScreenLogType::
 
 void ScreenDebug::Draw()
 {
-    IFont font;
+    static IFontStyle font;
     font.size = 1.5f;
 
     const float lineHeight = 40.0f;
@@ -66,7 +66,7 @@ void ScreenDebug::Draw()
 
         CVector2D position(startPosition.x, startPosition.y + (drawIndex * lineHeight));
 
-        DrawUtils::DrawText(line.text, position, font, CVector2D(1, 1), false, 1);
+        DrawUtils::DrawText(line.text, position, font);
 
         drawIndex++;
     }

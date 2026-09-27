@@ -5,21 +5,24 @@
 #include "aml-psdk/game_sa/engine/Sprite2d.h"
 #include "aml-psdk/gta_base/RGBA.h"
 
+#include "../textures/texture.h"
 #include "aml-psdk/gta_base/Vector.h"
+#include "menu/menu.h"
 #include "mod/logger.h"
+#include "src/pch.h"
 
 IResolution osResolution = {0, 0};
 IResolution baseResolution = {2400, 1080};
 
-IFont DefaultFont;
-IFont CurrentFont = DefaultFont;
+IFontStyle DefaultFont;
+IFontStyle CurrentFont = DefaultFont;
 
 char s_buffer[0xFF];
 unsigned short *gxt_text = new unsigned short[0xFF];
 
 IResolution DrawUtils::GetBaseResolution() { return baseResolution; }
 
-IFont *DrawUtils::GetCurrentFont() { return &CurrentFont; }
+IFontStyle *DrawUtils::GetCurrentFont() { return &CurrentFont; }
 
 void DrawUtils::TryFindResolution()
 {
@@ -51,38 +54,32 @@ void DrawUtils::DrawRect(CVector2D position, CVector2D size, CRGBA color)
     DrawRect_original(rect, color);
 }
 
-void DrawUtils::DrawText(
-    std::string text, CVector2D position, IFont &font, CVector2D scale, bool clicked, float opacity)
+void DrawUtils::DrawText(const std::string &text, CVector2D position, IFontStyle &fontStyle)
 {
     position.x = MapWidthToOS(position.x);
     position.y = MapHeightToOS(position.y);
 
-    // quanto maior o magic number, mais pra baixo o texto fica
-    float lineHeight = font.size * 22.0f;
+    const float lineHeight = fontStyle.size * 22.0f;
 
-    position.y -= MapHeightToOS(lineHeight * scale.y) / 2;
+    position.y -= MapHeightToOS(lineHeight * fontStyle.scale.y) / 2;
 
-    float scaleX = font.size * (float)osResolution.width / (float)baseResolution.width;
-    float scaleY = font.size * (float)osResolution.height / (float)baseResolution.height;
+    const float scaleX = fontStyle.size * ((float)osResolution.width / (float)baseResolution.width) * fontStyle.scale.x;
 
-    scaleX *= scale.x;
-    scaleY *= scale.y;
+    const float scaleY =
+        fontStyle.size * ((float)osResolution.height / (float)baseResolution.height) * fontStyle.scale.y;
 
-    auto fontColor = clicked ? font.clickedColor : font.color;
+    CRGBA color = fontStyle.color;
+    color.a = static_cast<unsigned char>(color.a * fontStyle.opacity);
 
-    fontColor.a = (unsigned char)((float)fontColor.a * opacity);
-
-    CRGBA color = CRGBA(fontColor.r, fontColor.g, fontColor.b, fontColor.a);
-
-    FontSetOrientation(font.align);
+    FontSetOrientation(fontStyle.align);
     FontSetColor(&color);
     FontSetBackground(false, false);
     FontSetWrapx(3000.0f);
     FontSetScale(scaleX, scaleY);
-    FontSetStyle(font.style);
+    FontSetStyle(fontStyle.style);
     FontSetProportional(true);
-    FontSetDropShadowPosition(1);
-    FontSetDropColor(&COLOR_BLACK);
+    FontSetDropShadowPosition(fontStyle.dropShadowPosition);
+    FontSetDropColor(&fontStyle.dropColor);
 
     sprintf(s_buffer, "%s", text.c_str());
     AsciiToGxtChar(s_buffer, gxt_text);
@@ -93,17 +90,17 @@ void DrawUtils::DrawText(
 
 void DrawUtils::DrawText(std::string text, CVector2D position, CRGBA color)
 {
-    auto newFont = CurrentFont;
+    auto newFont = DefaultFont;
     newFont.color = color;
 
-    DrawText(text, position, newFont, CVector2D(1, 1), false, 1);
+    DrawText(text, position, newFont);
 }
 
 void DrawUtils::DrawSprite(CSprite2d *sprite, CVector2D position, CVector2D size, CRGBA color)
 {
     if (sprite->m_pTexture == nullptr)
     {
-        // logger->Error("DrawSprite: texture is null");
+        LOGE("Called DrawSprite with a null texture");
         return;
     }
 
@@ -126,6 +123,11 @@ void DrawUtils::DrawSprite(CSprite2d *sprite, CVector2D position, CVector2D size
             mappedY + mappedH  // fundo
             ),
         color);
+}
+
+void DrawUtils::DrawTexture(Texture *texture, CVector2D position, CVector2D size, CRGBA color)
+{
+    DrawSprite(&texture->sprite, position, size, color);
 }
 
 float DrawUtils::MapWidthToOS(float value)

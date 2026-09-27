@@ -33,7 +33,7 @@
         ]
     },
     "text": "",
-    "font": {
+    "fontStyle": {
         "size": 1,
         "color": "#ffffffff",
         "align": "Center"
@@ -74,7 +74,7 @@
                 ]
             },
             "text": "Nome do app",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Center"

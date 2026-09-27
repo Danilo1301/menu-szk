@@ -33,7 +33,7 @@
         ]
     },
     "text": "",
-    "font": {
+    "fontStyle": {
         "size": 1,
         "color": "#ffffffff",
         "align": "Left"
@@ -74,7 +74,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -116,7 +116,7 @@
                 ]
             },
             "text": "Text item do app",
-            "font": {
+            "fontStyle": {
                 "size": 1.6,
                 "color": "#ffffffff",
                 "align": "Left"

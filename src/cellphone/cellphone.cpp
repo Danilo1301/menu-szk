@@ -19,6 +19,7 @@
 #include "../container/containerLoader.h"
 #include "aml-psdk/gta_base/Vector.h"
 
+#include "../audio/audioUtils.h"
 #include "../utils/effects.h"
 
 #include "../utils/drawUtils.h"
@@ -31,7 +32,6 @@ Cellphone *Cellphone::CreateScriptsCellphone()
 {
     auto cellphone = new Cellphone();
     ScriptsCellphone = cellphone;
-    // ScriptsCellphone->SetVisible(false);
     return ScriptsCellphone;
 }
 
@@ -96,6 +96,8 @@ Cellphone::~Cellphone() { Container::MainContainer->RemoveChild(_container, true
 void Cellphone::UpdatePage()
 {
     auto cellphone = this;
+    SetVisible(true);
+    _container->UpdateTransform();
 
     logger->Info("Cellphone::UpdatePage - START");
     logger->Info("Page: %d, Items: %d", _page, static_cast<int>(_items.size()));
@@ -172,6 +174,8 @@ void Cellphone::UpdatePage()
     }
 
     logger->Info("Cellphone::UpdatePage - END");
+
+    SetVisible(false);
 }
 
 void Cellphone::AddItem(std::string text, std::string image, std::function<void()> function)
@@ -230,7 +234,10 @@ void Cellphone::FadeIn()
 
     const int duration = 600;
 
+    _container->style.scale = startScale;
     SetVisible(true);
+
+    PlayFadeIn();
 
     const auto onComplete = [this]() {};
 
@@ -244,6 +251,8 @@ void Cellphone::FadeOut()
 
     _container->style.opacity = 1;
     SetVisible(true);
+
+    PlayFadeOut();
 
     auto baseResolution = DrawUtils::GetBaseResolution();
 

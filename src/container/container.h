@@ -9,6 +9,7 @@
 #include <vector>
 
 struct RwTexture;
+class Texture;
 
 class Container : public IContainer
 {
@@ -31,7 +32,7 @@ class Container : public IContainer
     CVector2D _dragStartTouchPosition;
     CVector2D _touchStartPosition;
 
-    MenuTexture *backgroundTexture = nullptr;
+    Texture *backgroundTexture = nullptr;
 
     Container *parent = nullptr;
     std::vector<Container *> children;
@@ -92,7 +93,7 @@ class Container : public IContainer
     bool CanBeClicked();
 
     void SetBackgroundImageIgnoreStyle(std::string bgFilePath);
-    void SetBackgroundTexture(MenuTexture *texture);
+    void SetBackgroundTexture(Texture *texture);
 
     void Dump();
 

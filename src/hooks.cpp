@@ -21,9 +21,7 @@
 
 DECL_HOOKv(CTimer__Update)
 {
-    LogHelper::SetFrameOperation("CTimer update");
-
-    LOG_PER_FRAME("OnTimerUpdate");
+    LogHelper::SetFrameOperation("CTimer update [1]");
 
     CTimer__Update();
 
@@ -35,20 +33,27 @@ DECL_HOOKv(CTimer__Update)
     g_timeInMilliseconds = now;
     g_deltaTime = dt;
 
+    LogHelper::SetFrameOperation("CTimer update [2]");
+
     MenuSZK::OnTimerUpdate();
+
+    LogHelper::SetFrameOperation("CTimer update [3]");
 
     if (!g_gameHasFirstProcessed)
     {
         menuInterface->onGameProcess->Emit(dt);
     }
 
+    LogHelper::SetFrameOperation("CTimer update [4]");
+
     WebServer::OnUpdate(g_timeInMilliseconds);
+
     LogHelper::SetFrameOperation("CTimer update [end]");
 }
 
 DECL_HOOK(void *, CGame__Process)
 {
-    LogHelper::SetFrameOperation("CGame Process");
+    LogHelper::SetFrameOperation("CGame Process [1]");
 
     if (!g_gameHasFirstProcessed)
     {
@@ -67,6 +72,8 @@ DECL_HOOK(void *, CGame__Process)
 
     void *result = CGame__Process();
 
+    LogHelper::SetFrameOperation("CGame Process [2]");
+
     //
 
     if (BASS)
@@ -79,15 +86,13 @@ DECL_HOOK(void *, CGame__Process)
 
     MenuSZK::OnGameProcess();
 
-    LOG_PER_FRAME("Invoking onGameProcess");
+    LogHelper::SetFrameOperation("CGame Process [3]");
+
     menuInterface->onGameProcess->Emit(deltaTime);
-    LOG_PER_FRAME("onGameProcess end");
 
-    LOG_PER_FRAME("Invoking onScriptProcess");
+    LogHelper::SetFrameOperation("CGame Process [4]");
+
     menuInterface->onScriptProcess->Emit(deltaTime);
-    LOG_PER_FRAME("onScriptProcess end");
-
-    LOG_PER_FRAME("CGame__Process [end]");
 
     LogHelper::SetFrameOperation("CGame Process [end]");
 
@@ -96,7 +101,7 @@ DECL_HOOK(void *, CGame__Process)
 
 DECL_HOOK(void, PreRenderEnd, void *self)
 {
-    LogHelper::SetFrameOperation("PreRenderEnd");
+    LogHelper::SetFrameOperation("PreRenderEnd [1]");
 
     g_framesDrawn++;
 
@@ -105,17 +110,15 @@ DECL_HOOK(void, PreRenderEnd, void *self)
     g_renderDeltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(now - g_lastRenderTime).count();
     g_lastRenderTime = now;
 
-    LOG_PER_FRAME("PreRenderEnd");
-
     PreRenderEnd(self);
+
+    LogHelper::SetFrameOperation("PreRenderEnd [2]");
 
     MenuSZK::OnRender();
 
-    // logger->Info("Render deltaTime = %lld ms", g_renderDeltaTime);
+    LogHelper::SetFrameOperation("PreRenderEnd [3]");
 
     menuInterface->onPreRenderEnd->Emit(g_renderDeltaTime);
-
-    //
 
     LogHelper::SetFrameOperation("PreRenderEnd [end]");
 }

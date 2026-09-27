@@ -1,10 +1,12 @@
 #pragma once
 
+#include "aml-psdk/game_sa/engine/Sprite2d.h"
 #include "aml-psdk/game_sa/entity/Placeable.h"
 #include "aml-psdk/game_sa/plugin.h"
 #include "aml-psdk/gta_base/RGBA.h"
 #include "aml-psdk/gta_base/Vector.h"
 #include "aml-psdk/renderware/RwTexture.h"
+#include "src/utils/textureLoader.h"
 
 #include <functional>
 #include <string>
@@ -34,14 +36,14 @@ template <typename... Args> class IEventListener
     virtual int GetListenersCount() = 0;
 };
 
-enum MenuFontAlignment : unsigned char
+enum GameFontAlignment : unsigned char
 {
     ALIGN_CENTER,
     ALIGN_LEFT,
     ALIGN_RIGHT
 };
 
-enum MenuFontStyle : unsigned char
+enum GameFontStyle : unsigned char
 {
     FONT_GOTHIC,
     FONT_SUBTITLES,
@@ -49,14 +51,21 @@ enum MenuFontStyle : unsigned char
     FONT_PRICEDOWN
 };
 
-struct IFont
+struct IFontStyle
 {
-  public:
-    float size = 1.0f;
-    MenuFontAlignment align = MenuFontAlignment::ALIGN_LEFT;
-    MenuFontStyle style = MenuFontStyle::FONT_SUBTITLES;
     CRGBA color = CRGBA(255, 255, 255);
-    CRGBA clickedColor = CRGBA(0, 0, 0);
+    float size = 1.0f;
+    CVector2D scale = CVector2D(1, 1);
+    float opacity = 1.0f;
+    GameFontAlignment align = GameFontAlignment::ALIGN_CENTER;
+    GameFontStyle style = GameFontStyle::FONT_SUBTITLES;
+    int dropShadowPosition = 1;
+    CRGBA dropColor = CRGBA(0, 0, 0);
+};
+
+struct ITexture
+{
+    RwTexture *texture = nullptr;
 };
 
 struct MenuMargin
@@ -136,8 +145,7 @@ class IContainer
     bool visible = true;
     IBlockType block = IBlockType::None;
 
-    IFont textFont;
-
+    IFontStyle fontStyle;
     IStyle style;
 
     bool canBlockTouchEvents = false;
@@ -266,8 +274,13 @@ class IMenuSZK
     virtual IWidget *CreateWidget(float x, float y, float size, std::string bgImage, std::string image) = 0;
 
     virtual RwTexture *LoadTexture(std::string pngFilePath, bool cache = true) = 0;
+    virtual ITexture *GetOrLoadTexture(std::string pngFilePath) = 0;
 
     virtual IContainer *GetMainContainer() = 0;
+
+    virtual void DrawText(const std::string &text, CVector2D &position, IFontStyle &style) = 0;
+    virtual void DrawRect(CVector2D position, CVector2D size, CRGBA color) = 0;
+    virtual void DrawTexture(ITexture *texture, CVector2D position, CVector2D size, CRGBA color) = 0;
 };
 
 // parei aqui no virtual IContainer *GetMainContainer() = 0;

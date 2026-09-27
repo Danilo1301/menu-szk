@@ -12,6 +12,8 @@
 #include <aml-psdk/renderware/RwRaster.h>
 #include <aml-psdk/renderware/RwTexture.h>
 
+std::map<std::string, RwTexture *> g_texturesCache;
+
 RwTexture *LoadRwTextureFromFile(std::string file, std::string textureName, bool flipHorizontal, CRGBA replaceColor)
 {
     logger->Info("Loading texture: %s", file.c_str());
@@ -121,29 +123,18 @@ RwTexture *LoadRwTextureFromFileAndCache(
     return texture;
 }
 
-MenuTexture *CreateMenuTexture(std::string file, std::string textureName, bool flipHorizontal, CRGBA replaceColor)
-{
-    auto rwtexture = LoadRwTextureFromFileAndCache(file, "button", flipHorizontal, replaceColor);
-
-    MenuTexture *texture = new MenuTexture();
-    texture->sprite.m_pTexture = rwtexture;
-
-    return texture;
-}
-
 std::vector<std::function<void()>> _callbacks;
 
 bool CanCreateTextures() { return g_framesDrawn > 0; }
 
 void ExecuteWhenTexturesCanBeCreated(std::function<void()> fn)
 {
+    _callbacks.push_back(fn);
+
     if (CanCreateTextures())
     {
-        fn();
-        return;
+        ProcessTexturesCallbacks();
     }
-
-    _callbacks.push_back(fn);
 }
 
 void ProcessTexturesCallbacks()

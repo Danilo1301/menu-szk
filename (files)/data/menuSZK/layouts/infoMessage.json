@@ -33,7 +33,7 @@
         ]
     },
     "text": "This is a message and can be long",
-    "font": {
+    "fontStyle": {
         "size": 2,
         "color": "#ffffffff",
         "align": "Center"

@@ -27,6 +27,8 @@ void Vehicles::Initialize()
         if (it == storedVehicles.end())
             return;
 
+        logger->Info("Vehicle removed, vehicle=%p ref=%d", it->second.ptr, it->second.ref);
+
         onVehicleRemoved->Emit(it->second);
 
         storedVehicles.erase(it);
@@ -57,9 +59,9 @@ void Vehicles::Process()
         storedVehicles[veh] = entity;
         storedVehiclesVec.push_back(entity);
 
-        onVehicleAdded->Emit(entity);
+        logger->Info("Vehicle added: index=%d vehicle=%p ref=%d", i, veh, ref);
 
-        logger->Info("Vehicle apareceu: index=%d ped=%p ref=%d", i, veh, ref);
+        onVehicleAdded->Emit(entity);
     }
 }
 

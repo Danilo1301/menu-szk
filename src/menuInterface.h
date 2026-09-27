@@ -1,5 +1,6 @@
 #pragma once
 
+#include "aml-psdk/gta_base/Vector.h"
 #include "pch.h"
 
 #include "aml-psdk/gta_base/RGBA.h"
@@ -8,6 +9,8 @@
 #include "peds.h"
 #include "src/container/container.h"
 #include "src/utils/textureLoader.h"
+#include "textures/texture.h"
+#include "utils/drawUtils.h"
 #include "utils/eventListener.h"
 #include "vehicles.h"
 #include "widget/widget.h"
@@ -35,10 +38,12 @@ class MenuInterface : public IMenuSZK
     IEventListener<GameEntity> *onPedRemoved = new EventListener<GameEntity>();
     IEventListener<GameEntity> *onVehicleAdded = new EventListener<GameEntity>();
     IEventListener<GameEntity> *onVehicleRemoved = new EventListener<GameEntity>();
+    IEventListener<> *onPlayerReady = new EventListener<>();
 
     IEventListener<unsigned int> *onGameProcess = new EventListener<unsigned int>();
     IEventListener<unsigned int> *onScriptProcess = new EventListener<unsigned int>();
     IEventListener<unsigned int> *onPreRenderEnd = new EventListener<unsigned int>();
+
     IEventListener<> *onPostDrawRadar = new EventListener<>();
 
     std::vector<GameEntity> GetPeds() override { return Peds::GetPeds(); }
@@ -69,7 +74,28 @@ class MenuInterface : public IMenuSZK
         return ptr;
     }
 
-    virtual IContainer *GetMainContainer() override { return (IContainer *)Container::MainContainer; }
+    ITexture *GetOrLoadTexture(std::string pngFilePath) override
+    {
+        auto texture = new Texture(pngFilePath, "texture", false, COLOR_WHITE);
+        return texture;
+    }
+
+    IContainer *GetMainContainer() override { return (IContainer *)Container::MainContainer; }
+
+    void DrawText(const std::string &text, CVector2D &position, IFontStyle &style) override
+    {
+        DrawUtils::DrawText(text, position, style);
+    }
+
+    void DrawRect(CVector2D position, CVector2D size, CRGBA color) override
+    {
+        DrawUtils::DrawRect(position, size, color);
+    }
+
+    void DrawTexture(ITexture *texture, CVector2D position, CVector2D size, CRGBA color) override
+    {
+        DrawUtils::DrawTexture((Texture *)texture, position, size, color);
+    }
 };
 
 extern MenuInterface *menuInterface;

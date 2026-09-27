@@ -26,6 +26,8 @@ void Peds::Initialize()
         if (it == storedPeds.end())
             return;
 
+        logger->Info("Ped removed, ped=%p ref=%d", it->second.ptr, it->second.ref);
+
         onPedRemoved->Emit(it->second);
 
         storedPeds.erase(it);
@@ -56,9 +58,9 @@ void Peds::Process()
         storedPeds[ped] = entity;
         storedPedsVec.push_back(entity);
 
-        onPedAdded->Emit(entity);
+        logger->Info("Ped added, index=%d ped=%p ref=%d", i, ped, ref);
 
-        logger->Info("Ped apareceu: index=%d ped=%p ref=%d", i, ped, ref);
+        onPedAdded->Emit(entity);
     }
 }
 

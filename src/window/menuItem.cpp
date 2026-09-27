@@ -18,29 +18,8 @@ MenuItem::MenuItem(Window *window)
     container->style.backgroundColorClicked = CRGBA(255, 255, 255, 180);
 
     auto title = container->FindChild("text");
-    title->textFont.clickedColor = CRGBA(200, 200, 200);
 
     window->GetContentContainer()->UpdateTransform();
-
-    IFont itemFont;
-    itemFont.size = 1.2f;
-
-    //
-
-    //
-
-    // container->canBlockTouchEvents = true;
-    // container->style.localSize.x = 90;
-    // container->style.localSize.y = 90;
-    // container->text = "This is a item";
-    // container->textFont = itemFont;
-    // container->style.textOffset.x = 10;
-    // container->style.textHorizontalAlign = HorizontalAlign::Left;
-    // container->style.fillHorizontal = true;
-    // container->style.backgroundColor = MenuColor(0, 0, 0, 0);
-    // container->backgroundClickedColor = COLOR_WHITE;
-    // container->textColor = COLOR_WHITE;
-    // container->textClickedColor = COLOR_BLACK;
 }
 
 MenuItem::~MenuItem()

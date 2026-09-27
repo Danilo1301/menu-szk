@@ -42,8 +42,7 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
 
     CVector2D position(DrawUtils::MapWidthFromOS((float)x), DrawUtils::MapHeightFromOS((float)y));
 
-    if (LOG_INPUTS)
-        logger->Info("TouchEvent actionType=%d", actionType);
+    // logger->Info("TouchEvent actionType=%d", actionType);
 
     switch (actionType)
     {
@@ -57,6 +56,8 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
         touch.lastPosition = position;
         touch.delta = CVector2D(0.0f, 0.0f);
         touch.startTime = time;
+
+        logger->Info("TouchEvent id=%d, DOWN", actionType);
 
         break;
     }
@@ -73,6 +74,8 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
         touch.delta = position - touch.position;
         touch.lastPosition = touch.position;
         touch.position = position;
+
+        logger->Info("TouchEvent id=%d, MOVE", actionType);
 
         OnTouchMove->Emit(trackNum);
 
@@ -92,6 +95,8 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
         touch.lastPosition = touch.position;
         touch.position = position;
 
+        logger->Info("TouchEvent id=%d, UP", actionType);
+
         if (IsSwipeDown(touch, 300.0f, screenResolution.height - 300.0f, 400.0f))
         {
             OnSwipe->Emit(trackNum, SwipeDirection::Down);
@@ -102,12 +107,14 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
             OnSwipe->Emit(trackNum, SwipeDirection::Up);
         }
 
-        logger->Info("Verifying %d swipes definitions", _swipeAreas.size());
+        // logger->Info("Verifying %d swipes definitions", _swipeAreas.size());
 
         for (const auto &[id, swipe] : _swipeAreas)
         {
             if (IsSwipe(touch, swipe))
             {
+                logger->Info("TouchEvent id=%d, SWIPE SPECIAL customId=%s", actionType, swipe.customId.c_str());
+
                 OnSwipeSpecial->Emit(trackNum, swipe.customId);
             }
         }
@@ -128,8 +135,6 @@ void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned in
 
         if (container != nullptr)
         {
-            LOGI("Input: %d down on %s", trackNum, container->tag.c_str());
-
             container->HandleOnDown(trackNum);
         }
     }

@@ -4,9 +4,12 @@
 
 #include "aml-psdk/gta_base/RGBA.h"
 #include "aml-psdk/gta_base/Rect.h"
+#include "aml-psdk/gta_base/Vector.h"
+#include "menu/menu.h"
 
 struct RwTexture;
 struct CSprite2d;
+class Texture;
 
 struct IResolution
 {
@@ -20,17 +23,16 @@ class DrawUtils
     static void TryFindResolution();
 
     static IResolution GetBaseResolution();
-    static IFont *GetCurrentFont();
+    static IFontStyle *GetCurrentFont();
 
     static void DrawRect_original(CRect rect, CRGBA color);
     static void DrawRect(CVector2D position, CVector2D size, CRGBA color);
 
-    // static void DrawText_original(std::string text, CVector2D position);
-    static void DrawText(
-        std::string text, CVector2D position, IFont &font, CVector2D scale, bool clicked, float opacity);
+    static void DrawText(const std::string &text, CVector2D position, IFontStyle &fontStyle);
     static void DrawText(std::string text, CVector2D position, CRGBA color);
 
     static void DrawSprite(CSprite2d *sprite, CVector2D position, CVector2D size, CRGBA color);
+    static void DrawTexture(Texture *texture, CVector2D position, CVector2D size, CRGBA color);
 
     static float MapWidthToOS(float value);
     static float MapHeightToOS(float value);

@@ -33,7 +33,7 @@
         ]
     },
     "text": "",
-    "font": {
+    "fontStyle": {
         "size": 1,
         "color": "#ffffffff",
         "align": "Left"
@@ -74,7 +74,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"
@@ -116,7 +116,7 @@
                 ]
             },
             "text": "Hey",
-            "font": {
+            "fontStyle": {
                 "size": 1.2,
                 "color": "#ffffffff",
                 "align": "Center"
@@ -158,7 +158,7 @@
                 ]
             },
             "text": "",
-            "font": {
+            "fontStyle": {
                 "size": 1,
                 "color": "#ffffffff",
                 "align": "Left"

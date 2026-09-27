@@ -28,13 +28,17 @@
                                                            "Length":  966
                                                        },
     "(files)/data/menuSZK/layouts/widget.json":  {
-                                                     "LastWriteTime":  639259482387255888,
-                                                     "Length":  2096
+                                                     "LastWriteTime":  639260653163726408,
+                                                     "Length":  2106
                                                  },
     "(files)/data/menuSZK/assets/icons/script.png":  {
                                                          "LastWriteTime":  639257089738380142,
                                                          "Length":  2380
                                                      },
+    "(files)/data/menuSZK/audio/fade_in.wav":  {
+                                                   "LastWriteTime":  639260688427909069,
+                                                   "Length":  150848
+                                               },
     "(files)/data/menuSZK/assets/colorpicker/selector.png":  {
                                                                  "LastWriteTime":  639257233133359088,
                                                                  "Length":  16476
@@ -52,16 +56,16 @@
                                                                    "Length":  6428
                                                                },
     "(files)/data/menuSZK/layouts/options.json":  {
-                                                      "LastWriteTime":  639258661639608842,
-                                                      "Length":  4467
+                                                      "LastWriteTime":  639260653282150606,
+                                                      "Length":  4487
                                                   },
     "(files)/data/menuSZK/assets/colorpicker/button.png":  {
                                                                "LastWriteTime":  639257223289957743,
                                                                "Length":  1381
                                                            },
     "(files)/data/menuSZK/layouts/infoMessage.json":  {
-                                                          "LastWriteTime":  639259515124827065,
-                                                          "Length":  882
+                                                          "LastWriteTime":  639260653563026931,
+                                                          "Length":  887
                                                       },
     "(files)/data/menuSZK/audio/menu_change_page.wav":  {
                                                             "LastWriteTime":  638935811760000000,
@@ -79,6 +83,10 @@
                                                                          "LastWriteTime":  639257214198840187,
                                                                          "Length":  4956
                                                                      },
+    "(files)/data/menuSZK/audio/fade_out.wav":  {
+                                                    "LastWriteTime":  639260686858162398,
+                                                    "Length":  84588
+                                                },
     "(files)/data/menuSZK/assets/cellphone/background.png":  {
                                                                  "LastWriteTime":  639256375491309032,
                                                                  "Length":  124729
@@ -104,8 +112,8 @@
                                                         "Length":  6428
                                                     },
     "(files)/data/menuSZK/layouts/menu.json":  {
-                                                   "LastWriteTime":  639258661832478554,
-                                                   "Length":  8093
+                                                   "LastWriteTime":  639260653041373429,
+                                                   "Length":  8128
                                                },
     "(files)/data/menuSZK/assets/widget/widget_background1.png":  {
                                                                       "LastWriteTime":  638933166100000000,
@@ -160,8 +168,8 @@
                                                               "Length":  1570
                                                           },
     "(files)/data/menuSZK/layouts/checkbox.json":  {
-                                                       "LastWriteTime":  639258655469398475,
-                                                       "Length":  863
+                                                       "LastWriteTime":  639260653404496266,
+                                                       "Length":  868
                                                    },
     "(files)/data/menuSZK/assets/menu/button_close.png":  {
                                                               "LastWriteTime":  639258601572184604,
@@ -172,24 +180,24 @@
                                                                       "Length":  28421
                                                                   },
     "libs/arm64-v8a/libMenuSZK_64.so":  {
-                                            "LastWriteTime":  639260641951494865,
-                                            "Length":  2234992
+                                            "LastWriteTime":  639260706772927037,
+                                            "Length":  2245488
                                         },
     "(files)/data/menuSZK/layouts/slider.json":  {
-                                                     "LastWriteTime":  639259027835993533,
-                                                     "Length":  4807
+                                                     "LastWriteTime":  639260653106088949,
+                                                     "Length":  4827
                                                  },
     "(files)/data/menuSZK/layouts/cellphone_item.json":  {
-                                                             "LastWriteTime":  639258012604351514,
-                                                             "Length":  3224
+                                                             "LastWriteTime":  639260653680059699,
+                                                             "Length":  3239
                                                          },
     "(files)/data/menuSZK/assets/menu/keyboard_button.png":  {
                                                                  "LastWriteTime":  639254320356715483,
                                                                  "Length":  702
                                                              },
     "(files)/data/menuSZK/layouts/bottom_panel.json":  {
-                                                           "LastWriteTime":  639258072796013383,
-                                                           "Length":  4469
+                                                           "LastWriteTime":  639260653622939780,
+                                                           "Length":  4489
                                                        },
     "(files)/data/menuSZK/assets/menu/titleBackground.png":  {
                                                                  "LastWriteTime":  639257200364366057,
@@ -212,16 +220,16 @@
                                                                      "Length":  38544
                                                                  },
     "(files)/data/menuSZK/layouts/cellphone.json":  {
-                                                        "LastWriteTime":  639258135331931089,
-                                                        "Length":  8065
+                                                        "LastWriteTime":  639260653486215473,
+                                                        "Length":  8100
                                                     },
     "(files)/data/menuSZK/layouts/bottom_panel_item.json":  {
-                                                                "LastWriteTime":  639258009706421568,
-                                                                "Length":  2039
+                                                                "LastWriteTime":  639260653728110308,
+                                                                "Length":  2049
                                                             },
     "(files)/data/menuSZK/layouts/menu_item.json":  {
-                                                        "LastWriteTime":  639258834397868060,
-                                                        "Length":  2041
+                                                        "LastWriteTime":  639260653524610852,
+                                                        "Length":  2051
                                                     },
     "(files)/data/menuSZK/assets/slider/background.png":  {
                                                               "LastWriteTime":  639258899448676438,

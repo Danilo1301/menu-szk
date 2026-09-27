@@ -2,6 +2,7 @@
 
 #include "../config.h"
 #include "container.h"
+#include "menu/menu.h"
 #include "mod/logger.h"
 #include "json/json.h"
 #include <fstream>
@@ -48,15 +49,32 @@ static VerticalAlign ParseVerticalAlign(const std::string &value)
     return VerticalAlign::Top;
 }
 
-static MenuFontAlignment ParseFontAlignment(const std::string &value)
+static GameFontAlignment ParseFontAlignment(const std::string &value)
 {
     if (value == "Center")
-        return MenuFontAlignment::ALIGN_CENTER;
+        return GameFontAlignment::ALIGN_CENTER;
 
     if (value == "Right")
-        return MenuFontAlignment::ALIGN_RIGHT;
+        return GameFontAlignment::ALIGN_RIGHT;
 
-    return MenuFontAlignment::ALIGN_LEFT;
+    return GameFontAlignment::ALIGN_LEFT;
+}
+
+static GameFontStyle ParseFontStyle(const std::string &value)
+{
+    if (value == "gothic")
+        return GameFontStyle::FONT_GOTHIC;
+
+    if (value == "subtitles")
+        return GameFontStyle::FONT_SUBTITLES;
+
+    if (value == "menu")
+        return GameFontStyle::FONT_MENU;
+
+    if (value == "pricedown")
+        return GameFontStyle::FONT_PRICEDOWN;
+
+    return GameFontStyle::FONT_SUBTITLES;
 }
 
 static void LoadContainerFromJSON(Container *container, const Json::Value &data)
@@ -139,15 +157,27 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
 
     container->text = data.get("text", "").asString();
 
-    if (data.isMember("font"))
+    if (data.isMember("fontStyle"))
     {
-        const Json::Value &font = data["font"];
+        const Json::Value &font = data["fontStyle"];
 
-        container->textFont.size = font.get("size", 1.0f).asFloat();
+        container->fontStyle.size = font.get("size", 1.0f).asFloat();
 
-        container->textFont.color = ParseColor(font.get("color", "#ffffffff").asString());
+        container->fontStyle.color = ParseColor(font.get("color", "#ffffffff").asString());
 
-        container->textFont.align = ParseFontAlignment(font.get("align", "Left").asString());
+        container->fontStyle.scale.x = font["scale"].get("x", 1.0f).asFloat();
+
+        container->fontStyle.scale.y = font["scale"].get("y", 1.0f).asFloat();
+
+        container->fontStyle.opacity = font.get("opacity", 1.0f).asFloat();
+
+        container->fontStyle.align = ParseFontAlignment(font.get("align", "Center").asString());
+
+        container->fontStyle.style = ParseFontStyle(font.get("style", "subtitles").asString());
+
+        container->fontStyle.dropShadowPosition = font.get("dropShadowPosition", 1).asInt();
+
+        container->fontStyle.dropColor = ParseColor(font.get("dropColor", "#000000").asString());
     }
 
     if (data.isMember("children"))

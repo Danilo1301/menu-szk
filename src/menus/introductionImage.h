@@ -10,6 +10,8 @@
 
 inline void CreateIntroductionImage(const std::string &pngPath)
 {
+    logger->Info("CreateIntroductionImage");
+
     auto container = Container::MainContainer->AddChild("intro");
 
     container->style.left = "50%";
@@ -101,6 +103,8 @@ inline void CreateIntroductionImage(const std::string &pngPath)
 
 inline void CreateIntroduction()
 {
+    logger->Info("CreateIntroduction");
+
     auto pngFile = GetMenuAssetPath("intro/image1.png");
 
     CreateIntroductionImage(pngFile);

@@ -1,19 +1,14 @@
-#include "audio/audio.h"
 #include "pch.h"
-
-#include "config.h"
-#include "menu/menu.h"
-#include "menuInterface.h"
-#include "mod/interface.h"
-#include "mod/logger.h"
 
 #include "audio/soundSystem/CSoundSystem.h"
 #include "hooks.h"
 #include "logHelper.h"
+#include "menu/menu.h"
+#include "menuInterface.h"
 #include "menuSZK.h"
+#include "mod/interface.h"
+#include "mod/logger.h"
 #include "utils/logStorage.h"
-#include "utils/utils.h"
-#include "webServer/webServer.h"
 #include <string>
 
 MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 1.0, DaniloSZK)
@@ -27,6 +22,7 @@ ON_MOD_PRELOAD()
     logger->Info("Mod preloading...");
 
     LogHelper::Initialize("menuSZK");
+    LogHelper::SetFrameOperation("ON_MOD_PRELOAD");
 
     MenuSZK::OnPreload();
 
@@ -39,6 +35,8 @@ ON_MOD_PRELOAD()
 
 ON_MOD_LOAD()
 {
+    LogHelper::SetFrameOperation("ON_MOD_LOAD");
+
     logger->Info("Mod loaded");
 
     BASS = (IBASS *)GetInterface("BASS");

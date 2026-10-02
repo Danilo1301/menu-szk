@@ -1,99 +1,123 @@
 #include "menuItemOptions.h"
 
 #include "../../config.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include <cstddef>
 #include <functional>
 
 #include "../../container/containerLoader.h"
 
-MenuItemOptions::MenuItemOptions(Window *window, float optionsWidth) : MenuItem(window)
+MenuItemOptions::MenuItemOptions(Window* window, float optionsWidth) : MenuItem(window)
 {
     containers = CreateOptionsContainers(container, optionsWidth);
+
+    containers.left->onHold->Add(
+        [this]()
+        {
+            if (!holdToChange) return;
+
+            ChangeOptionBy(-1);
+        });
+
+    containers.right->onHold->Add(
+        [this]()
+        {
+            if (!holdToChange) return;
+
+            ChangeOptionBy(1);
+        });
 
     containers.left->onClick->Add(
         [this]()
         {
-            if (type == OptionsType::List)
-            {
-                if (options.empty())
-                    return;
+            if (holdToChange) return;
 
-                if (optionsIndex > 0)
-                    optionsIndex--;
-            }
-            else if (type == OptionsType::Integer)
-            {
-                *integerValue -= integerStep;
-
-                if (*integerValue < integerMin)
-                    *integerValue = integerMin;
-            }
-            else if (type == OptionsType::Float)
-            {
-                *floatValue -= floatStep;
-
-                if (*floatValue < floatMin)
-                    *floatValue = floatMin;
-            }
-            else
-            {
-                return;
-            }
-
-            UpdateOptionsValue();
-
-            InvokeOnChangedValue();
+            ChangeOptionBy(-1);
         });
 
     containers.right->onClick->Add(
         [this]()
         {
-            if (type == OptionsType::List)
-            {
-                if (options.empty())
-                    return;
+            if (holdToChange) return;
 
-                if (optionsIndex + 1 < (int)options.size())
-                    optionsIndex++;
-            }
-            else if (type == OptionsType::Integer)
-            {
-                *integerValue += integerStep;
-
-                if (*integerValue > integerMax)
-                    *integerValue = integerMax;
-            }
-            else if (type == OptionsType::Float)
-            {
-                *floatValue += floatStep;
-
-                if (*floatValue > floatMax)
-                    *floatValue = floatMax;
-            }
-            else
-            {
-                return;
-            }
-
-            UpdateOptionsValue();
-
-            InvokeOnChangedValue();
+            ChangeOptionBy(1);
         });
 }
 
-MenuItemOptions::~MenuItemOptions() {}
+MenuItemOptions::~MenuItemOptions()
+{
+}
 
 void MenuItemOptions::AddOption_Internal(int value, std::string text)
 {
     type = OptionsType::List;
 
-    options.push_back({value, text});
+    options.push_back({ value, text });
 
     UpdateOptionsValue();
 }
 
-void MenuItemOptions::SetInteger(int *value, int min, int max, int step)
+void MenuItemOptions::SetOptionIndex(int index)
+{
+    if (type != OptionsType::List || options.empty()) return;
+
+    if (index < 0)
+        index = 0;
+    else if (index >= (int)options.size())
+        index = (int)options.size() - 1;
+
+    if (optionsIndex == index) return;
+
+    optionsIndex = index;
+
+    UpdateOptionsValue();
+    InvokeOnChangedValue();
+}
+
+void MenuItemOptions::SetHoldToChange(bool hold)
+{
+    holdToChange = hold;
+}
+
+void MenuItemOptions::ChangeOptionBy(int amount)
+{
+    if (type == OptionsType::List)
+    {
+        if (options.empty()) return;
+
+        SetOptionIndex(optionsIndex + amount);
+        return;
+    }
+
+    if (type == OptionsType::Integer)
+    {
+        *integerValue += integerStep * amount;
+
+        if (*integerValue < integerMin)
+            *integerValue = integerMin;
+        else if (*integerValue > integerMax)
+            *integerValue = integerMax;
+    }
+    else if (type == OptionsType::Float)
+    {
+        *floatValue += floatStep * amount;
+
+        if (*floatValue < floatMin)
+            *floatValue = floatMin;
+        else if (*floatValue > floatMax)
+            *floatValue = floatMax;
+    }
+    else
+    {
+        return;
+    }
+
+    UpdateOptionsValue();
+
+    InvokeOnChangedValue();
+}
+
+void MenuItemOptions::SetInteger(int* value, int min, int max, int step)
 {
     type = OptionsType::Integer;
 
@@ -105,7 +129,7 @@ void MenuItemOptions::SetInteger(int *value, int min, int max, int step)
     UpdateOptionsValue();
 }
 
-void MenuItemOptions::SetFloat(float *value, float min, float max, float step)
+void MenuItemOptions::SetFloat(float* value, float min, float max, float step)
 {
     type = OptionsType::Float;
 
@@ -114,27 +138,18 @@ void MenuItemOptions::SetFloat(float *value, float min, float max, float step)
     floatMax = max;
     floatStep = step;
 
+    SetHoldToChange(true);
+
     UpdateOptionsValue();
 }
 
 void MenuItemOptions::UpdateVisuals(bool leftState, bool rightState)
 {
     auto leftPng = leftState ? GetMenuAssetPath("menu/button_left.png") : GetMenuAssetPath("menu/button_left_off.png");
-    auto rightPng =
-        rightState ? GetMenuAssetPath("menu/button_right.png") : GetMenuAssetPath("menu/button_right_off.png");
+    auto rightPng = rightState ? GetMenuAssetPath("menu/button_right.png") : GetMenuAssetPath("menu/button_right_off.png");
 
     containers.left->style.backgroundImage = leftPng;
     containers.right->style.backgroundImage = rightPng;
-
-    // if (leftTexture)
-    // {
-    //     containers.left->SetBackgroundTexture(leftTexture);
-    // }
-
-    // if (rightTexture)
-    // {
-    //     containers.right->SetBackgroundTexture(rightTexture);
-    // }
 }
 
 void MenuItemOptions::UpdateOptionsValue()
@@ -144,10 +159,7 @@ void MenuItemOptions::UpdateOptionsValue()
 
     if (type == OptionsType::List)
     {
-        if (options.empty())
-        {
-            containers.value->text = "";
-        }
+        if (options.empty()) { containers.value->text = ""; }
         else
         {
             containers.value->text = options[optionsIndex].second;
@@ -181,9 +193,12 @@ void MenuItemOptions::UpdateOptionsValue()
     UpdateVisuals(leftState, rightState);
 }
 
-void MenuItemOptions::InvokeOnChangedValue() { onValueChange->Emit(); }
+void MenuItemOptions::InvokeOnChangedValue()
+{
+    onValueChange->Emit();
+}
 
-OptionsContainers MenuItemOptions::CreateOptionsContainers(Container *root, float optionsWidth)
+OptionsContainers MenuItemOptions::CreateOptionsContainers(Container* root, float optionsWidth)
 {
     OptionsContainers containers;
 

@@ -1,12 +1,12 @@
 #include "menuItem.h"
 
 #include "../utils/eventListener.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "window.h"
 
 #include "../container/containerLoader.h"
 
-MenuItem::MenuItem(Window *window)
+MenuItem::MenuItem(Window* window)
 {
     LeakUtils::RegisterItem("MenuItem");
 
@@ -35,7 +35,7 @@ void MenuItem::SetTitle(std::string text)
     text_container->text = text;
 }
 
-void MenuItem::AddColorPreview(CRGBA *color)
+void MenuItem::AddColorPreview(CRGBA* color)
 {
     auto colorPreview = container->AddChild("colorPreview");
     colorPreview->style.position = "absolute";
@@ -49,7 +49,7 @@ void MenuItem::AddColorPreview(CRGBA *color)
     colorPreview->onPostUpdateTransform->Add([colorPreview, color]() { colorPreview->style.imageColor = *color; });
 }
 
-void MenuItem::AddIcon(std::string pngFilePath)
+void MenuItem::AddIcon(const std::string& pngFilePath)
 {
     auto image = container->AddChild("image");
     image->style.backgroundImage = pngFilePath;

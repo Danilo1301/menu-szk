@@ -51,7 +51,7 @@ struct Events
     EVENT_SYM(attachRwPluginsEvent, bool, (), _Z12PluginAttachv);
 
     // Additional events (aml psdk)
-    EVENT_PLT(processCameraEvent, void, (CCamera* camera), BYBIT(0x6717BC, 0x8429D8), 0);
+    EVENT_PLT(processCameraEvent, void, (CCamera * camera), BYBIT(0x6717BC, 0x8429D8), 0);
     EVENT_PLT(initWidgetsEvent, void, (), BYBIT(0x6734E4, 0x8459D8));
     EVENT_PLT(updateWidgetsEvent, void, (), BYBIT(0x6746E4, 0x847780));
     EVENT_SYM(initGameStage1Event, bool, (const char*), _ZN5CGame5Init1EPKc);
@@ -66,13 +66,13 @@ struct Events
     EVENT_SYM(preinitEngineEvent, bool, (), _ZN5CGame22InitialiseOnceBeforeRWEv);
     EVENT_SYM(initEngineEvent, int, (), _Z12RsInitializev);
     EVENT_SYM(touchScreenEvent, void, (int actionType, int trackNum, int x, int y), _Z14AND_TouchEventiiii, 0, 1, 2, 3);
-    EVENT_SYM(pedPreRenderEvent, void, (CPed* ped), _ZN4CPed18PreRenderAfterTestEv, 0);
+    EVENT_SYM(pedPreRenderEvent, void, (CPed * ped), _ZN4CPed18PreRenderAfterTestEv, 0);
     EVENT_SYM(cloudsRenderEvent, void, (), _ZN7CClouds6RenderEv);
     EVENT_SYM(roadsRenderEvent, void, (), _ZN9CRenderer11RenderRoadsEv);
     EVENT_SYM(barRoadsRenderEvent, void, (), _ZN9CRenderer24RenderEverythingBarRoadsEv);
     EVENT_SYM(waterRenderEvent, void, (), _ZN11CWaterLevel11RenderWaterEv);
     EVENT_SYM(timerUpdateEvent, void, (), _ZN6CTimer6UpdateEv);
-    EVENT_SYM(playerInfoUpdateEvent, void, (CPlayerInfo* info, int playerNum), _ZN11CPlayerInfo7ProcessEi, 0, 1);
+    EVENT_SYM(playerInfoUpdateEvent, void, (CPlayerInfo * info, int playerNum), _ZN11CPlayerInfo7ProcessEi, 0, 1);
     EVENT_SYM(loadIdeEvent, void, (const char*), _ZN11CFileLoader10LoadObjectEPKc, 0);
 };
 

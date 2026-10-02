@@ -2,8 +2,10 @@ i forgot to delete the events on "delete"
 
 notification message, popup, maybe weith images
 
-icons in menu
-
 talvez um negocio q ajude a posicionar elementos na tela, seria legal
 
-adicionar as coisas do menu antigo
+tenta sincronizar e colocar a hora do jogo pra aparecer no celular entendeu?
+
+tirar o download do github do thread original
+
+keyboard no spawner de carro

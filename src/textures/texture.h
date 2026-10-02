@@ -1,11 +1,11 @@
 #pragma once
 
 #include "aml-psdk/game_sa/engine/Sprite2d.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 
 class Texture : public ITexture
 {
-  public:
+public:
     CSprite2d sprite;
 
     // Texture(std::string imagePath);

@@ -2,6 +2,7 @@
 
 #include "src/container/container.h"
 #include <string>
+
 class InfoMessage
 {
   private:
@@ -20,3 +21,5 @@ class InfoMessage
 
     static InfoMessage *GetBottom();
 };
+
+inline void ShowBottomMessage(std::string text, int duration) { InfoMessage::GetBottom()->SetMessage(text, duration); }

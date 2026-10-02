@@ -3,18 +3,17 @@
 
 #include "../container/containerLoader.h"
 #include "../utils/effects.h"
-#include "src/menuInterface.h"
 
-InfoMessage *g_bottomInfoMessage = nullptr;
+InfoMessage* g_bottomInfoMessage = nullptr;
 
-InfoMessage::InfoMessage(Container *parent)
+InfoMessage::InfoMessage(Container* parent)
 {
     auto infoMessage = parent->AddChild("infoMessage");
     LoadContainerFromFile(infoMessage, GetMenuLayoutPath("infoMessage.json"));
 
     _container = infoMessage;
 
-    menuInterface->onPreRenderEnd->AddRef(this,
+    menuSZK->onMenuProcess->AddRef(this,
         [this](unsigned int deltaTime)
         {
             if (_timeLeft > 0)
@@ -29,13 +28,25 @@ InfoMessage::InfoMessage(Container *parent)
         });
 }
 
-InfoMessage::~InfoMessage() { menuInterface->onPreRenderEnd->Remove(this); }
+InfoMessage::~InfoMessage()
+{
+    menuSZK->onMenuProcess->Remove(this);
+}
 
-void InfoMessage::FadeIn() { _container->visible = true; }
+void InfoMessage::FadeIn()
+{
+    _container->visible = true;
+}
 
-void InfoMessage::FadeOut() { _container->visible = false; }
+void InfoMessage::FadeOut()
+{
+    _container->visible = false;
+}
 
-void InfoMessage::Pop() { Ease_Scale(_container, 1.2f, 300); }
+void InfoMessage::Pop()
+{
+    Ease_Scale(_container, 1.2f, 300);
+}
 
 void InfoMessage::SetMessage(std::string message, int duration)
 {
@@ -46,12 +57,9 @@ void InfoMessage::SetMessage(std::string message, int duration)
     Pop();
 }
 
-InfoMessage *InfoMessage::GetBottom()
+InfoMessage* InfoMessage::GetBottom()
 {
-    if (g_bottomInfoMessage != nullptr)
-    {
-        return g_bottomInfoMessage;
-    }
+    if (g_bottomInfoMessage != nullptr) { return g_bottomInfoMessage; }
 
     g_bottomInfoMessage = new InfoMessage(Container::MainContainer);
 

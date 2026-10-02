@@ -1,7 +1,7 @@
 #include "m_menu.h"
 
 #include "../utils/drawUtils.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 
 void RenderExampleMenu()
 {

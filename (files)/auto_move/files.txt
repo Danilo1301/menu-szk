@@ -1,2 +1,4 @@
 libs/arm64-v8a/libMenuSZK_64.so > mods/libMenuSZK_64.so
+libs/armeabi-v7a/libMenuSZK_v2.so > mods/libMenuSZK_v2.so
 (files)/data/menuSZK > mods/data/menuSZK
+(files)/data/localization > mods/data/localization

@@ -9,21 +9,23 @@
 
 #define SHOW_LEAK_MESSAGES false
 
+#define VERY_LONG_TIME_MS 1500000
+
 // unused
-inline std::vector<std::string> leakUtils_showOnlyItems = {"Container"};
+inline std::vector<std::string> leakUtils_showOnlyItems = { "Container" };
+
+inline float testBlipSize = 100.0f;
 
 inline void LOG_PER_FRAME(std::string text)
 {
-    if (!LOG_PER_FRAME_ENABLED)
-        return;
+    if (!LOG_PER_FRAME_ENABLED) return;
 
     logger->Info("%s", text.c_str());
 }
 
 inline void LOG_INPUT(std::string text)
 {
-    if (!LOG_INPUTS)
-        return;
+    if (!LOG_INPUTS) return;
 
     logger->Info("%s", text.c_str());
 }

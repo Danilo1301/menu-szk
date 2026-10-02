@@ -1,26 +1,22 @@
 #include "widget.h"
 #include "../container/container.h"
 #include "../container/containerLoader.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
+#include "mod/logger.h"
+#include "src/container/cssValue.h"
 #include "src/pch.h"
 #include "src/utils/eventListener.h"
+#include "src/window/window.h"
 #include <string>
 
-Widget::Widget(Container *parent, std::string tag, std::string backgroundImage, std::string image)
+Widget::Widget(Container* parent, std::string tag, std::string backgroundImage, std::string image)
 {
     onClick = new EventListener<>();
 
-    if (backgroundImage.empty())
-    {
-        backgroundImage = GetMenuAssetPath("widget/widget_background1.png");
-    }
-
-    LOGI("loading?");
+    if (backgroundImage.empty()) { backgroundImage = GetMenuAssetPath("widget/widget_background1.png"); }
 
     auto widget = parent->AddChild(tag);
     LoadContainerFromFile(widget, GetMenuLayoutPath("widget.json"));
-
-    LOGI("loaded");
 
     auto icon = widget->FindChild("icon");
 
@@ -38,29 +34,34 @@ Widget::Widget(Container *parent, std::string tag, std::string backgroundImage, 
     widget->onStateChanged->Add(
         [icon](IContainerState state)
         {
-            if (state == IContainerState::Clicked)
-            {
-                icon->style.imageColor = CRGBA(255, 0, 0);
-            }
+            if (state == IContainerState::Clicked) { icon->style.imageColor = CRGBA(255, 0, 0); }
             else
             {
                 icon->style.imageColor = CRGBA(255, 255, 255);
             }
         });
-
-    widget->onPostUpdateTransform->Add(
-        [this]()
-        {
-            if (_prevVisible != visible)
-            {
-                _prevVisible = visible;
-
-                _container->visible = visible;
-            }
-        });
 }
 
-void Widget::SetPosition(float x, float y) { _container->SetRelativePosition(x, y); }
+Widget::~Widget()
+{
+    _container->Destroy();
+    _container = nullptr;
+
+    delete onClick;
+    onClick = nullptr;
+}
+
+void Widget::SetVisible(bool visible)
+{
+    //if (visible != _container->visible) { LOGW("visibility of widget has changed"); }
+
+    _container->visible = visible;
+}
+
+void Widget::SetPosition(float x, float y)
+{
+    _container->SetRelativePosition(x, y);
+}
 
 void Widget::SetSize(float size)
 {
@@ -68,11 +69,31 @@ void Widget::SetSize(float size)
     _container->style.height = std::to_string(size) + "px";
 }
 
-Widget *Widget::CreateWidget(float x, float y, float size, std::string bgImage, std::string image)
+float Widget::GetSize()
+{
+    return CSSValue::StaticParse(_container->style.width, 0);
+}
+
+void Widget::Destroy()
+{
+    Widget::DestroyWidget(this);
+}
+
+IContainer* Widget::GetContainer()
+{
+    return _container;
+}
+
+Widget* Widget::CreateWidget(float x, float y, float size, std::string bgImage, std::string image)
 {
     auto widget = new Widget(Container::MainContainer, "widget", bgImage, image);
     widget->SetPosition(x, y);
     widget->SetSize(size);
 
     return widget;
+}
+
+void Widget::DestroyWidget(Widget* widget)
+{
+    delete widget;
 }

@@ -5,7 +5,7 @@
 
 #include "aml-psdk/gta_base/Vector.h"
 #include "cssValue.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include <vector>
 
 struct RwTexture;
@@ -13,7 +13,7 @@ class Texture;
 
 class Container : public IContainer
 {
-  private:
+private:
     CSSValue cssLeft;
     CSSValue cssRight;
     CSSValue cssTop;
@@ -32,10 +32,10 @@ class Container : public IContainer
     CVector2D _dragStartTouchPosition;
     CVector2D _touchStartPosition;
 
-    Texture *backgroundTexture = nullptr;
+    Texture* backgroundTexture = nullptr;
 
-    Container *parent = nullptr;
-    std::vector<Container *> children;
+    Container* parent = nullptr;
+    std::vector<Container*> children;
 
     unsigned int timeClicked = 0;
     unsigned int timeCreated = 0;
@@ -46,23 +46,34 @@ class Container : public IContainer
     bool _clickedState = false;
     bool _destroyed = false;
 
-  public:
+    int _priority = 0;
+
+public:
     Container(std::string tag);
     ~Container();
 
-    Container *AddChild(Container *child);
-    Container *AddChild(std::string tag);
-    IContainer *AddChild_I(std::string tag) override { return (IContainer *)AddChild(tag); }
+    Container* AddChild(Container* child);
+    Container* AddChild(std::string tag);
+    IContainer* AddChild_I(const std::string& tag) override
+    {
+        return (IContainer*)AddChild(tag);
+    }
 
-    void SetParent(Container *parent);
-    void RemoveChild(Container *child, bool destroy);
+    void SetParent(Container* parent);
+    void RemoveChild(Container* child, bool destroy);
     void RemoveChildren();
 
-    Container *FindChild(std::string tag);
-    IContainer *FindChild_I(std::string tag) override { return (IContainer *)FindChild(tag); }
+    void SortChildren();
 
-    std::vector<Container *> GetChildrenRecursive();
+    Container* FindChild(std::string tag);
+    IContainer* FindChild_I(const std::string& tag) override
+    {
+        return (IContainer*)FindChild(tag);
+    }
 
+    std::vector<Container*> GetChildrenRecursive();
+
+    void Update();
     void UpdateTransform();
     void Draw();
 
@@ -70,20 +81,22 @@ class Container : public IContainer
 
     bool IsVisible();
 
-  private:
+    int GetPriority();
+
+private:
     void DrawBoundings();
 
     void ResolveBackgroundImages();
 
-  public:
+public:
     CVector2D GetCenterPosition();
     CVector2D GetRelativePosition();
     CVector2D GetCurrentSize();
-    CVector2D LocalToOther(const CVector2D &position, Container *other);
+    CVector2D LocalToOther(const CVector2D& position, Container* other);
 
-    bool ContainsBlockedInput(const CVector2D &position);
-    bool IsPositionInside(const CVector2D &position);
-    Container *GetContainerAtPosition(const CVector2D &position, bool mustBeClickable = false);
+    bool ContainsBlockedInput(const CVector2D& position);
+    bool IsPositionInside(const CVector2D& position);
+    Container* GetContainerAtPosition(const CVector2D& position, bool mustBeClickable = false);
 
     void HandleOnDown(int trackId);
     void HandleOnMove(int trackId);
@@ -93,12 +106,13 @@ class Container : public IContainer
     bool CanBeClicked();
 
     void SetBackgroundImageIgnoreStyle(std::string bgFilePath);
-    void SetBackgroundTexture(Texture *texture);
+    void SetBackgroundTexture(Texture* texture);
 
     void Dump();
 
     void SetState(IContainerState state);
     void SetDisabled(bool disabled) override;
+    void SetPriority(int priority) override;
 
     void SetBlocked(bool blocked);
 
@@ -106,13 +120,20 @@ class Container : public IContainer
 
     void MarkAsDestroyed();
 
-    uint64_t GetInstanceId() const { return _instanceId; }
+    uint64_t GetInstanceId() const
+    {
+        return _instanceId;
+    }
 
-    int GetCurrentTrackingTouchId() { return _touchTrackId; }
+    int GetCurrentTrackingTouchId()
+    {
+        return _touchTrackId;
+    }
 
-  public:
+public:
     static bool ShowTag;
-    static Container *MainContainer;
-    static Container *CreateContainer(std::string tag);
+    static Container* MainContainer;
+    static Container* CreateContainer(std::string tag);
     static void DestroyContainersThatNeedsToBeDestroyed();
+    static void SortContainersThatNeedsToBeSorted();
 };

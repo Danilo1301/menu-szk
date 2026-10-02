@@ -8,11 +8,11 @@ class Window;
 
 class MenuItem : public IMenuItem
 {
-  protected:
-    Container *container = nullptr;
+protected:
+    Container* container = nullptr;
 
-  public:
-    MenuItem(Window *window);
+public:
+    MenuItem(Window* window);
     ~MenuItem();
 
     void SetTitle(std::string text);
@@ -23,7 +23,10 @@ class MenuItem : public IMenuItem
         return false;
     }
 
-    virtual void AddOption(int value, std::string displayText) override { LOGE("Cant add option to this menuItem"); }
+    virtual void AddOption(int value, const std::string& displayText) override
+    {
+        LOGE("Cant add option to this menuItem");
+    }
 
     virtual int GetCurrentOptionValue() override
     {
@@ -31,9 +34,20 @@ class MenuItem : public IMenuItem
         return -1;
     }
 
-    virtual IContainer *GetContainer() override { return container; }
+    virtual void SetOptionIndex(int index) override
+    {
+    }
 
-    virtual void AddColorPreview(CRGBA *color) override;
+    virtual IContainer* GetContainer() override
+    {
+        return container;
+    }
 
-    virtual void AddIcon(std::string pngFilePath) override;
+    virtual void AddColorPreview(CRGBA* color) override;
+
+    virtual void AddIcon(const std::string& pngFilePath) override;
+
+    virtual void SetHoldToChange(bool hold) override
+    {
+    }
 };

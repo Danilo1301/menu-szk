@@ -129,21 +129,20 @@ bool CanCreateTextures() { return g_framesDrawn > 0; }
 
 void ExecuteWhenTexturesCanBeCreated(std::function<void()> fn)
 {
-    _callbacks.push_back(fn);
-
     if (CanCreateTextures())
     {
-        ProcessTexturesCallbacks();
+        fn();
+        return;
     }
+
+    _callbacks.push_back(fn);
 }
 
 void ProcessTexturesCallbacks()
 {
-    if (CanCreateTextures())
-    {
-        for (auto &callback : _callbacks)
-            callback();
+    auto callbacksCopy = _callbacks;
+    _callbacks.clear();
 
-        _callbacks.clear();
-    }
+    for (auto &callback : callbacksCopy)
+        callback();
 }

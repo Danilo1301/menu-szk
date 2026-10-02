@@ -1,14 +1,13 @@
 #include "menuItemSlider.h"
 
 #include "../../config.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include <cstddef>
 #include <functional>
 
 #include "../slider.h"
 
-MenuItemSlider::MenuItemSlider(Window *window, float *pValue, float minValue, float maxValue, int decimals)
-    : MenuItem(window)
+MenuItemSlider::MenuItemSlider(Window* window, float* pValue, float minValue, float maxValue, int decimals) : MenuItem(window)
 {
     auto sliderPanel = container->AddChild("sliderPanel");
 
@@ -23,4 +22,6 @@ MenuItemSlider::MenuItemSlider(Window *window, float *pValue, float minValue, fl
     slider->onValueChange = [this]() { onValueChange->Emit(); };
 }
 
-MenuItemSlider::~MenuItemSlider() {}
+MenuItemSlider::~MenuItemSlider()
+{
+}

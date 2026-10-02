@@ -4,16 +4,16 @@
 
 #include "../config.h"
 #include "../window/windowManager.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 
-static IWindow *CreateColorPickerMenu(std::string subtitle, CRGBA *color)
+static IWindow* CreateColorPickerMenu(std::string subtitle, CRGBA* color)
 {
     auto window = WindowManager::CreateWindow(500, 500, "Color Picker", subtitle, 700.0f);
 
-    float *r_value = new float(color->r);
-    float *g_value = new float(color->g);
-    float *b_value = new float(color->b);
-    float *a_value = new float(color->a);
+    float* r_value = new float(color->r);
+    float* g_value = new float(color->g);
+    float* b_value = new float(color->b);
+    float* a_value = new float(color->a);
 
     auto onValueChanged = [color, r_value, g_value, b_value, a_value]()
     {

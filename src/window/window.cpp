@@ -4,7 +4,7 @@
 
 #include "aml-psdk/gta_base/Vector.h"
 
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "menuItem.h"
 #include "menuItems/menuItemCheckbox.h"
 #include "menuItems/menuItemOptions.h"
@@ -47,10 +47,7 @@ void Window::Init(float x, float y)
     bool useEffect = true;
     auto windowStartPosition = CVector2D(x, y);
 
-    if (useEffect)
-    {
-        windowStartPosition = CVector2D(0, 0);
-    }
+    if (useEffect) { windowStartPosition = CVector2D(0, 0); }
 
     IFontStyle titleFont;
     titleFont.size = 4.0f;
@@ -99,10 +96,7 @@ void Window::Init(float x, float y)
             {
                 bool ok = NavigatePage(-1);
 
-                if (ok)
-                {
-                    PlayChangePage();
-                }
+                if (ok) { PlayChangePage(); }
             });
 
         btn->onStateChanged->Add(
@@ -112,18 +106,9 @@ void Window::Init(float x, float y)
                 auto normal = GetMenuAssetPath("menu/button_left.png");
                 auto clicked = GetMenuAssetPath("menu/button_left_off.png");
 
-                if (state == IContainerState::Normal)
-                {
-                    btn->style.backgroundImage = normal;
-                }
-                if (state == IContainerState::Clicked)
-                {
-                    btn->style.backgroundImage = clicked;
-                }
-                if (state == IContainerState::Disabled)
-                {
-                    btn->style.backgroundImage = disabled;
-                }
+                if (state == IContainerState::Normal) { btn->style.backgroundImage = normal; }
+                if (state == IContainerState::Clicked) { btn->style.backgroundImage = clicked; }
+                if (state == IContainerState::Disabled) { btn->style.backgroundImage = disabled; }
             });
     }
 
@@ -139,10 +124,7 @@ void Window::Init(float x, float y)
             {
                 bool ok = NavigatePage(1);
 
-                if (ok)
-                {
-                    PlayChangePage();
-                }
+                if (ok) { PlayChangePage(); }
             });
 
         btn->onStateChanged->Add(
@@ -152,23 +134,16 @@ void Window::Init(float x, float y)
                 auto normal = GetMenuAssetPath("menu/button_right.png");
                 auto clicked = GetMenuAssetPath("menu/button_right_off.png");
 
-                if (state == IContainerState::Normal)
-                {
-                    btn->style.backgroundImage = normal;
-                }
-                if (state == IContainerState::Clicked)
-                {
-                    btn->style.backgroundImage = clicked;
-                }
-                if (state == IContainerState::Disabled)
-                {
-                    btn->style.backgroundImage = disabled;
-                }
+                if (state == IContainerState::Normal) { btn->style.backgroundImage = normal; }
+                if (state == IContainerState::Clicked) { btn->style.backgroundImage = clicked; }
+                if (state == IContainerState::Disabled) { btn->style.backgroundImage = disabled; }
             });
     }
 
     {
         auto container = _container->FindChild("closeBtn");
+
+        _closeButton = container;
 
         container->canBlockTouchEvents = true;
         container->onClick->Add(
@@ -194,34 +169,36 @@ void Window::Init(float x, float y)
     _container->style.scale = startScale;
     _container->UpdateTransform();
 
-    Ease_Curve(
-        _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
+    Ease_Curve(_container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
 }
 
-template <typename T> T *Window::AddItem_T(T *item)
+template <typename T> T* Window::AddItem_T(T* item)
 {
     items.push_back(item);
 
     return item;
 }
 
-MenuItem *Window::AddItemDefault() { return AddItem_T(new MenuItem(this)); }
+MenuItem* Window::AddItemDefault()
+{
+    return AddItem_T(new MenuItem(this));
+}
 
-MenuItemCheckbox *Window::AddCheckbox_Internal(std::string text, bool *ptr)
+MenuItemCheckbox* Window::AddCheckbox_Internal(std::string text, bool* ptr)
 {
     auto item = AddItem_T(new MenuItemCheckbox(this, ptr));
     item->SetTitle(text);
     return item;
 }
 
-MenuItemOptions *Window::AddOptions_Internal(std::string text, float optionsWidth)
+MenuItemOptions* Window::AddOptions_Internal(std::string text, float optionsWidth)
 {
     auto item = AddItem_T(new MenuItemOptions(this, optionsWidth));
     item->SetTitle(text);
     return item;
 }
 
-MenuItemOptions *Window::AddIntOptions_Internal(std::string text, int *ptr, int min, int max, int step)
+MenuItemOptions* Window::AddIntOptions_Internal(std::string text, int* ptr, int min, int max, int step)
 {
     auto item = AddOptions_Internal(text);
     item->SetInteger(ptr, min, max, step);
@@ -229,7 +206,7 @@ MenuItemOptions *Window::AddIntOptions_Internal(std::string text, int *ptr, int 
     return item;
 }
 
-MenuItemOptions *Window::AddFloatOptions_Internal(std::string text, float *ptr, float min, float max, float step)
+MenuItemOptions* Window::AddFloatOptions_Internal(std::string text, float* ptr, float min, float max, float step)
 {
     auto item = AddOptions_Internal(text);
     item->SetFloat(ptr, min, max, step);
@@ -237,14 +214,14 @@ MenuItemOptions *Window::AddFloatOptions_Internal(std::string text, float *ptr, 
     return item;
 }
 
-MenuItem *Window::AddItem_Internal(std::string text)
+MenuItem* Window::AddItem_Internal(std::string text)
 {
     auto item = AddItem_T(new MenuItem(this));
     item->SetTitle(text);
     return item;
 }
 
-MenuItem *Window::AddButton_Internal(std::string text, std::function<void()> onClick)
+MenuItem* Window::AddButton_Internal(std::string text, std::function<void()> onClick)
 {
     auto item = AddItem_T(new MenuItem(this));
     item->SetTitle(text);
@@ -252,23 +229,20 @@ MenuItem *Window::AddButton_Internal(std::string text, std::function<void()> onC
     return item;
 }
 
-MenuItemSlider *Window::AddSlider_Internal(
-    std::string text, float *pValue, float minValue, float maxValue, int decimals)
+MenuItemSlider* Window::AddSlider_Internal(std::string text, float* pValue, float minValue, float maxValue, int decimals)
 {
     auto item = AddItem_T(new MenuItemSlider(this, pValue, minValue, maxValue, decimals));
     item->SetTitle(text);
     return item;
 }
 
-void Window::RemoveItem(MenuItem *item)
+void Window::RemoveItem(MenuItem* item)
 {
-    if (item == nullptr)
-        return;
+    if (item == nullptr) return;
 
     auto it = std::find(items.begin(), items.end(), item);
 
-    if (it == items.end())
-        return;
+    if (it == items.end()) return;
 
     items.erase(it);
 
@@ -277,10 +251,7 @@ void Window::RemoveItem(MenuItem *item)
 
 void Window::RemoveItems()
 {
-    for (MenuItem *item : items)
-    {
-        delete item;
-    }
+    for (MenuItem* item : items) { delete item; }
 
     items.clear();
 }
@@ -307,9 +278,9 @@ void Window::UpdateMenuTransform()
 
     for (int i = 0; i < items.size(); i++)
     {
-        MenuItem *item = items[i];
+        MenuItem* item = items[i];
 
-        auto itemContainer = (Container *)item->GetContainer();
+        auto itemContainer = (Container*)item->GetContainer();
 
         if (i < firstItem || i >= lastItem)
         {
@@ -342,8 +313,7 @@ bool Window::NavigatePage(int add)
 
     const int newPage = currentPage + add;
 
-    if (newPage < 0 || newPage >= totalPages)
-        return false;
+    if (newPage < 0 || newPage >= totalPages) return false;
 
     currentPage = newPage;
 
@@ -374,14 +344,19 @@ void Window::Close_Internal()
     const int duration = 500;
     const auto onComplete = [this]() { WindowManager::SetToCloseWindow(this); };
 
-    Ease_Curve(
-        _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
+    Ease_Curve(_container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
 }
 
-Container *Window::GetContainer() { return _container; }
-Container *Window::GetContentContainer() { return _content; }
+Container* Window::GetContainer()
+{
+    return _container;
+}
+Container* Window::GetContentContainer()
+{
+    return _content;
+}
 
-IWindow *Window::OpenColorMenu(CRGBA *color)
+IWindow* Window::OpenColorMenu(CRGBA* color)
 {
     auto window = this;
 

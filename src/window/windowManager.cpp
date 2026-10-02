@@ -5,11 +5,11 @@
 
 #include "../utils/effects.h"
 
-std::vector<Window *> WindowsToClose;
+std::vector<Window*> WindowsToClose;
 
-std::vector<Window *> WindowManager::Windows;
+std::vector<Window*> WindowManager::Windows;
 
-Window *WindowManager::CreateWindow(float x, float y, std::string title, std::string subTitle, float width)
+Window* WindowManager::CreateWindow(float x, float y, const std::string& title, const std::string& subTitle, float width)
 {
     logger->Info("Creating window");
 
@@ -31,10 +31,9 @@ Window *WindowManager::CreateWindow(float x, float y, std::string title, std::st
     return window;
 }
 
-void WindowManager::SetToCloseWindow(Window *window)
+void WindowManager::SetToCloseWindow(Window* window)
 {
-    if (window->isClosing)
-        return;
+    if (window->isClosing) return;
 
     logger->Info("Window requested to be closed: %s", window->title.c_str());
 
@@ -45,7 +44,7 @@ void WindowManager::SetToCloseWindow(Window *window)
 
 void WindowManager::CloseRequestedWindows()
 {
-    for (Window *window : WindowsToClose)
+    for (Window* window : WindowsToClose)
     {
         auto it = std::find(Windows.begin(), Windows.end(), window);
 

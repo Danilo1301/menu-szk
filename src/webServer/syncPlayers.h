@@ -5,13 +5,10 @@
 
 #include "../utils/drawUtils.h"
 #include "aml-psdk/gta_base/Vector.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "mod/logger.h"
 #include "webPlayer.h"
 #include <map>
-
-#include "../container/container.h"
-#include "../menuSZK.h"
 
 /*
 
@@ -23,10 +20,7 @@ inline bool LoadModel(int modelId)
 {
     logger->Info("Finding if model %d is loaded", modelId);
 
-    if (Command<Commands::HAS_MODEL_LOADED>(modelId))
-    {
-        return true;
-    }
+    if (Command<Commands::HAS_MODEL_LOADED>(modelId)) { return true; }
 
     logger->Info("Requesting model %d", modelId);
 
@@ -47,14 +41,14 @@ inline bool LoadModel(int modelId)
 struct SyncedPlayer
 {
     int handle;
-    CPed *ped;
+    CPed* ped;
     WebPlayer webPlayer;
     unsigned int lastPositionUpdate = 0;
 };
 
 inline std::map<std::string, SyncedPlayer> _syncedPlayers;
 
-inline int CreatePlayerPed(WebPlayer &player, int modelId)
+inline int CreatePlayerPed(WebPlayer& player, int modelId)
 {
     int handle = 0;
 
@@ -67,7 +61,7 @@ inline int CreatePlayerPed(WebPlayer &player, int modelId)
     return handle;
 }
 
-inline void SyncPlayers(std::map<std::string, WebPlayer> *players)
+inline void SyncPlayers(std::map<std::string, WebPlayer>* players)
 {
     // runs on gameProcessEvent
 
@@ -75,7 +69,7 @@ inline void SyncPlayers(std::map<std::string, WebPlayer> *players)
 
     int pedModelId = 280;
 
-    for (auto &[id, player] : *players)
+    for (auto& [id, player] : *players)
     {
         auto it = _syncedPlayers.find(id);
 
@@ -85,12 +79,12 @@ inline void SyncPlayers(std::map<std::string, WebPlayer> *players)
 
             int handle = CreatePlayerPed(player, pedModelId);
 
-            _syncedPlayers[id] = {handle, nullptr};
+            _syncedPlayers[id] = { handle, nullptr };
 
             continue;
         }
 
-        SyncedPlayer &syncedPlayer = it->second;
+        SyncedPlayer& syncedPlayer = it->second;
         syncedPlayer.webPlayer = player;
 
         if (!Command<Commands::DOES_CHAR_EXIST>(syncedPlayer.handle))
@@ -160,8 +154,7 @@ inline void DrawPlayersTag()
         float scaleX;
         float scaleY;
 
-        if (!CalcScreenCoors(worldPosition, screenPosition))
-            continue;
+        if (!CalcScreenCoors(worldPosition, screenPosition)) continue;
 
         screenPosition.x = DrawUtils::MapWidthFromOS(screenPosition.x);
         screenPosition.y = DrawUtils::MapHeightFromOS(screenPosition.y);

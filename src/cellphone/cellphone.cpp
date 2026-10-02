@@ -26,9 +26,9 @@
 #include "mod/logger.h"
 #include <string>
 
-Cellphone *Cellphone::ScriptsCellphone = nullptr;
+Cellphone* Cellphone::ScriptsCellphone = nullptr;
 
-Cellphone *Cellphone::CreateScriptsCellphone()
+Cellphone* Cellphone::CreateScriptsCellphone()
 {
     auto cellphone = new Cellphone();
     ScriptsCellphone = cellphone;
@@ -45,6 +45,7 @@ Cellphone::Cellphone()
     _container = container;
 
     container->canBlockTouchEvents = true;
+    container->SetPriority(1000);
 
     auto content = container->FindChild("contentPanel");
     auto closeBtn = container->FindChild("closeBtn");
@@ -69,8 +70,7 @@ Cellphone::Cellphone()
 
             _page--;
 
-            if (_page < 0)
-                _page = maxPage;
+            if (_page < 0) _page = maxPage;
 
             UpdatePage();
         });
@@ -82,8 +82,7 @@ Cellphone::Cellphone()
 
             _page++;
 
-            if (_page > maxPage)
-                _page = 0;
+            if (_page > maxPage) _page = 0;
 
             UpdatePage();
         });
@@ -91,10 +90,15 @@ Cellphone::Cellphone()
     closeBtn->onClick->Add([this]() { FadeOut(); });
 }
 
-Cellphone::~Cellphone() { Container::MainContainer->RemoveChild(_container, true); }
+Cellphone::~Cellphone()
+{
+    Container::MainContainer->RemoveChild(_container, true);
+}
 
 void Cellphone::UpdatePage()
 {
+    bool prevVisible = _container->visible;
+
     auto cellphone = this;
     SetVisible(true);
     _container->UpdateTransform();
@@ -123,7 +127,7 @@ void Cellphone::UpdatePage()
 
     for (int i = start; i < end; i++)
     {
-        const auto &data = _items[i];
+        const auto& data = _items[i];
 
         auto item = _contentPanel->AddChild("");
 
@@ -140,8 +144,7 @@ void Cellphone::UpdatePage()
 
                 logger->Info("calling dataFunction");
 
-                if (dataFunction)
-                    dataFunction();
+                if (dataFunction) dataFunction();
             });
 
         item->UpdateTransformFromRoot();
@@ -156,14 +159,10 @@ void Cellphone::UpdatePage()
 
         if (image)
         {
-            if (!data.image.empty())
-                image->style.backgroundImage = data.image;
+            if (!data.image.empty()) image->style.backgroundImage = data.image;
         }
 
-        if (text)
-        {
-            text->text = data.text;
-        }
+        if (text) { text->text = data.text; }
 
         if (data.text.find("Crash game") != std::string::npos)
         {
@@ -175,15 +174,12 @@ void Cellphone::UpdatePage()
 
     logger->Info("Cellphone::UpdatePage - END");
 
-    SetVisible(false);
+    SetVisible(prevVisible);
 }
 
 void Cellphone::AddItem(std::string text, std::string image, std::function<void()> function)
 {
-    if (image.empty())
-    {
-        image = GetMenuAssetPath("icons/script.png");
-    }
+    if (image.empty()) { image = GetMenuAssetPath("icons/script.png"); }
 
     CellphoneItem item;
     item.text = text;
@@ -192,17 +188,17 @@ void Cellphone::AddItem(std::string text, std::string image, std::function<void(
 
     _items.push_back(item);
 
-    std::sort(_items.begin(), _items.end(),
-        [](const CellphoneItem &a, const CellphoneItem &b)
+    std::sort(_items.begin(),
+        _items.end(),
+        [](const CellphoneItem& a, const CellphoneItem& b)
         {
-            auto getSortText = [](const std::string &text)
+            auto getSortText = [](const std::string& text)
             {
                 if (text.rfind("~", 0) == 0)
                 {
                     size_t end = text.find("~", 1);
 
-                    if (end != std::string::npos)
-                        return text.substr(end + 1);
+                    if (end != std::string::npos) return text.substr(end + 1);
                 }
 
                 return text;
@@ -214,7 +210,10 @@ void Cellphone::AddItem(std::string text, std::string image, std::function<void(
     UpdatePage();
 }
 
-void Cellphone::SetVisible(bool visible) { _container->visible = visible; }
+void Cellphone::SetVisible(bool visible)
+{
+    _container->visible = visible;
+}
 
 void Cellphone::FadeIn()
 {
@@ -241,8 +240,7 @@ void Cellphone::FadeIn()
 
     const auto onComplete = [this]() {};
 
-    Ease_Simple(
-        _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
+    Ease_Simple(_container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
 }
 
 void Cellphone::FadeOut()
@@ -272,6 +270,5 @@ void Cellphone::FadeOut()
 
     const auto onComplete = [this]() { SetVisible(false); };
 
-    Ease_Simple(
-        _container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
+    Ease_Simple(_container, startPosition, endPosition, startScale, endScale, startOpacity, endOpacity, duration, onComplete);
 }

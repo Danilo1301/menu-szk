@@ -2,16 +2,15 @@
 
 #include "../config.h"
 #include "container.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "mod/logger.h"
 #include "json/json.h"
 #include <fstream>
 #include <string>
 
-static CRGBA ParseColor(const std::string &value)
+static CRGBA ParseColor(const std::string& value)
 {
-    if (value.empty() || value[0] != '#')
-        return CRGBA(255, 255, 255, 255);
+    if (value.empty() || value[0] != '#') return CRGBA(255, 255, 255, 255);
 
     unsigned int color = 0;
 
@@ -19,74 +18,60 @@ static CRGBA ParseColor(const std::string &value)
     ss << std::hex << value.substr(1);
     ss >> color;
 
-    if (value.length() == 7)
-    {
-        return CRGBA((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, 255);
-    }
+    if (value.length() == 7) { return CRGBA((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, 255); }
 
     return CRGBA((color >> 24) & 0xFF, (color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF);
 }
 
-static HorizontalAlign ParseHorizontalAlign(const std::string &value)
+static HorizontalAlign ParseHorizontalAlign(const std::string& value)
 {
-    if (value == "Middle")
-        return HorizontalAlign::Middle;
+    if (value == "Middle") return HorizontalAlign::Middle;
 
-    if (value == "Right")
-        return HorizontalAlign::Right;
+    if (value == "Right") return HorizontalAlign::Right;
 
     return HorizontalAlign::Left;
 }
 
-static VerticalAlign ParseVerticalAlign(const std::string &value)
+static VerticalAlign ParseVerticalAlign(const std::string& value)
 {
-    if (value == "Middle")
-        return VerticalAlign::Middle;
+    if (value == "Middle") return VerticalAlign::Middle;
 
-    if (value == "Bottom")
-        return VerticalAlign::Bottom;
+    if (value == "Bottom") return VerticalAlign::Bottom;
 
     return VerticalAlign::Top;
 }
 
-static GameFontAlignment ParseFontAlignment(const std::string &value)
+static GameFontAlignment ParseFontAlignment(const std::string& value)
 {
-    if (value == "Center")
-        return GameFontAlignment::ALIGN_CENTER;
+    if (value == "Center") return GameFontAlignment::ALIGN_CENTER;
 
-    if (value == "Right")
-        return GameFontAlignment::ALIGN_RIGHT;
+    if (value == "Right") return GameFontAlignment::ALIGN_RIGHT;
 
     return GameFontAlignment::ALIGN_LEFT;
 }
 
-static GameFontStyle ParseFontStyle(const std::string &value)
+static GameFontStyle ParseFontStyle(const std::string& value)
 {
-    if (value == "gothic")
-        return GameFontStyle::FONT_GOTHIC;
+    if (value == "gothic") return GameFontStyle::FONT_GOTHIC;
 
-    if (value == "subtitles")
-        return GameFontStyle::FONT_SUBTITLES;
+    if (value == "subtitles") return GameFontStyle::FONT_SUBTITLES;
 
-    if (value == "menu")
-        return GameFontStyle::FONT_MENU;
+    if (value == "menu") return GameFontStyle::FONT_MENU;
 
-    if (value == "pricedown")
-        return GameFontStyle::FONT_PRICEDOWN;
+    if (value == "pricedown") return GameFontStyle::FONT_PRICEDOWN;
 
     return GameFontStyle::FONT_SUBTITLES;
 }
 
-static void LoadContainerFromJSON(Container *container, const Json::Value &data)
+static void LoadContainerFromJSON(Container* container, const Json::Value& data)
 {
-    if (container == nullptr)
-        return;
+    if (container == nullptr) return;
 
     container->tag = data.get("tag", "").asString();
 
     if (data.isMember("style"))
     {
-        const Json::Value &style = data["style"];
+        const Json::Value& style = data["style"];
 
         container->style.position = style.get("position", "static").asString();
 
@@ -102,16 +87,13 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
 
         container->style.height = style.get("height", "200px").asString();
 
-        if (style.isMember("scale"))
-        {
-            container->style.scale = CVector2D(style["scale"][0].asFloat(), style["scale"][1].asFloat());
-        }
+        if (style.isMember("scale")) { container->style.scale = CVector2D(style["scale"][0].asFloat(), style["scale"][1].asFloat()); }
 
         container->style.opacity = style.get("opacity", 1.0f).asFloat();
 
         if (style.isMember("margin"))
         {
-            const Json::Value &margin = style["margin"];
+            const Json::Value& margin = style["margin"];
 
             container->style.margin.top = margin.get("top", 0.0f).asFloat();
 
@@ -128,12 +110,10 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
 
         if (style.isMember("transformOrigin"))
         {
-            container->style.transformOrigin =
-                CVector2D(style["transformOrigin"][0].asFloat(), style["transformOrigin"][1].asFloat());
+            container->style.transformOrigin = CVector2D(style["transformOrigin"][0].asFloat(), style["transformOrigin"][1].asFloat());
         }
 
-        container->style.textHorizontalAlign =
-            ParseHorizontalAlign(style.get("textHorizontalAlign", "Left").asString());
+        container->style.textHorizontalAlign = ParseHorizontalAlign(style.get("textHorizontalAlign", "Left").asString());
 
         container->style.textVerticalAlign = ParseVerticalAlign(style.get("textVerticalAlign", "Middle").asString());
 
@@ -159,7 +139,7 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
 
     if (data.isMember("fontStyle"))
     {
-        const Json::Value &font = data["fontStyle"];
+        const Json::Value& font = data["fontStyle"];
 
         container->fontStyle.size = font.get("size", 1.0f).asFloat();
 
@@ -182,11 +162,11 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
 
     if (data.isMember("children"))
     {
-        const Json::Value &children = data["children"];
+        const Json::Value& children = data["children"];
 
         for (Json::ArrayIndex i = 0; i < children.size(); i++)
         {
-            Container *child = Container::CreateContainer("");
+            Container* child = Container::CreateContainer("");
 
             LoadContainerFromJSON(child, children[i]);
 
@@ -195,7 +175,7 @@ static void LoadContainerFromJSON(Container *container, const Json::Value &data)
     }
 }
 
-static void LoadContainerFromFile(Container *container, const std::string &filePath)
+static void LoadContainerFromFile(Container* container, const std::string& filePath)
 {
     std::ifstream file(filePath);
 

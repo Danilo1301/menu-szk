@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <thread>
 
+#include "src/logHelper.h"
+#include "src/menuOperation.h"
 #include "syncPlayers.h"
 
 std::string WebServer::BaseURL = "";
@@ -35,11 +37,13 @@ void WebServer::Initialze()
 {
     //
 
+    return;
+
     logger->Info("Downloading static files...");
 
     {
-        std::string result = DownloadAndGetContent(
-            "https://raw.githubusercontent.com/Danilo1301/static-archives/refs/heads/main/MENU_SZK_V2");
+        std::string result =
+            DownloadAndGetContent("https://raw.githubusercontent.com/Danilo1301/static-archives/refs/heads/main/MENU_SZK_V2");
 
         std::string baseUrl = "";
 
@@ -48,14 +52,10 @@ void WebServer::Initialze()
         {
             baseUrl = result.substr(pos + 4);
 
-            while (!baseUrl.empty() && (baseUrl.back() == '\n' || baseUrl.back() == '\r' || baseUrl.back() == ' '))
-                baseUrl.pop_back();
+            while (!baseUrl.empty() && (baseUrl.back() == '\n' || baseUrl.back() == '\r' || baseUrl.back() == ' ')) baseUrl.pop_back();
         }
 
-        if (baseUrl.find("http") != 0)
-        {
-            baseUrl = "https://" + baseUrl;
-        }
+        if (baseUrl.find("http") != 0) { baseUrl = "https://" + baseUrl; }
 
         BaseURL = baseUrl;
     }
@@ -175,21 +175,19 @@ void WebServer::Initialze()
 
 void WebServer::OnUpdate(unsigned int time)
 {
-    if (BaseURL.empty())
-        return;
+    if (BaseURL.empty()) return;
 
-    if (time - _lastHandshakeTime < 30000)
-        return;
+    if (time - _lastHandshakeTime < 30000) return;
 
-    if (_handshakeRunning)
-        return;
+    if (_handshakeRunning) return;
+
+    logger->Info("doing handshake");
 
     _lastHandshakeTime = time;
     _handshakeRunning = true;
 
     std::ostringstream position;
-    position << std::fixed << std::setprecision(2) << PlayerPosition.x << ";" << PlayerPosition.y << ";"
-             << PlayerPosition.z;
+    position << std::fixed << std::setprecision(2) << PlayerPosition.x << ";" << PlayerPosition.y << ";" << PlayerPosition.z;
 
     std::string query = "/handshake?secretId=" + _secretId + "&position=" + position.str();
 
@@ -198,65 +196,76 @@ void WebServer::OnUpdate(unsigned int time)
     std::thread(
         [finalUrl]()
         {
+            BEGIN_OPERATION(op_WebServerThread);
+
+            logger->Info("on thread");
+
             std::string handshakeResult = DownloadAndGetContent(finalUrl);
 
             Json::Value root;
             Json::Reader reader;
 
+            bool success = true;
+
             if (!reader.parse(handshakeResult, root))
             {
                 logger->Info("Failed to parse handshake: %s", reader.getFormattedErrorMessages().c_str());
 
-                _handshakeRunning = false;
-                return;
+                success = false;
+            }
+            else if (root.get("error", true).asBool())
+            {
+                logger->Info("Handshake returned an error");
+
+                success = false;
             }
 
-            if (root.get("error", true).asBool())
+            if (success)
             {
-                _handshakeRunning = false;
-                return;
-            }
+                std::map<std::string, WebPlayer> players;
 
-            std::map<std::string, WebPlayer> players;
+                const Json::Value& playersJson = root["players"];
 
-            const Json::Value &playersJson = root["players"];
-
-            for (const Json::Value &playerJson : playersJson)
-            {
-                WebPlayer player;
-
-                player.id = playerJson.get("id", "").asString();
-                player.name = playerJson.get("name", "").asString();
-
-                const Json::Value &pos = playerJson["pos"];
-
-                if (pos.isArray() && pos.size() >= 3)
+                for (const Json::Value& playerJson : playersJson)
                 {
-                    player.x = pos[0].asFloat();
-                    player.y = pos[1].asFloat();
-                    player.z = pos[2].asFloat();
+                    WebPlayer player;
+
+                    player.id = playerJson.get("id", "").asString();
+                    player.name = playerJson.get("name", "").asString();
+
+                    const Json::Value& pos = playerJson["pos"];
+
+                    if (pos.isArray() && pos.size() >= 3)
+                    {
+                        player.x = pos[0].asFloat();
+                        player.y = pos[1].asFloat();
+                        player.z = pos[2].asFloat();
+                    }
+                    else
+                    {
+                        player.x = 0.0f;
+                        player.y = 0.0f;
+                        player.z = 0.0f;
+                    }
+
+                    player.admin = playerJson.get("admin", 0).asInt() != 0;
+
+                    if (!player.id.empty()) { players[player.id] = player; }
                 }
-                else
+
                 {
-                    player.x = 0.0f;
-                    player.y = 0.0f;
-                    player.z = 0.0f;
+                    std::lock_guard<std::mutex> lock(_playersMutex);
+                    _players = std::move(players);
                 }
-
-                player.admin = playerJson.get("admin", 0).asInt() != 0;
-
-                if (!player.id.empty())
-                    players[player.id] = player;
-            }
-
-            {
-                std::lock_guard<std::mutex> lock(_playersMutex);
-                _players = std::move(players);
             }
 
             _handshakeRunning = false;
+
+            END_OPERATION_RESULT(op_WebServerThread, success ? "success" : "failed");
         })
         .detach();
 }
 
-void WebServer::UpdatePlayerData() {}
+void WebServer::UpdatePlayerData()
+{
+}

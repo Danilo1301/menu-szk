@@ -2,14 +2,14 @@
 
 #include "../container/container.h"
 #include "../pch.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 
 #include <functional>
 #include <string>
 
 class BottomPanel
 {
-  public:
+public:
     struct Item
     {
         std::string title;
@@ -17,18 +17,18 @@ class BottomPanel
         std::function<void()> callback;
     };
 
-    static BottomPanel *Main;
-    static BottomPanel *CreateMain();
+    static BottomPanel* Main;
+    static BottomPanel* CreateMain();
 
-  private:
+private:
     std::vector<Item> _items;
     bool _isFading = false;
-    Container *_container;
+    Container* _container;
     unsigned int _timeOpened = 0;
 
-    std::vector<Container *> _itemContainers;
+    std::vector<Container*> _itemContainers;
 
-  public:
+public:
     BottomPanel();
 
     void SetVisible(bool visible);

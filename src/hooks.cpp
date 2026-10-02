@@ -1,27 +1,26 @@
 #include "hooks.h"
 
-#include "aml-psdk/game_sa/Events.h"
 #include "aml-psdk/game_sa/base/Timer.h"
 #include "audio/soundSystem/CSoundSystem.h"
 #include "logHelper.h"
-#include "menuInterface.h"
+#include "menuSZK.h"
+#include "menuOperation.h"
 #include "mod/logger.h"
 
 #include "input.h"
-#include "menuSZK.h"
+#include "mod.h"
 #include "pch.h"
+#include "radarBlip/radarBlip.h"
 #include "src/screenDebug/screenDebug.h"
 #include "webServer/webServer.h"
-#include "window/slider.h"
-
-#include "menus/introductionImage.h"
 
 #include <chrono>
+#include <cstdlib>
 #include <sys/stat.h>
 
 DECL_HOOKv(CTimer__Update)
 {
-    LogHelper::SetFrameOperation("CTimer update [1]");
+    BEGIN_OPERATION(op_TimerUpdate);
 
     CTimer__Update();
 
@@ -33,75 +32,64 @@ DECL_HOOKv(CTimer__Update)
     g_timeInMilliseconds = now;
     g_deltaTime = dt;
 
-    LogHelper::SetFrameOperation("CTimer update [2]");
+    Input::ProcessTouchEvents();
 
-    MenuSZK::OnTimerUpdate();
+    Mod::OnTimerUpdate();
 
-    LogHelper::SetFrameOperation("CTimer update [3]");
+    BEGIN_OPERATION(op_ProcessMenuEvents);
 
-    if (!g_gameHasFirstProcessed)
-    {
-        menuInterface->onGameProcess->Emit(dt);
-    }
+    if (!g_gameHasFirstProcessed) { menuSZK->onMenuProcess->Emit(dt); }
 
-    LogHelper::SetFrameOperation("CTimer update [4]");
+    END_OPERATION(op_ProcessMenuEvents);
 
     WebServer::OnUpdate(g_timeInMilliseconds);
 
-    LogHelper::SetFrameOperation("CTimer update [end]");
+    END_OPERATION(op_TimerUpdate);
 }
 
-DECL_HOOK(void *, CGame__Process)
+// DECL_HOOK(void*, CGame__Process)
+// {
+//     BEGIN_OPERATION(op_GameProcces);
+
+//     if (!g_gameHasFirstProcessed)
+//     {
+//         g_gameHasFirstProcessed = true;
+//         ScreenDebug::Main->Clear();
+//     }
+
+//     //
+
+//     void* result = CGame__Process();
+
+//     //
+
+//     if (BASS)
+//     {
+//         // logger->Info("Updating soundsys");
+//         soundsys->Update();
+//     }
+
+//     //
+
+//     Mod::OnModProcess();
+
+//     static unsigned int lastTime = CTimer::m_snTimeInMilliseconds;
+//     unsigned int now = CTimer::m_snTimeInMilliseconds;
+//     int deltaTime = std::min((int)(now - lastTime), (int)100);
+//     lastTime = now;
+
+//     BEGIN_OPERATION(op_ProcessMenuEvents);
+//     menuSZK->onMenuProcess->Emit(deltaTime);
+//     END_OPERATION(op_ProcessMenuEvents);
+
+//     END_OPERATION(op_GameProcces);
+
+//     return result;
+// }
+
+DECL_HOOK(void, PreRenderEnd, void* self)
 {
-    LogHelper::SetFrameOperation("CGame Process [1]");
-
-    if (!g_gameHasFirstProcessed)
-    {
-        g_gameHasFirstProcessed = true;
-        ScreenDebug::Main->Clear();
-    }
-
-    //
-
-    static unsigned int lastTime = CTimer::m_snTimeInMilliseconds;
-    unsigned int now = CTimer::m_snTimeInMilliseconds;
-    int deltaTime = std::min((int)(now - lastTime), (int)100);
-    lastTime = now;
-
-    //
-
-    void *result = CGame__Process();
-
-    LogHelper::SetFrameOperation("CGame Process [2]");
-
-    //
-
-    if (BASS)
-    {
-        // logger->Info("Updating soundsys");
-        soundsys->Update();
-    }
-
-    //
-
-    MenuSZK::OnGameProcess();
-
-    LogHelper::SetFrameOperation("CGame Process [3]");
-
-    menuInterface->onGameProcess->Emit(deltaTime);
-
-    LogHelper::SetFrameOperation("CGame Process [4]");
-
-    menuInterface->onScriptProcess->Emit(deltaTime);
-
-    LogHelper::SetFrameOperation("CGame Process [end]");
-
-    return result;
-}
-
-DECL_HOOK(void, PreRenderEnd, void *self)
-{
-    LogHelper::SetFrameOperation("PreRenderEnd [1]");
+    BEGIN_OPERATION(op_PreRenderEnd);
 
     g_framesDrawn++;
 
@@ -112,52 +100,75 @@ DECL_HOOK(void, PreRenderEnd, void *self)
 
     PreRenderEnd(self);
 
-    LogHelper::SetFrameOperation("PreRenderEnd [2]");
+    menuSZK->onDrawBeforeMenu->Emit(g_renderDeltaTime);
 
-    MenuSZK::OnRender();
+    Mod::OnRender();
 
-    LogHelper::SetFrameOperation("PreRenderEnd [3]");
+    menuSZK->onDrawAfterMenu->Emit(g_renderDeltaTime);
 
-    menuInterface->onPreRenderEnd->Emit(g_renderDeltaTime);
-
-    LogHelper::SetFrameOperation("PreRenderEnd [end]");
+    END_OPERATION(op_PreRenderEnd);
 }
 
 DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
 {
-    LogHelper::SetFrameOperation("TouchEvent");
+    BEGIN_OPERATION(op_TouchEvent);
 
-    LOG_PER_FRAME("TouchEvent");
+    if (LogHelper::bDuringTouchEvent)
+    {
+        logger->Error("bDuringTouchEvent is true during start of the event");
+        std::abort();
+        return;
+    }
+
+    LogHelper::bDuringTouchEvent = true;
 
     Input::OnTouchEvent(actionType, trackNum, x, y, g_timeInMilliseconds);
 
     if (Input::NeedsToBeBlocked(x, y))
     {
-        // logger->Info("bloqueado");
-        LOG_PER_FRAME("TouchEvent [end - blocked]");
+        LogHelper::bDuringTouchEvent = false;
+
+        TouchEvent(actionType, trackNum, 0, 0);
+
+        END_OPERATION_RESULT(op_TouchEvent, "blocked");
+
         return;
     }
 
+    LogHelper::bDuringTouchEvent = false;
+
     TouchEvent(actionType, trackNum, x, y);
 
-    LogHelper::SetFrameOperation("TouchEvent end");
+    END_OPERATION(op_TouchEvent);
+}
+
+DECL_HOOKv(DrawRadarGangOverlay, bool b)
+{
+    BEGIN_OPERATION(op_DrawRadarGangOverlay);
+
+    DrawRadarGangOverlay(b);
+
+    RadarBlip::DrawAll();
+
+    menuSZK->onPostDrawRadar->Emit();
+
+    END_OPERATION(op_DrawRadarGangOverlay);
 }
 
 void DoHooks()
 {
     logger->Info("Hooking...");
 
-    void *hGTASA = dlopen("libGTASA.so", RTLD_LAZY);
+    void* hGTASA = dlopen("libGTASA.so", RTLD_LAZY);
     uintptr_t pGTASA = aml->GetLib("libGTASA.so");
 
     SET_TO(pPedPool, aml->GetSym(hGTASA, "_ZN6CPools11ms_pPedPoolE"));
     SET_TO(userPaused, aml->GetSym(hGTASA, "_ZN6CTimer11m_UserPauseE"));
     SET_TO(codePaused, aml->GetSym(hGTASA, "_ZN6CTimer11m_CodePauseE"));
     SET_TO(camera, aml->GetSym(hGTASA, "TheCamera"));
+    SET_TO(m_pWidgets, *(void**)(pGTASA + BYBIT(0x67947C, 0x850910)));
 
     SET_TO(GetPedRef, aml->GetSym(hGTASA, "_ZN6CPools9GetPedRefEP4CPed"));
-    SET_TO(OS_ScreenGetWidth, aml->GetSym(hGTASA, "_Z17OS_ScreenGetWidthv"));
-    SET_TO(OS_ScreenGetHeight, aml->GetSym(hGTASA, "_Z18OS_ScreenGetHeightv"));
     SET_TO(CSprite2d_DrawRect, aml->GetSym(hGTASA, "_ZN9CSprite2d8DrawRectERK5CRectRK5CRGBA"));
     SET_TO(FontSetOrientation, aml->GetSym(hGTASA, "_ZN5CFont14SetOrientationEh"));
     SET_TO(FontSetColor, aml->GetSym(hGTASA, "_ZN5CFont8SetColorE5CRGBA"));
@@ -173,11 +184,66 @@ void DoHooks()
     SET_TO(AsciiToGxtChar, aml->GetSym(hGTASA, "_Z14AsciiToGxtCharPKcPt"));
     SET_TO(RenderFontBuffer, aml->GetSym(hGTASA, "_ZN5CFont16RenderFontBufferEv"));
     SET_TO(CSprite2d_DrawSprite, aml->GetSym(hGTASA, "_ZN9CSprite2d4DrawERK5CRectRK5CRGBA"));
+    SET_TO(DisplayThisBlip, aml->GetSym(hGTASA, "_ZN6CRadar15DisplayThisBlipEia"));
+    SET_TO(TransformRealWorldPointToRadarSpace, aml->GetSym(hGTASA, "_ZN6CRadar35TransformRealWorldPointToRadarSpaceER9CVector2DRKS0_"));
+    SET_TO(LimitRadarPoint, aml->GetSym(hGTASA, "_ZN6CRadar15LimitRadarPointER9CVector2D"));
+    SET_TO(TransformRadarPointToScreenSpace, aml->GetSym(hGTASA, "_ZN6CRadar32TransformRadarPointToScreenSpaceER9CVector2DRKS0_"));
+    SET_TO(CSprite_CalcScreenCoors, aml->GetSym(hGTASA, "_ZN7CSprite15CalcScreenCoorsERK5RwV3dPS0_PfS4_bb"));
+
+    // this could be the best place to draw blips.. (for 32)
+    // HOOKPLT(RadarBlipsDraw, pGTASA + 0x66E910);
 
     HOOK(CTimer__Update, CTimer::Update); // just an example!
-    HOOK(CGame__Process, aml->GetSym(hGTASA, "_ZN5CGame7ProcessEv"));
+    //HOOK(CGame__Process, aml->GetSym(hGTASA, "_ZN5CGame7ProcessEv"));
     HOOK(PreRenderEnd, aml->GetSym(hGTASA, "_ZN6CDebug22DebugDisplayTextBufferEv"));
     HOOK(TouchEvent, aml->GetSym(hGTASA, "_Z14AND_TouchEventiiii"));
+    HOOK(DrawRadarGangOverlay, aml->GetSym(hGTASA, "_ZN6CRadar20DrawRadarGangOverlayEb"));
+
+    Events::gameProcessEvent.after += []()
+    {
+        BEGIN_OPERATION(op_GameProcces);
+
+        if (!g_gameHasFirstProcessed)
+        {
+            g_gameHasFirstProcessed = true;
+            ScreenDebug::Main->Clear();
+        }
+
+        //
+
+        if (BASS)
+        {
+            // logger->Info("Updating soundsys");
+            soundsys->Update();
+        }
+
+        //
+
+        Mod::OnModProcess();
+
+        static unsigned int lastTime = CTimer::m_snTimeInMilliseconds;
+        unsigned int now = CTimer::m_snTimeInMilliseconds;
+        int deltaTime = std::min((int)(now - lastTime), (int)100);
+        lastTime = now;
+
+        BEGIN_OPERATION(op_ProcessMenuEvents);
+        menuSZK->onMenuProcess->Emit(deltaTime);
+        END_OPERATION(op_ProcessMenuEvents);
+
+        END_OPERATION(op_GameProcces);
+    };
+
+    Events::processScriptsEvent += []()
+    {
+        static unsigned int lastTime = CTimer::m_snTimeInMilliseconds;
+        unsigned int now = CTimer::m_snTimeInMilliseconds;
+        int deltaTime = std::min((int)(now - lastTime), (int)100);
+        lastTime = now;
+
+        BEGIN_OPERATION(op_ProcessScriptEvents);
+        menuSZK->onScriptProcess->Emit(deltaTime);
+        END_OPERATION(op_ProcessScriptEvents);
+    };
 
     logger->Info("Hooks ok");
 }

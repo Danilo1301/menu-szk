@@ -1,1 +1,1 @@
-adb logcat | findstr /C:"PSDK"
+adb logcat -c & adb logcat | findstr /C:"PSDK"

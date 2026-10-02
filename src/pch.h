@@ -29,13 +29,13 @@
 #include "aml-psdk/gta_base/Vector.h"
 
 // menu
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 
 #include "utils/leakUtils.h"
 
 #include "screenDebug/screenDebug.h"
 
-inline void LOGI(const char *format, ...)
+inline void LOGI(const char* format, ...)
 {
     char buffer[1024];
 
@@ -51,7 +51,7 @@ inline void LOGI(const char *format, ...)
     ScreenDebug::Main->Info(std::string(buffer));
 }
 
-inline void LOGE(const char *format, ...)
+inline void LOGE(const char* format, ...)
 {
     char buffer[1024];
 
@@ -67,7 +67,7 @@ inline void LOGE(const char *format, ...)
     ScreenDebug::Main->Error(std::string(buffer));
 }
 
-inline void LOGW(const char *format, ...)
+inline void LOGW(const char* format, ...)
 {
     char buffer[1024];
 

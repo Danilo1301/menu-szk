@@ -4,15 +4,15 @@
 #include "pch.h"
 
 struct CSprite2d;
+struct CWidget;
 
 inline uintptr_t *pPedPool;
 inline bool *userPaused;
 inline bool *codePaused;
 inline CCamera *camera;
+inline CWidget **m_pWidgets = nullptr;
 
 inline int (*GetPedRef)(void *);
-inline int (*OS_ScreenGetWidth)(void);
-inline int (*OS_ScreenGetHeight)(void);
 inline void (*CSprite2d_DrawRect)(CRect const &posn, CRGBA const &color);
 inline void (*FontSetOrientation)(unsigned char);
 inline void (*FontSetColor)(CRGBA *);
@@ -28,6 +28,12 @@ inline void (*FontPrintString)(float, float, unsigned short *);
 inline void (*AsciiToGxtChar)(const char *txt, unsigned short *ret);
 inline void (*RenderFontBuffer)(void);
 inline void (*CSprite2d_DrawSprite)(CSprite2d *, CRect const &, CRGBA const &);
+inline bool (*DisplayThisBlip)(int, char);
+inline void (*TransformRealWorldPointToRadarSpace)(CVector2D &, CVector2D const &);
+inline float (*LimitRadarPoint)(CVector2D &);
+inline void (*TransformRadarPointToScreenSpace)(CVector2D &, CVector2D const &);
+inline bool (*CSprite_CalcScreenCoors)(
+    RwV3d const &posn, RwV3d *out, float *w, float *h, bool checkMaxVisible, bool checkMinVisible);
 
 inline bool IsGamePaused() { return *userPaused || *codePaused; };
 

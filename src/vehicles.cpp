@@ -1,41 +1,44 @@
 #include "vehicles.h"
 
-#include "aml-psdk/game_sa/Events.h"
-
-#include "aml-psdk/game_sa/entity/Ped.h"
 #include "aml-psdk/game_sa/entity/Vehicle.h"
 #include "aml-psdk/game_sa/other/Pools.h"
+#include "aml-psdk/game_sa/Events.h"
 
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "utils/eventListener.h"
 
+#include <algorithm>
 #include <map>
 #include <vector>
 
-std::map<void *, GameEntity> storedVehicles;
+std::map<void*, GameEntity> storedVehicles;
 std::vector<GameEntity> storedVehiclesVec;
 
-EventListener<GameEntity> *Vehicles::onVehicleAdded = new EventListener<GameEntity>();
-EventListener<GameEntity> *Vehicles::onVehicleRemoved = new EventListener<GameEntity>();
+EventListener<GameEntity>* Vehicles::onVehicleAdded = new EventListener<GameEntity>();
+EventListener<GameEntity>* Vehicles::onVehicleRemoved = new EventListener<GameEntity>();
 
 void Vehicles::Initialize()
 {
-    Events::vehicleDtorEvent.before += [](CVehicle *veh)
+    Events::vehicleDtorEvent.before += [](CVehicle* vehicle)
     {
-        auto it = storedVehicles.find(veh);
+        if (!vehicle) return;
 
-        if (it == storedVehicles.end())
-            return;
+        auto it = storedVehicles.find(vehicle);
 
-        logger->Info("Vehicle removed, vehicle=%p ref=%d", it->second.ptr, it->second.ref);
+        if (it == storedVehicles.end()) return;
 
-        onVehicleRemoved->Emit(it->second);
+        GameEntity entity = it->second;
+
+        logger->Info("Vehicle removed: vehicle=%p ref=%d", entity.ptr, entity.ref);
+
+        onVehicleRemoved->Emit(entity);
+
+        storedVehiclesVec.erase(std::remove_if(storedVehiclesVec.begin(),
+                                    storedVehiclesVec.end(),
+                                    [vehicle](const GameEntity& storedEntity) { return storedEntity.ptr == vehicle; }),
+            storedVehiclesVec.end());
 
         storedVehicles.erase(it);
-
-        storedVehiclesVec.erase(std::remove_if(storedVehiclesVec.begin(), storedVehiclesVec.end(),
-                                    [veh](const GameEntity &entity) { return entity.ptr == veh; }),
-            storedVehiclesVec.end());
     };
 }
 
@@ -43,26 +46,27 @@ void Vehicles::Process()
 {
     for (int i = 0; i < CPools::ms_pVehiclePool->m_nSize; i++)
     {
-        CVehicle *veh = CPools::ms_pVehiclePool->GetAt(i);
+        CVehicle* vehicle = CPools::ms_pVehiclePool->GetAt(i);
 
-        if (!veh)
-            continue;
+        if (!vehicle) continue;
+        if (storedVehicles.find(vehicle) != storedVehicles.end()) continue;
 
-        if (storedVehicles.find(veh) != storedVehicles.end())
-            continue;
-
-        int ref = CPools::ms_pVehiclePool->GetRef(veh);
+        int ref = CPools::ms_pVehiclePool->GetRef(vehicle);
 
         GameEntity entity;
-        // inicializa entity aqui
+        entity.ptr = vehicle;
+        entity.ref = ref;
 
-        storedVehicles[veh] = entity;
+        storedVehicles[vehicle] = entity;
         storedVehiclesVec.push_back(entity);
 
-        logger->Info("Vehicle added: index=%d vehicle=%p ref=%d", i, veh, ref);
+        logger->Info("Vehicle added: index=%d vehicle=%p ref=%d", i, vehicle, ref);
 
         onVehicleAdded->Emit(entity);
     }
 }
 
-std::vector<GameEntity> &Vehicles::GetVehicles() { return storedVehiclesVec; }
+std::vector<GameEntity>& Vehicles::GetVehicles()
+{
+    return storedVehiclesVec;
+}

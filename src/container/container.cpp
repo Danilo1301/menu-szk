@@ -1,13 +1,13 @@
 #include "container.h"
 
-#include "../menuSZK.h"
+#include "../mod.h"
 #include "../utils/drawUtils.h"
 #include "../utils/eventListener.h"
 
 #include "aml-psdk/gta_base/RGBA.h"
 #include "aml-psdk/gta_base/Vector.h"
 
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "mod/logger.h"
 
 #include <cstddef>
@@ -17,17 +17,19 @@
 
 #include "../input.h"
 
-#include "../menuInterface.h"
-
 #include "../menus/menuDebugOptions.h"
 
 #include "../hooks.h"
+#include "src/menuOperation.h"
 #include "src/pch.h"
 
-bool Container::ShowTag = true;
-Container *Container::MainContainer = nullptr;
+#include "../logHelper.h"
 
-std::vector<Container *> _containersToDestroy;
+bool Container::ShowTag = true;
+Container* Container::MainContainer = nullptr;
+
+std::vector<Container*> _containersToDestroy;
+std::vector<Container*> _containersToSort;
 
 Container::Container(std::string tag)
 {
@@ -39,6 +41,7 @@ Container::Container(std::string tag)
     this->tag = tag;
 
     this->onClick = new EventListener<>();
+    this->onHold = new EventListener<>();
     this->onStateChanged = new EventListener<IContainerState>();
 
     this->onPreUpdateTransform = new EventListener();
@@ -49,23 +52,27 @@ Container::Container(std::string tag)
 
 Container::~Container()
 {
-    LOGI("Container: Destroying container %s", tag.c_str());
+    BEGIN_OPERATION(op_Container_destroy);
 
     LeakUtils::FreeItem("Container");
 
-    if (parent != nullptr)
-    {
-        parent->RemoveChild(this, false);
-    }
+    if (parent != nullptr) { parent->RemoveChild(this, false); }
 
-    if (backgroundTexture != nullptr)
-        delete backgroundTexture;
+    if (backgroundTexture != nullptr) delete backgroundTexture;
 
     RemoveChildren();
+
+    // remove listeners
+    Input::OnTouchMove->Remove(this);
+    Input::OnTouchUp->Remove(this);
+
+    END_OPERATION(op_Container_destroy);
 }
 
-Container *Container::AddChild(Container *child)
+Container* Container::AddChild(Container* child)
 {
+    BEGIN_OPERATION(op_Container_addChild);
+
     if (child == this)
     {
         logger->Error("Container.AddChild(%s) You cant add himself as his child", child->tag.c_str());
@@ -73,13 +80,16 @@ Container *Container::AddChild(Container *child)
     }
 
     children.push_back(child);
+    SortChildren();
 
     child->SetParent(this);
+
+    END_OPERATION(op_Container_addChild);
 
     return child;
 }
 
-Container *Container::AddChild(std::string tag)
+Container* Container::AddChild(std::string tag)
 {
     auto container = Container::CreateContainer(tag);
 
@@ -88,51 +98,47 @@ Container *Container::AddChild(std::string tag)
     return container;
 }
 
-void Container::SetParent(Container *parent)
+void Container::SetParent(Container* parent)
 {
     if (this->parent != nullptr)
     {
-        logger->Error(
-            "Container.Draw(%s) This container has already a parent. Cant set parent to ", parent->tag.c_str());
+        logger->Error("Container.Draw(%s) This container has already a parent. Cant set parent to ", parent->tag.c_str());
         std::abort();
     }
 
-    if (!parent)
-    {
-        logger->Error("Parent is null during Container.SetParent");
-    }
+    if (!parent) { logger->Error("Parent is null during Container.SetParent"); }
 
     this->parent = parent;
 }
 
-void Container::RemoveChild(Container *child, bool destroy)
+void Container::RemoveChild(Container* child, bool destroy)
 {
     auto it = std::find(children.begin(), children.end(), child);
 
-    if (it == children.end())
-        return;
+    if (it == children.end()) return;
 
-    Container *removedChild = *it;
+    Container* removedChild = *it;
 
     removedChild->parent = nullptr;
 
     children.erase(it);
 
-    if (destroy)
-        delete removedChild;
+    if (destroy) delete removedChild;
 }
 
 void Container::RemoveChildren()
 {
     auto childrenCopy = children;
 
-    for (auto child : childrenCopy)
-    {
-        RemoveChild(child, true);
-    }
+    for (auto child : childrenCopy) { RemoveChild(child, true); }
 }
 
-Container *Container::FindChild(std::string tag)
+void Container::SortChildren()
+{
+    std::sort(children.begin(), children.end(), [](Container* a, Container* b) { return a->GetPriority() < b->GetPriority(); });
+}
+
+Container* Container::FindChild(std::string tag)
 {
     for (auto child : children)
     {
@@ -142,15 +148,11 @@ Container *Container::FindChild(std::string tag)
             continue;
         }
 
-        if (child->tag == tag)
-        {
-            return child;
-        }
+        if (child->tag == tag) { return child; }
 
         auto result = child->FindChild(tag);
 
-        if (result)
-            return result;
+        if (result) return result;
     }
 
     logger->Info("Could not find child with name %s", tag.c_str());
@@ -158,9 +160,9 @@ Container *Container::FindChild(std::string tag)
     return nullptr;
 }
 
-std::vector<Container *> Container::GetChildrenRecursive()
+std::vector<Container*> Container::GetChildrenRecursive()
 {
-    std::vector<Container *> result;
+    std::vector<Container*> result;
 
     for (auto child : children)
     {
@@ -176,8 +178,7 @@ std::vector<Container *> Container::GetChildrenRecursive()
 
 void Container::Draw()
 {
-    if (!IsVisible())
-        return;
+    if (!IsVisible()) return;
 
     unsigned int now = g_timeInMilliseconds;
 
@@ -189,10 +190,7 @@ void Container::Draw()
     auto bgColor = clickedVisuals ? style.backgroundColorClicked : style.backgroundColor;
     bgColor.a = (unsigned char)std::clamp(bgColor.a * currentOpacity, 0.0f, 255.0f);
 
-    if (bgColor.a > 0)
-    {
-        DrawUtils::DrawRect(currentPosition, currentSize, bgColor);
-    }
+    if (bgColor.a > 0) { DrawUtils::DrawRect(currentPosition, currentSize, bgColor); }
 
     if (backgroundTexture != nullptr)
     {
@@ -211,32 +209,20 @@ void Container::Draw()
 
         switch (style.textHorizontalAlign)
         {
-        case HorizontalAlign::Left:
-            textPosition.x = position.x;
-            break;
+            case HorizontalAlign::Left: textPosition.x = position.x; break;
 
-        case HorizontalAlign::Middle:
-            textPosition.x = position.x + size.x / 2.0f;
-            break;
+            case HorizontalAlign::Middle: textPosition.x = position.x + size.x / 2.0f; break;
 
-        case HorizontalAlign::Right:
-            textPosition.x = position.x + size.x;
-            break;
+            case HorizontalAlign::Right: textPosition.x = position.x + size.x; break;
         }
 
         switch (style.textVerticalAlign)
         {
-        case VerticalAlign::Top:
-            textPosition.y = position.y;
-            break;
+            case VerticalAlign::Top: textPosition.y = position.y; break;
 
-        case VerticalAlign::Middle:
-            textPosition.y = position.y + size.y / 2.0f;
-            break;
+            case VerticalAlign::Middle: textPosition.y = position.y + size.y / 2.0f; break;
 
-        case VerticalAlign::Bottom:
-            textPosition.y = position.y + size.y;
-            break;
+            case VerticalAlign::Bottom: textPosition.y = position.y + size.y; break;
         }
 
         textPosition.x += style.textOffset.x;
@@ -249,12 +235,9 @@ void Container::Draw()
         DrawUtils::DrawText(text, textPosition, newFontStyle);
     }
 
-    if (drawBoundings || *debugOptions->GetBool("draw_container_boundings"))
-    {
-        DrawBoundings();
-    }
+    if (drawBoundings || *debugOptions->GetBool("draw_container_boundings")) { DrawBoundings(); }
 
-    for (Container *child : children)
+    for (Container* child : children)
     {
         if (child == this)
         {
@@ -268,39 +251,31 @@ void Container::Draw()
 
 void Container::UpdateTransformFromRoot()
 {
-    Container *root = this;
+    Container* root = this;
 
-    while (root->parent != nullptr)
-    {
-        root = root->parent;
-    }
+    while (root->parent != nullptr) { root = root->parent; }
 
     root->UpdateTransform();
 }
 
 bool Container::IsVisible()
 {
-    if (!visible)
-        return false;
+    if (!visible) return false;
 
     if (hideWhenPaused)
     {
-        if (IsGamePaused())
+        if (g_gameHasFirstProcessed)
         {
-            // logger->Info("Game is paused");
-
-            if (g_gameHasFirstProcessed)
-            {
-                return false;
-            }
-            else
-            {
-                // logger->Info("g_gameHasFirstProcessed is false");
-            }
+            if (IsGamePaused()) { return false; }
         }
     }
 
     return true;
+}
+
+int Container::GetPriority()
+{
+    return _priority;
 }
 
 void Container::DrawBoundings()
@@ -327,21 +302,20 @@ void Container::DrawBoundings()
     DrawUtils::DrawRect(currentPosition, CVector2D(currentSize.x, thickness), color);
 
     // Bottom
-    DrawUtils::DrawRect(CVector2D(currentPosition.x, currentPosition.y + currentSize.y - thickness),
-        CVector2D(currentSize.x, thickness), color);
+    DrawUtils::DrawRect(
+        CVector2D(currentPosition.x, currentPosition.y + currentSize.y - thickness), CVector2D(currentSize.x, thickness), color);
 
     // Left
     DrawUtils::DrawRect(currentPosition, CVector2D(thickness, currentSize.y), color);
 
     // Right
-    DrawUtils::DrawRect(CVector2D(currentPosition.x + currentSize.x - thickness, currentPosition.y),
-        CVector2D(thickness, currentSize.y), color);
+    DrawUtils::DrawRect(
+        CVector2D(currentPosition.x + currentSize.x - thickness, currentPosition.y), CVector2D(thickness, currentSize.y), color);
 }
 
 void Container::ResolveBackgroundImages()
 {
-    if (g_framesDrawn <= 0)
-        return;
+    if (g_framesDrawn <= 0) return;
 
     if (_prevBackgroundImage != style.backgroundImage)
     {
@@ -353,6 +327,24 @@ void Container::ResolveBackgroundImages()
     }
 }
 
+void Container::Update()
+{
+    if (!IsVisible()) return;
+
+    if (_touchTrackId != -1) { onHold->Emit(); }
+
+    for (Container* child : children)
+    {
+        if (child == this)
+        {
+            logger->Error("Container.Draw(%s) This container has himself as his child", child->tag.c_str());
+            std::abort();
+        }
+
+        child->Update();
+    }
+}
+
 void Container::UpdateTransform()
 {
     // LOG_PER_FRAME("Updating " + tag);
@@ -361,21 +353,14 @@ void Container::UpdateTransform()
 
     if (state == IContainerState::Clicked)
     {
-        if (now - timeClicked >= 180)
-        {
-            SetState(IContainerState::Normal);
-        }
+        if (now - timeClicked >= 130) { SetState(IContainerState::Normal); }
     }
 
-    if (!IsVisible())
-        return;
+    if (!IsVisible()) return;
 
     ResolveBackgroundImages();
 
-    if (onPreUpdateTransform)
-    {
-        onPreUpdateTransform->Emit();
-    }
+    if (onPreUpdateTransform) { onPreUpdateTransform->Emit(); }
 
     IResolution baseResolution = DrawUtils::GetBaseResolution();
 
@@ -391,7 +376,7 @@ void Container::UpdateTransform()
     }
     else
     {
-        Container *parentContainer = parent;
+        Container* parentContainer = parent;
 
         const CVector2D parentSize = parentContainer->currentSize;
 
@@ -437,15 +422,9 @@ void Container::UpdateTransform()
         }
 
         // Margin ocupa espaço externo.
-        if ((!style.width.empty() && style.width.back() == '%') || style.width == "auto")
-        {
-            width -= marginLeft + marginRight;
-        }
+        if ((!style.width.empty() && style.width.back() == '%') || style.width == "auto") { width -= marginLeft + marginRight; }
 
-        if ((!style.height.empty() && style.height.back() == '%') || style.height == "auto")
-        {
-            height -= marginTop + marginBottom;
-        }
+        if ((!style.height.empty() && style.height.back() == '%') || style.height == "auto") { height -= marginTop + marginBottom; }
 
         width = std::max(0.0f, width);
         height = std::max(0.0f, height);
@@ -456,29 +435,20 @@ void Container::UpdateTransform()
 
         currentSize = CVector2D(width * currentScale.x, height * currentScale.y);
 
-        if (block != IBlockType::None)
-        {
-            currentOpacity = 0.4;
-        }
+        if (block != IBlockType::None) { currentOpacity = 0.4; }
 
         float x = 0.0f;
         float y = 0.0f;
 
         if (style.position == "absolute")
         {
-            if (style.right != "auto")
-            {
-                x = parentLogicalSize.x - width - right - marginRight;
-            }
+            if (style.right != "auto") { x = parentLogicalSize.x - width - right - marginRight; }
             else
             {
                 x = left + marginLeft;
             }
 
-            if (style.bottom != "auto")
-            {
-                y = parentLogicalSize.y - height - bottom - marginBottom;
-            }
+            if (style.bottom != "auto") { y = parentLogicalSize.y - height - bottom - marginBottom; }
             else
             {
                 y = top + marginTop;
@@ -503,14 +473,11 @@ void Container::UpdateTransform()
             parentPosition.y + y - pivotOffset.y);
     }
 
-    if (onPostUpdateTransform)
-    {
-        onPostUpdateTransform->Emit();
-    }
+    if (onPostUpdateTransform) { onPostUpdateTransform->Emit(); }
 
     // LOG_PER_FRAME("Updating children of " + tag);
 
-    for (Container *child : children)
+    for (Container* child : children)
     {
         if (child == this)
         {
@@ -532,11 +499,9 @@ CVector2D Container::GetCenterPosition()
 
 CVector2D Container::GetRelativePosition()
 {
-    if (parent == nullptr)
-        return CVector2D(0.0f, 0.0f);
+    if (parent == nullptr) return CVector2D(0.0f, 0.0f);
 
-    const CVector2D parentLogicalSize(
-        parent->currentSize.x / parent->currentScale.x, parent->currentSize.y / parent->currentScale.y);
+    const CVector2D parentLogicalSize(parent->currentSize.x / parent->currentScale.x, parent->currentSize.y / parent->currentScale.y);
 
     const float width = cssWidth.Parse(style.width, parentLogicalSize.x);
     const float height = cssHeight.Parse(style.height, parentLogicalSize.y);
@@ -567,24 +532,25 @@ CVector2D Container::GetRelativePosition()
     return CVector2D(x, y);
 }
 
-CVector2D Container::GetCurrentSize() { return currentSize; }
-
-CVector2D Container::LocalToOther(const CVector2D &position, Container *other)
+CVector2D Container::GetCurrentSize()
 {
-    CVector2D worldPosition(
-        currentPosition.x + position.x * currentScale.x, currentPosition.y + position.y * currentScale.y);
+    return currentSize;
+}
+
+CVector2D Container::LocalToOther(const CVector2D& position, Container* other)
+{
+    CVector2D worldPosition(currentPosition.x + position.x * currentScale.x, currentPosition.y + position.y * currentScale.y);
 
     return CVector2D((worldPosition.x - other->currentPosition.x) / other->currentScale.x,
         (worldPosition.y - other->currentPosition.y) / other->currentScale.y);
 }
 
-bool Container::ContainsBlockedInput(const CVector2D &position)
+bool Container::ContainsBlockedInput(const CVector2D& position)
 {
-    if (!IsVisible())
-        return false;
+    if (!IsVisible()) return false;
 
-    bool inside = position.x >= currentPosition.x && position.x <= currentPosition.x + currentSize.x &&
-        position.y >= currentPosition.y && position.y <= currentPosition.y + currentSize.y;
+    bool inside = position.x >= currentPosition.x && position.x <= currentPosition.x + currentSize.x && position.y >= currentPosition.y &&
+        position.y <= currentPosition.y + currentSize.y;
 
     if (canBlockTouchEvents && inside)
     {
@@ -592,51 +558,40 @@ bool Container::ContainsBlockedInput(const CVector2D &position)
         return true;
     }
 
-    for (Container *child : children)
+    for (Container* child : children)
     {
-        if (child->ContainsBlockedInput(position))
-        {
-            return true;
-        }
+        if (child->ContainsBlockedInput(position)) { return true; }
     }
 
     return false;
 }
 
-bool Container::IsPositionInside(const CVector2D &position)
+bool Container::IsPositionInside(const CVector2D& position)
 {
-    bool inside = position.x >= currentPosition.x && position.x <= currentPosition.x + currentSize.x &&
-        position.y >= currentPosition.y && position.y <= currentPosition.y + currentSize.y;
+    bool inside = position.x >= currentPosition.x && position.x <= currentPosition.x + currentSize.x && position.y >= currentPosition.y &&
+        position.y <= currentPosition.y + currentSize.y;
 
     return inside;
 }
 
-Container *Container::GetContainerAtPosition(const CVector2D &position, bool mustBeClickable)
+Container* Container::GetContainerAtPosition(const CVector2D& position, bool mustBeClickable)
 {
-    if (!IsVisible())
-        return nullptr;
+    if (!IsVisible()) return nullptr;
 
     for (auto it = children.rbegin(); it != children.rend(); ++it)
     {
-        Container *child = *it;
+        Container* child = *it;
 
-        if (Container *container = child->GetContainerAtPosition(position))
-            return container;
+        if (Container* container = child->GetContainerAtPosition(position)) return container;
     }
 
     bool inside = IsPositionInside(position);
 
     if (inside)
     {
-        if (block != IBlockType::None)
-        {
-            return nullptr;
-        }
+        if (block != IBlockType::None) { return nullptr; }
 
-        if (canClickThrough == false && CanBeClicked())
-        {
-            return this;
-        }
+        if (canClickThrough == false && CanBeClicked()) { return this; }
     }
 
     return nullptr;
@@ -650,17 +605,13 @@ void Container::HandleOnDown(int trackId)
     {
         auto inputTouch = Input::GetTouch(trackId);
 
-        if (!inputTouch)
-        {
-            logger->Error("Attempted to get touch but its null?");
-        }
+        if (!inputTouch) { logger->Error("Attempted to get touch but its null?"); }
 
         _touchTrackId = trackId;
         _isDragging = false;
         _touchStartPosition = inputTouch->position;
 
         Input::OnTouchMove->AddRef(this, [this](int trackId) { HandleOnMove(trackId); });
-
         Input::OnTouchUp->AddRef(this, [this](int trackId) { HandleOnUp(trackId); });
     }
 }
@@ -669,6 +620,8 @@ void Container::HandleOnUp(int trackId)
 {
     logger->Info("Container: HandleOnUp on container %s", tag.c_str());
 
+    if (_touchTrackId != trackId) return;
+
     auto inputTouch = Input::GetTouch(trackId);
 
     Input::OnTouchMove->Remove(this);
@@ -676,15 +629,9 @@ void Container::HandleOnUp(int trackId)
 
     bool isTouchInside = IsPositionInside(inputTouch->position);
 
-    if (!_isDragging && isTouchInside && !_destroyed)
-    {
-        HandleOnClick();
-    }
+    if (!_isDragging && isTouchInside && !_destroyed) { HandleOnClick(); }
 
-    if (_isDragging)
-    {
-        logger->Info("Container: Stopped dragging");
-    }
+    if (_isDragging) { logger->Info("Container: Stopped dragging"); }
 
     _touchTrackId = -1;
     _isDragging = false;
@@ -694,10 +641,7 @@ void Container::HandleOnMove(int trackId)
 {
     auto inputTouch = Input::GetTouch(trackId);
 
-    if (!inputTouch)
-    {
-        logger->Error("Moved and no inputTouch?");
-    }
+    if (!inputTouch) { logger->Error("Moved and no inputTouch?"); }
 
     if (canDrag)
     {
@@ -735,7 +679,7 @@ void Container::HandleOnClick()
 {
     // logger->Info("Handling on click on this container, so we add ONCE to gameprocess");
 
-    menuInterface->onGameProcess->AddOnce(
+    menuSZK->onMenuProcess->AddOnce(
         [this](unsigned int deltaTime)
         {
             // logger->Info("the once function got called");
@@ -751,11 +695,9 @@ void Container::HandleOnClick()
 
 bool Container::CanBeClicked()
 {
-    if (canDrag)
-        return true;
+    if (canDrag) return true;
 
-    if (onClick->GetListenersCount() == 0)
-        return false;
+    if (onClick->GetListenersCount() == 0) return false;
 
     unsigned int now = g_timeInMilliseconds;
 
@@ -775,26 +717,24 @@ void Container::SetBackgroundImageIgnoreStyle(std::string bgFilePath)
             {
                 if (hide_screen_info_messages())
                 {
-                    LOGE("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(),
-                        cTag.c_str());
+                    LOGE("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(), cTag.c_str());
                 }
                 else
                 {
-                    logger->Error("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(),
-                        cTag.c_str());
+                    logger->Error("Different ID! expected=%llu this=%llu (%s)", instanceId, container->GetInstanceId(), cTag.c_str());
                 }
 
                 return;
             }
 
-            Texture *texture = new Texture(bgFilePath, "button", false, COLOR_WHITE);
+            Texture* texture = new Texture(bgFilePath, "button", false, COLOR_WHITE);
 
             container->_prevBackgroundImage = bgFilePath;
             container->SetBackgroundTexture(texture);
         });
 }
 
-void Container::SetBackgroundTexture(Texture *texture)
+void Container::SetBackgroundTexture(Texture* texture)
 {
     if (backgroundTexture != nullptr)
     {
@@ -807,16 +747,23 @@ void Container::SetBackgroundTexture(Texture *texture)
 
 void Container::Dump()
 {
-    void *texture = nullptr;
+    void* texture = nullptr;
 
-    if (backgroundTexture)
-        texture = backgroundTexture->sprite.m_pTexture;
+    if (backgroundTexture) texture = backgroundTexture->sprite.m_pTexture;
 
-    logger->Info(
-        "Container %p | tag= %s | texture=%p | position=(%.2f, %.2f) | size=(%.2f, %.2f) | scale=(%.2f, %.2f) | "
-        "children=%zu | text=%s",
-        this, tag.c_str(), texture, currentPosition.x, currentPosition.y, currentSize.x, currentSize.y, currentScale.x,
-        currentScale.y, children.size(), text.c_str());
+    logger->Info("Container %p | tag= %s | texture=%p | position=(%.2f, %.2f) | size=(%.2f, %.2f) | scale=(%.2f, %.2f) | "
+                 "children=%zu | text=%s",
+        this,
+        tag.c_str(),
+        texture,
+        currentPosition.x,
+        currentPosition.y,
+        currentSize.x,
+        currentSize.y,
+        currentScale.x,
+        currentScale.y,
+        children.size(),
+        text.c_str());
 
     // for (Container *child : children)
     // {
@@ -827,8 +774,7 @@ void Container::Dump()
 
 void Container::SetState(IContainerState newState)
 {
-    if (state == newState)
-        return;
+    if (state == newState) return;
 
     state = newState;
 
@@ -839,17 +785,20 @@ void Container::SetState(IContainerState newState)
 
 void Container::SetDisabled(bool disabled)
 {
-    if (disabled)
-    {
-        SetState(IContainerState::Disabled);
-    }
+    if (disabled) { SetState(IContainerState::Disabled); }
     else
     {
-        if (state == IContainerState::Clicked)
-            return;
+        if (state == IContainerState::Clicked) return;
 
         SetState(IContainerState::Normal);
     }
+}
+
+void Container::SetPriority(int priority)
+{
+    _priority = priority;
+
+    if (parent) { _containersToSort.push_back(parent); }
 }
 
 void Container::SetBlocked(bool blocked)
@@ -860,19 +809,13 @@ void Container::SetBlocked(bool blocked)
     {
         block = IBlockType::BlockThisAndChildren;
 
-        for (auto child : children)
-        {
-            child->block = IBlockType::BlockInheritedFromParent;
-        }
+        for (auto child : children) { child->block = IBlockType::BlockInheritedFromParent; }
     }
     else
     {
         block = IBlockType::None;
 
-        for (auto child : children)
-        {
-            child->block = IBlockType::None;
-        }
+        for (auto child : children) { child->block = IBlockType::None; }
     }
 }
 
@@ -880,28 +823,33 @@ void Container::Destroy()
 {
     MarkAsDestroyed();
 
-    if (parent != nullptr)
-    {
-        parent->RemoveChild(this, false);
-    }
+    if (parent != nullptr) { parent->RemoveChild(this, false); }
 
     _containersToDestroy.push_back(this);
 }
 
-void Container::MarkAsDestroyed() { _destroyed = true; }
-
-Container *Container::CreateContainer(std::string tag)
+void Container::MarkAsDestroyed()
 {
-    Container *container = new Container(tag);
+    _destroyed = true;
+}
+
+Container* Container::CreateContainer(std::string tag)
+{
+    Container* container = new Container(tag);
     return container;
 }
 
 void Container::DestroyContainersThatNeedsToBeDestroyed()
 {
-    for (Container *container : _containersToDestroy)
-    {
-        delete container;
-    }
+    for (Container* container : _containersToDestroy) { delete container; }
 
     _containersToDestroy.clear();
+}
+
+void Container::SortContainersThatNeedsToBeSorted()
+{
+    auto containers = _containersToSort;
+    _containersToSort.clear();
+
+    for (auto* container : containers) { container->SortChildren(); }
 }

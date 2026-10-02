@@ -11,10 +11,22 @@
 #include "utils/eventListener.h"
 #include <cstddef>
 
-EventListener<int, SwipeDirection> *Input::OnSwipe = new EventListener<int, SwipeDirection>();
-EventListener<int, std::string> *Input::OnSwipeSpecial = new EventListener<int, std::string>();
-EventListener<int> *Input::OnTouchMove = new EventListener<int>();
-EventListener<int> *Input::OnTouchUp = new EventListener<int>();
+struct TouchEvent
+{
+    int actionType;
+    int trackNum;
+    int x;
+    int y;
+    unsigned int time;
+};
+
+std::vector<TouchEvent> _touchEventQueue;
+std::mutex _touchEventMutex;
+
+EventListener<int, SwipeDirection>* Input::OnSwipe = new EventListener<int, SwipeDirection>();
+EventListener<int, std::string>* Input::OnSwipeSpecial = new EventListener<int, std::string>();
+EventListener<int>* Input::OnTouchMove = new EventListener<int>();
+EventListener<int>* Input::OnTouchUp = new EventListener<int>();
 
 std::unordered_map<int, InputTouch> Input::_touches;
 std::unordered_map<std::string, SwipeDefinition> Input::_swipeAreas;
@@ -38,115 +50,145 @@ void Input::Initialize()
 
 void Input::OnTouchEvent(int actionType, int trackNum, int x, int y, unsigned int time)
 {
+    std::lock_guard<std::mutex> lock(_touchEventMutex);
+
+    _touchEventQueue.push_back({ actionType, trackNum, x, y, time });
+}
+
+void Input::ProcessTouchEvents()
+{
+    std::vector<TouchEvent> events;
+
+    {
+        std::lock_guard<std::mutex> lock(_touchEventMutex);
+
+        events.swap(_touchEventQueue);
+    }
+
+    for (const TouchEvent& event : events) { ProcessTouchEvent(event.actionType, event.trackNum, event.x, event.y, event.time); }
+}
+
+void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsigned int time)
+{
+    logger->Info("TouchEvent: actionType=%d, trackNum=%d, x=%d, y=%d, time=%d", actionType, trackNum, x, y, g_timeInMilliseconds);
+
     auto screenResolution = DrawUtils::GetBaseResolution();
 
     CVector2D position(DrawUtils::MapWidthFromOS((float)x), DrawUtils::MapHeightFromOS((float)y));
 
-    // logger->Info("TouchEvent actionType=%d", actionType);
-
     switch (actionType)
     {
-    case 2: // down
-    {
-        InputTouch &touch = _touches[trackNum];
-
-        touch.active = true;
-        touch.startPosition = position;
-        touch.position = position;
-        touch.lastPosition = position;
-        touch.delta = CVector2D(0.0f, 0.0f);
-        touch.startTime = time;
-
-        logger->Info("TouchEvent id=%d, DOWN", actionType);
-
-        break;
-    }
-
-    case 3: // move
-    {
-        auto it = _touches.find(trackNum);
-
-        if (it == _touches.end())
-            break;
-
-        InputTouch &touch = it->second;
-
-        touch.delta = position - touch.position;
-        touch.lastPosition = touch.position;
-        touch.position = position;
-
-        logger->Info("TouchEvent id=%d, MOVE", actionType);
-
-        OnTouchMove->Emit(trackNum);
-
-        break;
-    }
-
-    case 1: // up
-    {
-        auto it = _touches.find(trackNum);
-
-        if (it == _touches.end())
-            break;
-
-        InputTouch &touch = it->second;
-
-        touch.delta = position - touch.position;
-        touch.lastPosition = touch.position;
-        touch.position = position;
-
-        logger->Info("TouchEvent id=%d, UP", actionType);
-
-        if (IsSwipeDown(touch, 300.0f, screenResolution.height - 300.0f, 400.0f))
+        case 2: // DOWN
         {
-            OnSwipe->Emit(trackNum, SwipeDirection::Down);
+            auto it = _touches.find(trackNum);
+
+            if (it != _touches.end() && it->second.active) { LOGW("[INPUT INCONSISTENCY] DOWN without UP: trackNum=%d", trackNum); }
+
+            InputTouch& touch = _touches[trackNum];
+
+            touch.active = true;
+            touch.startPosition = position;
+            touch.position = position;
+            touch.lastPosition = position;
+            touch.delta = CVector2D(0.0f, 0.0f);
+            touch.startTime = time;
+
+            logger->Info("TouchEvent id=%d, DOWN", trackNum);
+
+            break;
         }
 
-        if (IsSwipeUp(touch, screenResolution.height - 300.0f, 300.0f, 400.0f))
+        case 3: // MOVE
         {
-            OnSwipe->Emit(trackNum, SwipeDirection::Up);
-        }
+            auto it = _touches.find(trackNum);
 
-        // logger->Info("Verifying %d swipes definitions", _swipeAreas.size());
-
-        for (const auto &[id, swipe] : _swipeAreas)
-        {
-            if (IsSwipe(touch, swipe))
+            if (it == _touches.end())
             {
-                logger->Info("TouchEvent id=%d, SWIPE SPECIAL customId=%s", actionType, swipe.customId.c_str());
+                LOGW("[INPUT INCONSISTENCY] MOVE without DOWN: trackNum=%d", trackNum);
 
-                OnSwipeSpecial->Emit(trackNum, swipe.customId);
+                break;
             }
+
+            InputTouch& touch = it->second;
+
+            if (!touch.active)
+            {
+                LOGW("[INPUT INCONSISTENCY] MOVE with inactive touch: trackNum=%d", trackNum);
+
+                break;
+            }
+
+            touch.delta = position - touch.position;
+            touch.lastPosition = touch.position;
+            touch.position = position;
+
+            logger->Info("TouchEvent id=%d, MOVE", trackNum);
+
+            OnTouchMove->Emit(trackNum);
+
+            break;
         }
 
-        OnTouchUp->Emit(trackNum);
+        case 1: // UP
+        {
+            auto it = _touches.find(trackNum);
 
-        _touches.erase(it);
+            if (it == _touches.end())
+            {
+                LOGW("[INPUT INCONSISTENCY] UP without DOWN: trackNum=%d", trackNum);
 
-        break;
-    }
-    default:
-        break;
+                break;
+            }
+
+            InputTouch& touch = it->second;
+
+            if (!touch.active)
+            {
+                LOGW("[INPUT INCONSISTENCY] UP with inactive touch: trackNum=%d", trackNum);
+
+                _touches.erase(it);
+                break;
+            }
+
+            touch.delta = position - touch.position;
+            touch.lastPosition = touch.position;
+            touch.position = position;
+
+            logger->Info("TouchEvent id=%d, UP", trackNum);
+
+            if (IsSwipeDown(touch, 300.0f, screenResolution.height - 300.0f, 400.0f)) { OnSwipe->Emit(trackNum, SwipeDirection::Down); }
+
+            if (IsSwipeUp(touch, screenResolution.height - 300.0f, 300.0f, 400.0f)) { OnSwipe->Emit(trackNum, SwipeDirection::Up); }
+
+            for (const auto& [id, swipe] : _swipeAreas)
+            {
+                if (IsSwipe(touch, swipe))
+                {
+                    logger->Info("TouchEvent id=%d, SWIPE SPECIAL customId=%s", trackNum, swipe.customId.c_str());
+
+                    logger->Info("emitting OnSwipeSpecial");
+
+                    OnSwipeSpecial->Emit(trackNum, swipe.customId);
+                }
+            }
+
+            logger->Info("emitting OnTouchUp");
+
+            OnTouchUp->Emit(trackNum);
+
+            _touches.erase(it);
+
+            break;
+        }
+
+        default: LOGW("[INPUT INCONSISTENCY] Unknown actionType=%d, trackNum=%d", actionType, trackNum); break;
     }
 
     if (actionType == 2)
     {
         auto container = Container::MainContainer->GetContainerAtPosition(position, true);
 
-        if (container != nullptr)
-        {
-            container->HandleOnDown(trackNum);
-        }
-    }
-
-    if (actionType == 1)
-    {
-        // auto container = Container::MainContainer->GetContainerAtPosition(position, true);
-
-        // if(container != nullptr && container->onClick->GetListenersCount() > 0 && container->CanBeClicked())
-        // {
-
-        // }
+        if (container != nullptr) { container->HandleOnDown(trackNum); }
     }
 }
 
@@ -157,62 +199,58 @@ bool Input::NeedsToBeBlocked(int x, int y)
     return Container::MainContainer->ContainsBlockedInput(position);
 }
 
-const InputTouch *Input::GetTouch(int trackNum)
+const InputTouch* Input::GetTouch(int trackNum)
 {
-    for (auto &touch : _touches)
+    for (auto& touch : _touches)
     {
-        if (touch.first == trackNum)
-            return &touch.second;
+        if (touch.first == trackNum) return &touch.second;
     }
 
     return nullptr;
 }
 
-std::unordered_map<int, InputTouch> *Input::GetTouches() { return &_touches; }
+std::unordered_map<int, InputTouch>* Input::GetTouches()
+{
+    return &_touches;
+}
 
-bool Input::IsSwipe(const InputTouch &touch, SwipeDirection direction, float startMinY, float startMaxY, float endMinY,
-    float endMaxY, float xThreshold)
+bool Input::IsSwipe(
+    const InputTouch& touch, SwipeDirection direction, float startMinY, float startMaxY, float endMinY, float endMaxY, float xThreshold)
 {
     auto screenResolution = DrawUtils::GetBaseResolution();
 
     const float centerX = screenResolution.width / 2.0f;
 
-    if (touch.startPosition.y < startMinY || touch.startPosition.y > startMaxY)
-        return false;
+    if (touch.startPosition.y < startMinY || touch.startPosition.y > startMaxY) return false;
 
-    if (touch.position.y < endMinY || touch.position.y > endMaxY)
-        return false;
+    if (touch.position.y < endMinY || touch.position.y > endMaxY) return false;
 
-    if (std::abs(touch.startPosition.x - centerX) > xThreshold)
-        return false;
+    if (std::abs(touch.startPosition.x - centerX) > xThreshold) return false;
 
-    if (std::abs(touch.position.x - centerX) > xThreshold)
-        return false;
+    if (std::abs(touch.position.x - centerX) > xThreshold) return false;
 
-    if (direction == SwipeDirection::Down)
-        return touch.position.y > touch.startPosition.y;
+    if (direction == SwipeDirection::Down) return touch.position.y > touch.startPosition.y;
 
-    if (direction == SwipeDirection::Up)
-        return touch.position.y < touch.startPosition.y;
+    if (direction == SwipeDirection::Up) return touch.position.y < touch.startPosition.y;
 
     return false;
 }
 
-bool Input::IsSwipeDown(const InputTouch &touch, float startMaxY, float endMinY, float xThreshold)
+bool Input::IsSwipeDown(const InputTouch& touch, float startMaxY, float endMinY, float xThreshold)
 {
     auto screenResolution = DrawUtils::GetBaseResolution();
 
     return IsSwipe(touch, SwipeDirection::Down, 0.0f, startMaxY, endMinY, screenResolution.height, xThreshold);
 }
 
-bool Input::IsSwipeUp(const InputTouch &touch, float startMinY, float endMaxY, float xThreshold)
+bool Input::IsSwipeUp(const InputTouch& touch, float startMinY, float endMaxY, float xThreshold)
 {
     auto screenResolution = DrawUtils::GetBaseResolution();
 
     return IsSwipe(touch, SwipeDirection::Up, startMinY, screenResolution.height, 0.0f, endMaxY, xThreshold);
 }
 
-bool Input::IsSwipe(const InputTouch &touch, const SwipeDefinition &swipe)
+bool Input::IsSwipe(const InputTouch& touch, const SwipeDefinition& swipe)
 {
     // logger->Info("SWIPE [%s] start=(%.1f, %.1f) current=(%.1f, %.1f)", swipe.customId.c_str(), touch.startPosition.x,
     //     touch.startPosition.y, touch.position.x, touch.position.y);
@@ -269,28 +307,30 @@ bool Input::IsSwipe(const InputTouch &touch, const SwipeDefinition &swipe)
     return true;
 }
 
-bool Input::IsInsideSwipeArea(const CVector2D &point, const SwipeArea &area)
+bool Input::IsInsideSwipeArea(const CVector2D& point, const SwipeArea& area)
 {
     return point.x >= area.position.x && point.x <= area.position.x + area.size.x && point.y >= area.position.y &&
         point.y <= area.position.y + area.size.y;
 }
 
-void Input::RegisterSwipeArea(const SwipeDefinition &def) { _swipeAreas[def.customId] = def; }
+void Input::RegisterSwipeArea(const SwipeDefinition& def)
+{
+    _swipeAreas[def.customId] = def;
+}
 
 void Input::DrawSwipeAreas()
 {
     // logger->Info("debugOptions = %p", debugOptions);
 
-    bool *value = debugOptions->GetBool("draw_swipe_areas");
+    bool* value = debugOptions->GetBool("draw_swipe_areas");
 
     // logger->Info("value = %p", value);
 
     bool canDraw = *value;
 
-    if (!canDraw)
-        return;
+    if (!canDraw) return;
 
-    for (const auto &[id, swipe] : _swipeAreas)
+    for (const auto& [id, swipe] : _swipeAreas)
     {
         DrawUtils::DrawRect(swipe.start.position, swipe.start.size, CRGBA(0, 255, 0, 50));
 

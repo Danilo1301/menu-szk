@@ -2,7 +2,7 @@
 
 #include "../container/container.h"
 #include "../pch.h"
-#include "menu/menu.h"
+#include "menuSZK/imenuSZK.h"
 #include "menuItem.h"
 #include "menuItems/menuItemCheckbox.h"
 #include "menuItems/menuItemOptions.h"
@@ -12,21 +12,23 @@
 
 class Window : public IWindow
 {
-  private:
-    Container *_container;
+private:
+    Container* _container;
 
-    Container *_content;
-    Container *_title;
-    Container *_subTitle;
+    Container* _content;
+    Container* _title;
+    Container* _subTitle;
 
-    Container *_leftButton;
-    Container *_rightButton;
+    Container* _leftButton;
+    Container* _rightButton;
 
-    std::vector<MenuItem *> items;
+    Container* _closeButton;
+
+    std::vector<MenuItem*> items;
 
     int currentPage = 0;
 
-  public:
+public:
     Window();
     ~Window();
 
@@ -34,18 +36,18 @@ class Window : public IWindow
 
     void Init(float x, float y);
 
-    template <typename T> T *AddItem_T(T *item);
+    template <typename T> T* AddItem_T(T* item);
 
-    MenuItem *AddItemDefault();
-    MenuItemCheckbox *AddCheckbox_Internal(std::string text, bool *ptr);
-    MenuItemOptions *AddOptions_Internal(std::string text, float optionsWidth = 450.0f);
-    MenuItemOptions *AddIntOptions_Internal(std::string text, int *ptr, int min, int max, int step);
-    MenuItemOptions *AddFloatOptions_Internal(std::string text, float *ptr, float min, float max, float step);
-    MenuItem *AddItem_Internal(std::string text);
-    MenuItem *AddButton_Internal(std::string text, std::function<void()> onClick);
-    MenuItemSlider *AddSlider_Internal(std::string text, float *pValue, float minValue, float maxValue, int decimals);
+    MenuItem* AddItemDefault();
+    MenuItemCheckbox* AddCheckbox_Internal(std::string text, bool* ptr);
+    MenuItemOptions* AddOptions_Internal(std::string text, float optionsWidth = 450.0f);
+    MenuItemOptions* AddIntOptions_Internal(std::string text, int* ptr, int min, int max, int step);
+    MenuItemOptions* AddFloatOptions_Internal(std::string text, float* ptr, float min, float max, float step);
+    MenuItem* AddItem_Internal(std::string text);
+    MenuItem* AddButton_Internal(std::string text, std::function<void()> onClick);
+    MenuItemSlider* AddSlider_Internal(std::string text, float* pValue, float minValue, float maxValue, int decimals);
 
-    void RemoveItem(MenuItem *item);
+    void RemoveItem(MenuItem* item);
     void RemoveItems();
 
     void UpdateMenuTransform();
@@ -54,60 +56,68 @@ class Window : public IWindow
 
     void Close_Internal();
 
-    Container *GetContainer();
-    Container *GetContentContainer();
+    Container* GetContainer();
+    Container* GetContentContainer();
 
-  public:
-    IMenuItem *AddCheckbox(std::string text, bool *pValue) override
+public:
+    IMenuItem* AddCheckbox(const std::string& text, bool* pValue) override
     {
         auto item = AddCheckbox_Internal(text, pValue);
         return item;
     }
 
-    IMenuItem *AddFloatOptions(std::string text, float *pValue, float min, float max, float step) override
+    IMenuItem* AddFloatOptions(const std::string& text, float* pValue, float min, float max, float step) override
     {
         auto item = AddFloatOptions_Internal(text, pValue, min, max, step);
         return item;
     }
 
-    IMenuItem *AddIntOptions(std::string text, int *pValue, int min, int max, int step) override
+    IMenuItem* AddIntOptions(const std::string& text, int* pValue, int min, int max, int step) override
     {
         auto item = AddIntOptions_Internal(text, pValue, min, max, step);
         return item;
     }
 
-    IMenuItem *AddOptions(std::string text, float optionsWidth) override
+    IMenuItem* AddOptions(const std::string& text, float optionsWidth) override
     {
         auto item = AddOptions_Internal(text, optionsWidth);
         return item;
     }
 
-    IMenuItem *AddItem(std::string text) override
+    IMenuItem* AddItem(const std::string& text) override
     {
         auto item = AddItem_Internal(text);
         return item;
     }
 
-    IMenuItem *AddButton(std::string text, std::function<void()> onClick) override
+    IMenuItem* AddButton(const std::string& text, std::function<void()> onClick) override
     {
         auto item = AddButton_Internal(text, onClick);
         return item;
     }
 
-    IMenuItem *AddSlider(std::string text, float *pValue, float minValue, float maxValue, int decimals) override
+    IMenuItem* AddSlider(const std::string& text, float* pValue, float minValue, float maxValue, int decimals) override
     {
         auto item = AddSlider_Internal(text, pValue, minValue, maxValue, decimals);
         return item;
     }
 
-    IMenuItem *AddCustomItem(std::string text, float height) override
+    IMenuItem* AddCustomItem(const std::string& text, float height) override
     {
         auto item = AddItem_Internal(text);
         item->GetContainer()->style.height = std::to_string(height) + "px";
         return item;
     }
 
-    virtual void Close() override { Close_Internal(); }
+    void SetCloseButtonVisible(bool visible) override
+    {
+        _closeButton->visible = visible;
+    }
 
-    virtual IWindow *OpenColorMenu(CRGBA *color) override;
+    void Close() override
+    {
+        Close_Internal();
+    }
+
+    IWindow* OpenColorMenu(CRGBA* color) override;
 };

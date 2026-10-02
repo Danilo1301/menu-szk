@@ -18,9 +18,9 @@ LOCAL_SRC_FILES := $(call rwildcard,mod,*.cpp)
 LOCAL_SRC_FILES += $(call rwildcard,src,*.cpp)
 LOCAL_SRC_FILES += $(call rwildcard,json,*.cpp)
 
-$(info ==================== SOURCE FILES ====================)
-$(foreach file,$(LOCAL_SRC_FILES),$(info $(file)))
-$(info ======================================================)
+# $(info ==================== SOURCE FILES ====================)
+# $(foreach file,$(LOCAL_SRC_FILES),$(info $(file)))
+# $(info ======================================================)
 
 LOCAL_CXXFLAGS += -O2 -DNDEBUG -std=c++17
 

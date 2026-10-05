@@ -2,9 +2,12 @@
 
 #include "aml-psdk/game_sa/base/Timer.h"
 #include "audio/soundSystem/CSoundSystem.h"
+#include "config.h"
+#include "input_old.h"
 #include "logHelper.h"
 #include "menuSZK.h"
 #include "menuOperation.h"
+#include "menuSZK/imenuSZK.h"
 #include "mod/logger.h"
 
 #include "input.h"
@@ -13,6 +16,7 @@
 #include "radarBlip/radarBlip.h"
 #include "src/screenDebug/screenDebug.h"
 #include "webServer/webServer.h"
+#include "menus/menuSettings.h"
 
 #include <chrono>
 #include <cstdlib>
@@ -31,6 +35,13 @@ DECL_HOOKv(CTimer__Update)
 
     g_timeInMilliseconds = now;
     g_deltaTime = dt;
+
+    if (use_old_input_system())
+    {
+        logger->Info("processing old input");
+
+        Input_old::Update();
+    }
 
     Input::ProcessTouchEvents();
 
@@ -113,6 +124,15 @@ DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
 {
     BEGIN_OPERATION(op_TouchEvent);
 
+    static bool _isFirstTest = true;
+    static std::string _inputFilePath = GetMenuAssetPath("TOUCH_TEST");
+
+    if (_isFirstTest)
+    {
+        //
+        JustCreateFile(_inputFilePath);
+    }
+
     if (LogHelper::bDuringTouchEvent)
     {
         logger->Error("bDuringTouchEvent is true during start of the event");
@@ -128,7 +148,7 @@ DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
     {
         LogHelper::bDuringTouchEvent = false;
 
-        TouchEvent(actionType, trackNum, 0, 0);
+        //TouchEvent(actionType, trackNum, 0, 0);
 
         END_OPERATION_RESULT(op_TouchEvent, "blocked");
 
@@ -138,6 +158,14 @@ DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
     LogHelper::bDuringTouchEvent = false;
 
     TouchEvent(actionType, trackNum, x, y);
+
+    if (_isFirstTest)
+    {
+        _isFirstTest = false;
+        RemoveFile(_inputFilePath);
+
+        ScreenDebug::Main->AddLine("Input is working!", ScreenLogType::Special, 3000);
+    }
 
     END_OPERATION(op_TouchEvent);
 }
@@ -189,6 +217,8 @@ void DoHooks()
     SET_TO(LimitRadarPoint, aml->GetSym(hGTASA, "_ZN6CRadar15LimitRadarPointER9CVector2D"));
     SET_TO(TransformRadarPointToScreenSpace, aml->GetSym(hGTASA, "_ZN6CRadar32TransformRadarPointToScreenSpaceER9CVector2DRKS0_"));
     SET_TO(CSprite_CalcScreenCoors, aml->GetSym(hGTASA, "_ZN7CSprite15CalcScreenCoorsERK5RwV3dPS0_PfS4_bb"));
+    SET_TO(CTouchInterface_m_bTouchDown, aml->GetSym(hGTASA, "_ZN15CTouchInterface12m_bTouchDownE"));
+    SET_TO(m_vecCachedPos, aml->GetSym(hGTASA, "_ZN15CTouchInterface14m_vecCachedPosE"));
 
     // this could be the best place to draw blips.. (for 32)
     // HOOKPLT(RadarBlipsDraw, pGTASA + 0x66E910);
@@ -196,7 +226,9 @@ void DoHooks()
     HOOK(CTimer__Update, CTimer::Update); // just an example!
     //HOOK(CGame__Process, aml->GetSym(hGTASA, "_ZN5CGame7ProcessEv"));
     HOOK(PreRenderEnd, aml->GetSym(hGTASA, "_ZN6CDebug22DebugDisplayTextBufferEv"));
-    HOOK(TouchEvent, aml->GetSym(hGTASA, "_Z14AND_TouchEventiiii"));
+
+    if (use_old_input_system() == false) { HOOK(TouchEvent, aml->GetSym(hGTASA, "_Z14AND_TouchEventiiii")); }
+
     HOOK(DrawRadarGangOverlay, aml->GetSym(hGTASA, "_ZN6CRadar20DrawRadarGangOverlayEb"));
 
     Events::gameProcessEvent.after += []()

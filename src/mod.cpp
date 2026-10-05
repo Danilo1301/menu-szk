@@ -67,10 +67,6 @@ void Mod::OnPreload()
 
     //
 
-    ScreenDebug::Main->AddLine("MenuSZK initialized. Author: DaniloSZK", ScreenLogType::Special, VERY_LONG_TIME_MS);
-
-    //
-
     Container::MainContainer = Container::CreateContainer("main-container");
 
     //
@@ -121,8 +117,6 @@ void Mod::OnPreload()
     DownloadIntroductionImage();
 
     //
-
-    BeginNews();
 }
 
 void Mod::OnLoad()
@@ -165,7 +159,17 @@ void Mod::OnLoad()
 
     WebServer::Initialze();
 
-    if (!WebServer::Joined) { LOGW("Failed to connect to server"); }
+    //if (!WebServer::Joined) { LOGW("Failed to connect to server"); }
+
+    ScreenDebug::Main->AddLine("MenuSZK initialized. Author: DaniloSZK", ScreenLogType::Special, VERY_LONG_TIME_MS);
+
+    if (use_old_input_system())
+    {
+        ScreenDebug::Main->AddLine("~y~Using old input system!", ScreenLogType::Special, VERY_LONG_TIME_MS);
+        ScreenDebug::Main->AddLine("~y~Consider changing it in the settings.ini", ScreenLogType::Special, VERY_LONG_TIME_MS);
+    }
+
+    BeginNews();
 }
 
 void Mod::OnTimerUpdate()

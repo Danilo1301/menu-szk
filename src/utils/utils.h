@@ -14,7 +14,7 @@
 
 #define SECRET_FILE_VERSION "01"
 
-inline std::string StringToHex(const std::string &value)
+inline std::string StringToHex(const std::string& value)
 {
     static constexpr char hex[] = "0123456789ABCDEF";
 
@@ -30,7 +30,7 @@ inline std::string StringToHex(const std::string &value)
     return result;
 }
 
-inline std::string ObfuscateSecret(const std::string &value)
+inline std::string ObfuscateSecret(const std::string& value)
 {
     const std::string content = StringToHex(SECRET_FILE_VERSION) + "\n" + value;
 
@@ -38,28 +38,24 @@ inline std::string ObfuscateSecret(const std::string &value)
 
     std::string result = content;
 
-    for (size_t i = 0; i < result.size(); i++)
-        result[i] ^= key[i % (sizeof(key) - 1)];
+    for (size_t i = 0; i < result.size(); i++) result[i] ^= key[i % (sizeof(key) - 1)];
 
     return result;
 }
 
-inline std::string DeobfuscateSecret(const std::string &value)
+inline std::string DeobfuscateSecret(const std::string& value)
 {
     const std::string result = ObfuscateSecret(value);
 
     const size_t separator = result.find('\n');
 
-    if (separator == std::string::npos)
-        return "";
+    if (separator == std::string::npos) return "";
 
     std::string fileVersion = result.substr(0, separator);
 
-    if (!fileVersion.empty() && fileVersion.back() == '\r')
-        fileVersion.pop_back();
+    if (!fileVersion.empty() && fileVersion.back() == '\r') fileVersion.pop_back();
 
-    if (fileVersion != StringToHex(SECRET_FILE_VERSION))
-        return "";
+    if (fileVersion != StringToHex(SECRET_FILE_VERSION)) return "";
 
     return result.substr(separator + 1);
 }
@@ -105,19 +101,30 @@ inline void SetTimeout(std::function<void()> callback, int milliseconds)
         .detach();
 }
 
-inline bool FileExists(const std::string &path)
+inline bool FileExists(const std::string& path)
 {
     std::ifstream f(path.c_str());
     return f.good();
 }
 
-inline void CreateFullPath(const std::string &path)
+inline void CreateFullPath(const std::string& path)
 {
     std::error_code error;
     std::filesystem::create_directories(path, error);
 
-    if (error)
-    {
-        LOGE("Failed to create folder: %s (%s)", path.c_str(), error.message().c_str());
-    }
+    if (error) { LOGE("Failed to create folder: %s (%s)", path.c_str(), error.message().c_str()); }
+}
+
+inline void JustCreateFile(const std::string& path)
+{
+    std::ofstream file(path);
+}
+
+inline void RemoveFile(const std::string& path)
+{
+    std::error_code error;
+
+    std::filesystem::remove(path, error);
+
+    if (error) { LOGE("Failed to remove file: %s (%s)", path.c_str(), error.message().c_str()); }
 }

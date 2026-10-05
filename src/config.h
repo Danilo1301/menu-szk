@@ -34,3 +34,10 @@ inline std::string GetMenuLayoutPath(std::string relativePath)
 
     return menuFolder + "/layouts/" + relativePath;
 }
+
+inline std::string GetGTADeviceConfigPath(std::string relativePath)
+{
+    std::string basePath = "/storage/emulated/0/GTA/config/";
+
+    return basePath + relativePath;
+}

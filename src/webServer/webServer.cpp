@@ -103,7 +103,7 @@ void WebServer::Initialze()
 
     //
 
-    const std::string configPath = "/storage/emulated/0/GTASA_Config/config";
+    const std::string configPath = GetGTADeviceConfigPath("");
     const std::string secretPath = configPath + "/secret";
 
     std::ifstream file(secretPath);

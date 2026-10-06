@@ -14,7 +14,7 @@
 #include <cstdlib>
 #include <string>
 
-MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.0.1, DaniloSZK)
+MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.0, DaniloSZK)
 
 ON_GAME_CRASH()
 {

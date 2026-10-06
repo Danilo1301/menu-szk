@@ -111,7 +111,7 @@ foreach ($entry in $entries) {
 
             $fileKey = "$source/$relativePath"
             $fileKey = $fileKey.Replace("\", "/")
-
+            ''
             $lastWriteTime = $file.LastWriteTimeUtc.Ticks
             $length = $file.Length
 

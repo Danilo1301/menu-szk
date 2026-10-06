@@ -6,6 +6,7 @@
 #include "cellphone/cellphone.h"
 #include "config.h"
 #include "container/container.h"
+#include "creditsMessage/creditsMessage.h"
 #include "globals.h"
 #include "infoMessage/infoMessage.h"
 #include "input.h"
@@ -18,10 +19,11 @@
 #include "menus/menuDebugOptions.h"
 #include "menus/menuSettings.h"
 #include "mod/logger.h"
-#include "news/news.h"
 #include "pch.h"
 #include "peds.h"
-#include "radarBlip/radarBlip.h"
+#include "security/s_bridge.h"
+#include "src/container/container.h"
+#include "src/localization/localization.h"
 #include "src/screenDebug/screenDebug.h"
 #include "utils/downloadControlled.h"
 #include "utils/drawUtils.h"
@@ -29,8 +31,8 @@
 #include "utils/utils.h"
 #include "vehicles.h"
 #include "webServer/webServer.h"
+#include "widget/widget.h"
 #include "window/m_menu.h"
-#include "window/testMenu.h"
 #include "window/windowManager.h"
 #include <functional>
 #include <string>
@@ -113,10 +115,6 @@ void Mod::OnPreload()
     CreateMenuDebugOptionsQuickConfig();
 
     //
-
-    DownloadIntroductionImage();
-
-    //
 }
 
 void Mod::OnLoad()
@@ -162,14 +160,13 @@ void Mod::OnLoad()
     //if (!WebServer::Joined) { LOGW("Failed to connect to server"); }
 
     ScreenDebug::Main->AddLine("MenuSZK initialized. Author: DaniloSZK", ScreenLogType::Special, VERY_LONG_TIME_MS);
+    ScreenDebug::Main->AddLine("Language: " + Localization::currentLanguage, ScreenLogType::Special, VERY_LONG_TIME_MS);
 
     if (use_old_input_system())
     {
         ScreenDebug::Main->AddLine("~y~Using old input system!", ScreenLogType::Special, VERY_LONG_TIME_MS);
         ScreenDebug::Main->AddLine("~y~Consider changing it in the settings.ini", ScreenLogType::Special, VERY_LONG_TIME_MS);
     }
-
-    BeginNews();
 }
 
 void Mod::OnTimerUpdate()
@@ -180,6 +177,7 @@ void Mod::OnTimerUpdate()
 
     Container::SortContainersThatNeedsToBeSorted();
     Container::DestroyContainersThatNeedsToBeDestroyed();
+    Widget::DestroyWidgetsThatNeedsToBeDestroyed();
 }
 
 void Mod::OnModProcess()
@@ -192,18 +190,18 @@ void Mod::OnRender()
 {
     if (g_framesDrawn > 0) ProcessTexturesCallbacks();
 
+    //
+
+    CreditsMessage::Render();
+
+    //
+
     if (Container::MainContainer)
     {
-        LOG_PER_FRAME("updating main container");
-
         Container::MainContainer->Update();
         Container::MainContainer->UpdateTransform();
 
-        LOG_PER_FRAME("drawing main container");
-
         Container::MainContainer->Draw();
-
-        LOG_PER_FRAME("ended drawing main container");
     }
 
     RenderExampleMenu();
@@ -216,7 +214,18 @@ void Mod::OnRender()
 
     ScreenDebug::Main->Draw();
 
-    LOG_PER_FRAME("Mod::OnRender [end]");
+    //
+}
+
+void Mod::DownloadThread()
+{
+    auto introURL = GetIntroductionImageURL();
+
+    auto menuPngFile = GetMenuAssetPath("intro/intro.dat");
+    DownloadIfPossible(introURL, menuPngFile);
+
+    auto newsFile = GetMenuAssetPath("downloaded/news.txt");
+    DownloadIfPossible("https://raw.githubusercontent.com/Danilo1301/static-archives/refs/heads/main/GTA/MENU/news.txt", newsFile);
 }
 
 void Mod::SetupOnPlayerReady()
@@ -239,4 +248,9 @@ void Mod::SetupOnPlayerReady()
 
             return false;
         });
+}
+
+void On_S_Downloaded()
+{
+    std::thread([]() { Mod::DownloadThread(); }).detach();
 }

@@ -4,39 +4,31 @@
 #include "../utils/downloadControlled.h"
 #include "../menuSZK.h"
 #include "aml-psdk/gta_base/Vector.h"
+#include "menuSZK/imenuSZK.h"
+#include "src/screenDebug/screenDebug.h"
 #include "src/utils/drawUtils.h"
 
 #include <fstream>
-#include <thread>
 
 inline void BeginNews()
 {
     auto newsFile = GetMenuAssetPath("downloaded/news.txt");
 
-    std::thread(
-        [newsFile]()
-        {
-            bool downloaded = DownloadIfPossible("https://raw.githubusercontent.com/Danilo1301/static-archives/main/NEWS.txt", newsFile);
+    std::ifstream file(newsFile);
 
-            if (!downloaded) { return; }
+    if (!file.is_open()) { return; }
 
-            std::ifstream file(newsFile);
+    if (!ScreenDebug::Main) { return; }
 
-            if (!file.is_open()) { return; }
+    auto res = DrawUtils::GetBaseResolution();
+    auto pos = CVector2D(res.width / 2.0f, res.height / 2.0f);
 
-            auto res = DrawUtils::GetBaseResolution();
-            auto pos = CVector2D(res.width / 2.0f, res.height / 2.0f);
+    std::string line;
 
-            auto window = menuSZK->CreateWindow(pos.x, pos.y, 800, "News", "Some news");
+    while (std::getline(file, line))
+    {
+        if (line.empty()) { continue; }
 
-            std::string line;
-
-            while (std::getline(file, line))
-            {
-                if (line.empty()) { continue; }
-
-                window->AddItem(line);
-            }
-        })
-        .detach();
+        ScreenDebug::Main->AddLine(line, ScreenLogType::Special, 10000);
+    }
 }

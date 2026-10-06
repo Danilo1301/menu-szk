@@ -5,7 +5,7 @@
 
 class QuickConfig
 {
-  private:
+private:
     std::string _path;
 
     std::map<std::string, bool> _bools;
@@ -15,18 +15,21 @@ class QuickConfig
 
     std::map<std::string, std::string> _values;
 
-  public:
-    QuickConfig(const std::string &path);
+public:
+    QuickConfig(const std::string& path);
 
-    void AddBool(const std::string &name, bool defaultValue);
-    void AddInt(const std::string &name, int defaultValue);
-    void AddFloat(const std::string &name, float defaultValue);
-    void AddString(const std::string &name, const std::string &defaultValue);
+    void AddBool(const std::string& name, bool defaultValue);
+    void AddInt(const std::string& name, int defaultValue);
+    void AddFloat(const std::string& name, float defaultValue);
+    void AddString(const std::string& name, const std::string& defaultValue);
 
-    bool *GetBool(const std::string &name);
-    int *GetInt(const std::string &name);
-    float *GetFloat(const std::string &name);
-    std::string *GetString(const std::string &name);
+    bool* GetBool(const std::string& name);
+    int* GetInt(const std::string& name);
+    float* GetFloat(const std::string& name);
+    std::string* GetString(const std::string& name);
+
+    bool GetBoolValue(const std::string& name);
+    std::string GetStringValue(const std::string& name);
 
     void Save();
 };

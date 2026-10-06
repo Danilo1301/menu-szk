@@ -2,12 +2,14 @@
 #include "../container/container.h"
 #include "../container/containerLoader.h"
 #include "menuSZK/imenuSZK.h"
-#include "mod/logger.h"
 #include "src/container/cssValue.h"
-#include "src/pch.h"
+#include "src/logHelper.h"
 #include "src/utils/eventListener.h"
-#include "src/window/window.h"
+#include "../logHelper.h"
 #include <string>
+#include <vector>
+
+std::vector<Widget*> _widgetsToDestroy;
 
 Widget::Widget(Container* parent, std::string tag, std::string backgroundImage, std::string image)
 {
@@ -76,7 +78,7 @@ float Widget::GetSize()
 
 void Widget::Destroy()
 {
-    Widget::DestroyWidget(this);
+    _widgetsToDestroy.push_back(this);
 }
 
 IContainer* Widget::GetContainer()
@@ -93,7 +95,13 @@ Widget* Widget::CreateWidget(float x, float y, float size, std::string bgImage, 
     return widget;
 }
 
-void Widget::DestroyWidget(Widget* widget)
+void Widget::DestroyWidgetsThatNeedsToBeDestroyed()
 {
-    delete widget;
+    BEGIN_OPERATION_DESC(op_Test, "Destroying widgets");
+
+    for (Widget* widget : _widgetsToDestroy) { delete widget; }
+
+    _widgetsToDestroy.clear();
+
+    END_OPERATION(op_Test);
 }

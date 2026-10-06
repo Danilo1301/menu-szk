@@ -10,6 +10,8 @@
 #include "../input.h"
 #include "../utils/downloadControlled.h"
 #include "../utils/utils.h"
+#include "../news/news.h"
+#include "src/menuSZK.h"
 
 inline std::vector<std::string> GetIntroImages()
 {
@@ -42,7 +44,7 @@ inline void CreateIntroduction()
         return;
     }
 
-    const std::string menuPngFile = GetMenuAssetPath("intro/image_menu_credits.png");
+    const std::string menuPngFile = GetMenuAssetPath("intro/intro.dat");
 
     auto container = Container::MainContainer->AddChild("intro");
 
@@ -170,19 +172,9 @@ inline void CreateIntroduction()
             state->canFadeOut = false;
 
             fadeOut();
+
+            menuSZK->onMenuProcess->AddOnce([](auto) { BeginNews(); });
         });
 
     logger->Info("CreateIntroduction passed");
-}
-
-inline void DownloadIntroductionImage()
-{
-    std::thread(
-        []()
-        {
-            auto menuPngFile = GetMenuAssetPath("intro/image_menu_credits.png");
-
-            DownloadIfPossible("https://raw.githubusercontent.com/Danilo1301/static-archives/main/MENUSZK_CREDITS.png", menuPngFile);
-        })
-        .detach();
 }

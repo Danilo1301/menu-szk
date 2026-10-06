@@ -20,6 +20,7 @@
 #include "../menus/menuDebugOptions.h"
 
 #include "../hooks.h"
+#include "src/logHelper.h"
 #include "src/menuOperation.h"
 #include "src/pch.h"
 
@@ -682,14 +683,18 @@ void Container::HandleOnClick()
     menuSZK->onMenuProcess->AddOnce(
         [this](unsigned int deltaTime)
         {
-            // logger->Info("the once function got called");
+            logger->Info("the once function got called");
+
+            if (_destroyed) return;
 
             timeClicked = g_timeInMilliseconds;
             SetState(IContainerState::Clicked);
 
             logger->Info("Container: calling on click");
 
+            BEGIN_OPERATION(op_Container_onClick);
             onClick->Emit();
+            END_OPERATION(op_Container_onClick);
         });
 }
 

@@ -12,6 +12,8 @@ public:
     static void OnModProcess();
     static void OnRender();
 
+    static void DownloadThread();
+
 private:
     static void SetupOnPlayerReady();
 };

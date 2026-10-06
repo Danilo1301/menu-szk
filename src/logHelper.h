@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "menuOperation.h"
+
 struct ScriptOperation
 {
     unsigned int scriptId;

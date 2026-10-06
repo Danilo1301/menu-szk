@@ -402,4 +402,6 @@ libs/**
 .vscode/
 *.bak
 
+security/
+
 .env

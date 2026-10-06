@@ -123,7 +123,7 @@ void DrawUtils::DrawSprite(CSprite2d* sprite, CVector2D position, CVector2D size
 {
     if (sprite->m_pTexture == nullptr)
     {
-        LOGE("Called DrawSprite with a null texture");
+        //LOGE("Called DrawSprite with a null texture");
         return;
     }
 

@@ -128,3 +128,18 @@ inline void RemoveFile(const std::string& path)
 
     if (error) { LOGE("Failed to remove file: %s (%s)", path.c_str(), error.message().c_str()); }
 }
+
+inline void PrintFileContent(const std::string& path)
+{
+    std::ifstream file(path);
+
+    if (!file.is_open())
+    {
+        logger->Info("Failed to open file: %s", path.c_str());
+        return;
+    }
+
+    std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+    logger->Info("File content:\n%s", content.c_str());
+}

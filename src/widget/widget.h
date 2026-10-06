@@ -23,5 +23,6 @@ public:
     IContainer* GetContainer() override;
 
     static Widget* CreateWidget(float x, float y, float size, std::string bgImage, std::string image);
-    static void DestroyWidget(Widget* widget);
+
+    static void DestroyWidgetsThatNeedsToBeDestroyed();
 };

@@ -15,5 +15,7 @@ enum MenuOperation : unsigned int
     op_TouchEvent,
     op_DrawRadarGangOverlay,
     op_Container_destroy,
-    op_Container_addChild
+    op_Container_addChild,
+    op_Test,
+    op_Container_onClick
 };

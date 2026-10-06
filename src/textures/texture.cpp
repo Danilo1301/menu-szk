@@ -1,7 +1,9 @@
 #include "texture.h"
 #include "../utils/textureLoader.h"
 #include "aml-psdk/gta_base/RGBA.h"
+#include "src/pch.h"
 #include "src/utils/textureLoader.h"
+#include "src/utils/utils.h"
 
 // Texture::Texture(std::string imagePath)
 // {
@@ -16,6 +18,8 @@ Texture::Texture(std::string imagePath, std::string textureName, bool flipHorizo
     ExecuteWhenTexturesCanBeCreated(
         [this, imagePath, textureName, flipHorizontal, replaceColor]()
         {
+            if (!FileExists(imagePath)) { LOGE("Image not found: %s", imagePath.c_str()); }
+
             texture = LoadRwTextureFromFileAndCache(imagePath, textureName, flipHorizontal, replaceColor);
             sprite.m_pTexture = texture;
         });

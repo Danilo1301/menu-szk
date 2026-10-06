@@ -2,21 +2,15 @@
 
 #include "../config.h"
 #include "../utils/quickConfig.h"
-#include "../window/windowManager.h"
+#include "../localization/localization.h"
 
-#include "../audio/audioUtils.h"
-#include "../radarBlip//radarBlip.h"
-#include "introductionImage.h"
-#include "mod/logger.h"
-#include "src/utils/utils.h"
+#include "../utils/utils.h"
 #include <string>
 
 inline QuickConfig* menuSettings = nullptr;
 
 inline void CreateMenuSettingsQuickConfig()
 {
-    logger->Info("1");
-
     std::string configPath = GetMenuFolder() + "settings.ini";
 
     menuSettings = new QuickConfig(configPath);
@@ -24,6 +18,10 @@ inline void CreateMenuSettingsQuickConfig()
     //
 
     menuSettings->AddString("language", Localization::currentLanguage);
+
+    menuSettings->AddString("top_screen_credits_message", "Credits: DaniloSZK (change me!)");
+
+    menuSettings->AddBool("top_screen_credits_message_enabled", true);
 
     menuSettings->AddBool("use_simple_input_system", false);
 
@@ -40,8 +38,6 @@ inline void CreateMenuSettingsQuickConfig()
     Localization::SetLanguage(*menuSettings->GetString("language"));
 
     menuSettings->Save();
-
-    logger->Info("2");
 }
 
 inline bool use_old_input_system()

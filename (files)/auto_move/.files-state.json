@@ -8,8 +8,8 @@
                                                                      "Length":  38544
                                                                  },
     "(files)/data/menuSZK/assets/intro/image_2.png":  {
-                                                          "LastWriteTime":  639262857758482789,
-                                                          "Length":  15515
+                                                          "LastWriteTime":  639269061251614488,
+                                                          "Length":  13494
                                                       },
     "(files)/data/menuSZK/assets/icons/window.png":  {
                                                          "LastWriteTime":  639257089221273311,
@@ -76,8 +76,8 @@
                                                           "Length":  114
                                                       },
     "libs/arm64-v8a/libMenuSZK_64.so":  {
-                                            "LastWriteTime":  639268116437948896,
-                                            "Length":  2502408
+                                            "LastWriteTime":  639269076656677808,
+                                            "Length":  2532144
                                         },
     "(files)/data/menuSZK/assets/icons/keyboard.png":  {
                                                            "LastWriteTime":  639257087061671533,
@@ -199,10 +199,6 @@
                                                           "LastWriteTime":  638998041840000000,
                                                           "Length":  112
                                                       },
-    "(files)/data/menuSZK/assets/intro/image_menu_credits.png":  {
-                                                                     "LastWriteTime":  639262365854739176,
-                                                                     "Length":  42500
-                                                                 },
     "(files)/data/menuSZK/assets/keyboard/key1.png":  {
                                                           "LastWriteTime":  639264805994099204,
                                                           "Length":  1070
@@ -268,8 +264,8 @@
                                                          "Length":  2380
                                                      },
     "libs/armeabi-v7a/libMenuSZK_v2.so":  {
-                                              "LastWriteTime":  639268116437728439,
-                                              "Length":  1649676
+                                              "LastWriteTime":  639269076656807808,
+                                              "Length":  1670524
                                           },
     "(files)/data/menuSZK/assets/colorpicker/selector.png":  {
                                                                  "LastWriteTime":  639257233133359088,
@@ -288,8 +284,8 @@
                                                      "Length":  4827
                                                  },
     "(files)/data/menuSZK/assets/intro/image_1.png":  {
-                                                          "LastWriteTime":  639259807761872466,
-                                                          "Length":  274561
+                                                          "LastWriteTime":  639269061050847449,
+                                                          "Length":  154822
                                                       },
     "(files)/data/menuSZK/assets/menu/button1.png":  {
                                                          "LastWriteTime":  639254460688221707,

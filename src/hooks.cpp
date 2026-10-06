@@ -9,11 +9,13 @@
 #include "menuOperation.h"
 #include "menuSZK/imenuSZK.h"
 #include "mod/logger.h"
+#include "logHelper.h"
 
 #include "input.h"
 #include "mod.h"
 #include "pch.h"
 #include "radarBlip/radarBlip.h"
+#include "src/logHelper.h"
 #include "src/screenDebug/screenDebug.h"
 #include "webServer/webServer.h"
 #include "menus/menuSettings.h"
@@ -36,12 +38,7 @@ DECL_HOOKv(CTimer__Update)
     g_timeInMilliseconds = now;
     g_deltaTime = dt;
 
-    if (use_old_input_system())
-    {
-        logger->Info("processing old input");
-
-        Input_old::Update();
-    }
+    if (use_old_input_system()) { Input_old::Update(); }
 
     Input::ProcessTouchEvents();
 
@@ -111,11 +108,17 @@ DECL_HOOK(void, PreRenderEnd, void* self)
 
     PreRenderEnd(self);
 
+    BEGIN_OPERATION_DESC(op_Test, "before menu");
     menuSZK->onDrawBeforeMenu->Emit(g_renderDeltaTime);
+    END_OPERATION(op_Test);
 
+    BEGIN_OPERATION_DESC(op_Test, "mod on render");
     Mod::OnRender();
+    END_OPERATION(op_Test);
 
+    BEGIN_OPERATION_DESC(op_Test, "after menu");
     menuSZK->onDrawAfterMenu->Emit(g_renderDeltaTime);
+    END_OPERATION(op_Test);
 
     END_OPERATION(op_PreRenderEnd);
 }

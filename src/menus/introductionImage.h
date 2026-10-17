@@ -11,6 +11,7 @@
 #include "../utils/downloadControlled.h"
 #include "../utils/utils.h"
 #include "../news/news.h"
+#include "../utils/deviceId.h"
 #include "src/menuSZK.h"
 
 inline std::vector<std::string> GetIntroImages()
@@ -108,7 +109,7 @@ inline void CreateIntroduction()
 
             state->canFadeOut = true;
         },
-        350);
+        20);
 
     auto destroy = [state]()
     {
@@ -117,6 +118,7 @@ inline void CreateIntroduction()
         state->destroyed = true;
 
         Input::OnSwipeSpecial->Remove(myRef);
+        Input::OnTouchUp->Remove(myRef);
 
         Container* container = state->container;
 
@@ -149,6 +151,8 @@ inline void CreateIntroduction()
 
                 destroy();
             });
+
+        menuSZK->onMenuProcess->AddOnce([](auto) { BeginNews(); });
     };
 
     auto fadeIn = [state]()
@@ -172,8 +176,18 @@ inline void CreateIntroduction()
             state->canFadeOut = false;
 
             fadeOut();
+        });
 
-            menuSZK->onMenuProcess->AddOnce([](auto) { BeginNews(); });
+    Input::OnTouchUp->AddRef(myRef,
+        [state, fadeOut](auto)
+        {
+            if (g_deviceChanged == true) return;
+
+            if (!state->canFadeOut) return;
+
+            state->canFadeOut = false;
+
+            fadeOut();
         });
 
     logger->Info("CreateIntroduction passed");

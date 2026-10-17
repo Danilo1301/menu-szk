@@ -9,3 +9,7 @@ tenta sincronizar e colocar a hora do jogo pra aparecer no celular entendeu?
 tirar o download do github do thread original
 
 keyboard no spawner de carro
+
+
+
+		CRIAR UM CONVERTEDOR DE 32 PRA 64, só pra ajudar a trocar os mods/etc

@@ -11,10 +11,11 @@
 #include "mod/logger.h"
 #include "utils/logStorage.h"
 #include "utils/renameAmlCrashlog.h"
+#include "utils/deviceId.h"
 #include <cstdlib>
 #include <string>
 
-MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.0, DaniloSZK)
+MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.1, DaniloSZK)
 
 ON_GAME_CRASH()
 {
@@ -64,6 +65,8 @@ ON_MOD_LOAD()
     END_OPERATION_RESULT(op_ResolveDependecies, "we resolved all");
 
     DoHooks();
+
+    CheckChangedDevice();
 
     Mod::OnLoad();
 

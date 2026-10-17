@@ -82,7 +82,10 @@ void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsign
         {
             auto it = _touches.find(trackNum);
 
-            if (it != _touches.end() && it->second.active) { LOGW("[INPUT INCONSISTENCY] DOWN without UP: trackNum=%d", trackNum); }
+            if (it != _touches.end() && it->second.active)
+            {
+                //LOGI("[INPUT INCONSISTENCY] DOWN without UP: trackNum=%d", trackNum);
+            }
 
             InputTouch& touch = _touches[trackNum];
 
@@ -104,8 +107,7 @@ void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsign
 
             if (it == _touches.end())
             {
-                LOGW("[INPUT INCONSISTENCY] MOVE without DOWN: trackNum=%d", trackNum);
-
+                //LOGW("[INPUT INCONSISTENCY] MOVE without DOWN: trackNum=%d", trackNum);
                 break;
             }
 
@@ -113,8 +115,7 @@ void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsign
 
             if (!touch.active)
             {
-                LOGW("[INPUT INCONSISTENCY] MOVE with inactive touch: trackNum=%d", trackNum);
-
+                //LOGW("[INPUT INCONSISTENCY] MOVE with inactive touch: trackNum=%d", trackNum);
                 break;
             }
 
@@ -135,7 +136,7 @@ void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsign
 
             if (it == _touches.end())
             {
-                LOGW("[INPUT INCONSISTENCY] UP without DOWN: trackNum=%d", trackNum);
+                //LOGW("[INPUT INCONSISTENCY] UP without DOWN: trackNum=%d", trackNum);
 
                 break;
             }
@@ -144,7 +145,7 @@ void Input::ProcessTouchEvent(int actionType, int trackNum, int x, int y, unsign
 
             if (!touch.active)
             {
-                LOGW("[INPUT INCONSISTENCY] UP with inactive touch: trackNum=%d", trackNum);
+                //LOGW("[INPUT INCONSISTENCY] UP with inactive touch: trackNum=%d", trackNum);
 
                 _touches.erase(it);
                 break;

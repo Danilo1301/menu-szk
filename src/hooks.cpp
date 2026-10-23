@@ -167,7 +167,7 @@ DECL_HOOK(void, TouchEvent, int actionType, int trackNum, int x, int y)
         _isFirstTest = false;
         RemoveFile(_inputFilePath);
 
-        ScreenDebug::Main->AddLine("Input is working!", ScreenLogType::Special, 3000);
+        ScreenDebug::Main->AddLine("Input is working!", ScreenLogType::Special, 1500);
     }
 
     END_OPERATION(op_TouchEvent);

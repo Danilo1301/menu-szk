@@ -37,6 +37,8 @@
 #include <functional>
 #include <string>
 
+extern std::string VersionText;
+
 unsigned int _customTime = 0;
 unsigned int _lastTime = 0;
 
@@ -159,7 +161,8 @@ void Mod::OnLoad()
 
     //if (!WebServer::Joined) { LOGW("Failed to connect to server"); }
 
-    ScreenDebug::Main->AddLine("MenuSZK initialized. Author: DaniloSZK", ScreenLogType::Special, VERY_LONG_TIME_MS);
+    ScreenDebug::Main->AddLine("MenuSZK initialized. v" + VersionText, ScreenLogType::Special, VERY_LONG_TIME_MS);
+    ScreenDebug::Main->AddLine("AML version: " + g_probableAmlVersion, ScreenLogType::Special, VERY_LONG_TIME_MS);
     ScreenDebug::Main->AddLine("Language: " + Localization::currentLanguage, ScreenLogType::Special, VERY_LONG_TIME_MS);
 
     if (use_old_input_system())

@@ -30,7 +30,8 @@ public:
     static void BeginOperation(unsigned int operationCode, std::string operationName, std::string description = "");
     static void EndOperation(unsigned int operationCode, std::string result = "");
 
-    static void CreateLogFile();
+    static void CreateCrashLogFile();
+    static void CreateDumpLogFile();
     static void RemoveOldCrashLogs();
 
     static void OnLoggerMessage(eLogPrio prio, const char* msg);

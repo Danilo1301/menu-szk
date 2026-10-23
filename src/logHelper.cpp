@@ -161,7 +161,7 @@ void LogHelper::RemoveOldCrashLogs()
     }
 }
 
-void LogHelper::CreateLogFile()
+void LogHelper::CreateCrashLogFile()
 {
     if (LogHelper::bDuringTouchEvent) { __android_log_print(ANDROID_LOG_ERROR, "PSDK", " ** WARNING ** Crashed during touch event"); }
 
@@ -184,6 +184,7 @@ void LogHelper::CreateLogFile()
 
     fprintf(file, "========== CRASH LOG ==========\n\n");
     fprintf(file, "modName = %s\n", _modName.c_str());
+    fprintf(file, "AML version = %s\n", g_probableAmlVersion.c_str());
 
     // ---------------------------------------------------------
     // Operations
@@ -227,6 +228,61 @@ void LogHelper::CreateLogFile()
     }
 
     fprintf(file, "\nOperations: %zu pending, %zu completed\n", pendingOperations, completedOperations);
+
+    // ---------------------------------------------------------
+    // First messages
+    // ---------------------------------------------------------
+
+    fprintf(file, "\n========== FIRST 200 LOG MESSAGES ==========\n\n");
+
+    for (const std::string& message : _firstMessages) { fprintf(file, "%s\n", message.c_str()); }
+
+    // ---------------------------------------------------------
+    // Last messages
+    // ---------------------------------------------------------
+
+    fprintf(file, "\n========== LAST 1000 LOG MESSAGES ==========\n\n");
+
+    if (_messages.size() < MAX_MESSAGES)
+    {
+        for (const std::string& message : _messages) { fprintf(file, "%s\n", message.c_str()); }
+    }
+    else
+    {
+        // _messageIndex aponta para a mensagem mais antiga.
+        for (size_t i = 0; i < MAX_MESSAGES; i++)
+        {
+            size_t index = (_messageIndex + i) % MAX_MESSAGES;
+
+            fprintf(file, "%s\n", _messages[index].c_str());
+        }
+    }
+
+    fprintf(file, "\n========== ========= ==========\n");
+
+    fclose(file);
+}
+
+void LogHelper::CreateDumpLogFile()
+{
+    auto now = std::chrono::system_clock::now();
+    std::time_t time = std::chrono::system_clock::to_time_t(now);
+
+    std::tm localTime{};
+    localtime_r(&time, &localTime);
+
+    std::ostringstream filename;
+    filename << _logsFolder << "dump_" << _modName << "_" << std::put_time(&localTime, "%Y-%m-%d_%H-%M-%S") << ".log";
+
+    FILE* file = fopen(filename.str().c_str(), "w");
+
+    if (!file) { return; }
+
+    __android_log_print(ANDROID_LOG_ERROR, "PSDK", "CRASH");
+
+    fprintf(file, "========== DUMP LOG ==========\n\n");
+    fprintf(file, "modName = %s\n", _modName.c_str());
+    fprintf(file, "AML version = %s\n", g_probableAmlVersion.c_str());
 
     // ---------------------------------------------------------
     // First messages

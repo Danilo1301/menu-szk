@@ -107,6 +107,19 @@ inline bool FileExists(const std::string& path)
     return f.good();
 }
 
+inline bool FolderExists(const std::string& path)
+{
+    return std::filesystem::is_directory(path);
+}
+
+inline bool FileOrFolderExists(const std::string& path)
+{
+    if (FolderExists(path)) return true;
+    if (FileExists(path)) return true;
+
+    return false;
+}
+
 inline void CreateFullPath(const std::string& path)
 {
     std::error_code error;
@@ -142,4 +155,66 @@ inline void PrintFileContent(const std::string& path)
     std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
     logger->Info("File content:\n%s", content.c_str());
+}
+
+inline std::string g_probableAmlVersion = "unknown";
+
+inline std::string FindAMLVersion()
+{
+    const char* guid = "net.rusjj.aml";
+
+    static const char* versions[] = { "1.4.1.0",
+        "1.4.1",
+        "1.4.0.0",
+        "1.4.0",
+        "1.3.0.0",
+        "1.3.0",
+        "1.2.3.0",
+        "1.2.3",
+        "1.2.2.0",
+        "1.2.2",
+        "1.2.1.0",
+        "1.2.1",
+        "1.2.0.0",
+        "1.2",
+        "1.0.4.0",
+        "1.0.4",
+        "1.0.2.1",
+        "1.0.2",
+        "1.0.1.0",
+        "1.0.1",
+        "1.0.0.6",
+        "1.0.0.5",
+        "1.0.0.4",
+        "1.0.0.0",
+        "1.0.0",
+        "1.0" };
+
+    for (const char* version : versions)
+    {
+        if (aml->HasModOfVersion(guid, version)) return version;
+    }
+
+    static const char* minimumVersions[] = { "1.4.1",
+        "1.4.0",
+        "1.3.0",
+        "1.2.3",
+        "1.2.2",
+        "1.2.1",
+        "1.2",
+        "1.0.4",
+        "1.0.2.1",
+        "1.0.2",
+        "1.0.1",
+        "1.0.0.6",
+        "1.0.0.5",
+        "1.0.0.4",
+        "1.0.0" };
+
+    for (const char* version : minimumVersions)
+    {
+        if (aml->HasModOfBiggerVersion(guid, version)) return std::string(version) + " or bigger";
+    }
+
+    return "";
 }

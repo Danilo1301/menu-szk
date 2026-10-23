@@ -12,16 +12,18 @@
 #include "utils/logStorage.h"
 #include "utils/renameAmlCrashlog.h"
 #include "utils/deviceId.h"
+#include "utils/utils.h"
 #include <cstdlib>
 #include <string>
 
-MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.1, DaniloSZK)
+MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.2, DaniloSZK)
+std::string VersionText = modinfo->VersionString();
 
 ON_GAME_CRASH()
 {
     logger->Info("OnGameCrash()");
 
-    LogHelper::CreateLogFile();
+    LogHelper::CreateCrashLogFile();
     LogHelper::RemoveOldCrashLogs();
 
     logger->Info("Log file created!");
@@ -36,6 +38,8 @@ ON_MOD_PRELOAD()
     BEGIN_OPERATION(op_ModPreload);
 
     logger->Info("Mod preloading...");
+
+    g_probableAmlVersion = FindAMLVersion();
 
     RenameAmlLogIfExists();
 

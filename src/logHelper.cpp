@@ -235,7 +235,11 @@ void LogHelper::CreateCrashLogFile()
 
     fprintf(file, "\n========== FIRST 200 LOG MESSAGES ==========\n\n");
 
-    for (const std::string& message : _firstMessages) { fprintf(file, "%s\n", message.c_str()); }
+    for (const std::string& message : _firstMessages)
+    {
+        fwrite(message.data(), 1, message.size(), file);
+        fputc('\n', file);
+    }
 
     // ---------------------------------------------------------
     // Last messages
@@ -245,7 +249,11 @@ void LogHelper::CreateCrashLogFile()
 
     if (_messages.size() < MAX_MESSAGES)
     {
-        for (const std::string& message : _messages) { fprintf(file, "%s\n", message.c_str()); }
+        for (const std::string& message : _messages)
+        {
+            fwrite(message.data(), 1, message.size(), file);
+            fputc('\n', file);
+        }
     }
     else
     {
@@ -290,7 +298,11 @@ void LogHelper::CreateDumpLogFile()
 
     fprintf(file, "\n========== FIRST 200 LOG MESSAGES ==========\n\n");
 
-    for (const std::string& message : _firstMessages) { fprintf(file, "%s\n", message.c_str()); }
+    for (const std::string& message : _firstMessages)
+    {
+        fwrite(message.data(), 1, message.size(), file);
+        fputc('\n', file);
+    }
 
     // ---------------------------------------------------------
     // Last messages
@@ -300,7 +312,11 @@ void LogHelper::CreateDumpLogFile()
 
     if (_messages.size() < MAX_MESSAGES)
     {
-        for (const std::string& message : _messages) { fprintf(file, "%s\n", message.c_str()); }
+        for (const std::string& message : _messages)
+        {
+            fwrite(message.data(), 1, message.size(), file);
+            fputc('\n', file);
+        }
     }
     else
     {

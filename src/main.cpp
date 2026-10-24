@@ -16,7 +16,7 @@
 #include <cstdlib>
 #include <string>
 
-MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.2, DaniloSZK)
+MYMODCFG(com.daniloszk.menuszk_v2, Menu SZK, 2.1.3, DaniloSZK)
 std::string VersionText = modinfo->VersionString();
 
 ON_GAME_CRASH()
